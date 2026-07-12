@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+  <title>신장사거리 신호등 지도</title>
+  <script type="text/javascript"
+          src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=u2z8etsnaf"></script>
+  <script src="signal.js"></script>
+  <style>
+    #map { width: 100%; height: 900px; }
+    .cal-form { padding: 8px; font-size: 13px; }
+    .cal-form button { margin: 2px; padding: 4px 8px; }
+    .cal-badge { font-size: 11px; padding: 1px 6px; border-radius: 8px; color: #fff; }
+    .cal-badge.calibrated { background: #1a73e8; }
+    .cal-badge.estimated { background: #999; }
+  </style>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="image/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="152x152" href="image/apple-touch-icon-152x152.png" />
+  <meta name="application-name" content="&nbsp;"/>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(() => console.log('Service Worker Registered'))
+        .catch(err => console.error('Service Worker 등록 실패:', err));
+    }
+
+    const map = new naver.maps.Map("map", {
+      center: new naver.maps.LatLng(37.55060183, 127.2143176),
+      zoom: 15
+    });
+
+    const markers = []; // { sig, marker, infoWindow }
+    let calibrations = loadCalibrations(); // 이 브라우저(localStorage)에 저장된 보정값
+
+    function infoContent(sig) {
+      const { state, remaining, source, calibratedAt } = getSignalState(sig.cycle, calibrations[sig.id]);
+      const badge = source === 'calibrated'
+        ? `<span class="cal-badge calibrated">${calibrationAgeLabel(calibratedAt)}</span>`
+        : `<span class="cal-badge estimated">추정치(미보정)</span>`;
+      return `
+        <div style="padding:6px; line-height:1.4; font-size:13px; min-width:200px;">
+          <b>${sig.name}</b> ${badge}<br>
+          현재 신호: <span style="color:${state==="초록" ? "green":"red"}">${state}</span><br>
+          남은 시간: ${remaining}초
+          <div class="cal-form">
+            지금 이 신호를 보고 계신가요?<br>
+            <button onclick="openCalibrateForm('${sig.id}')">지금 신호 알려주기</button>
+            <div id="calform-${sig.id}"></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function openCalibrateForm(id) {
+      const el = document.getElementById(`calform-${id}`);
+      if (!el) return;
+      el.innerHTML = `
+        <div style="margin-top:6px;">
+          상태:
+          <select id="calstate-${id}">
+            <option value="green">초록</option>
+            <option value="red">빨강</option>
+          </select>
+          잔여초: <input id="calremain-${id}" type="number" min="0" style="width:50px;" value="0">
+          <button onclick="submitCalibration('${id}')">전송</button>
+        </div>
+      `;
+    }
+
+    function submitCalibration(id) {
+      const state = document.getElementById(`calstate-${id}`).value;
+      const remaining = Number(document.getElementById(`calremain-${id}`).value);
+      calibrations[id] = saveCalibration(id, state, remaining);
+      refreshMarker(id);
+      alert('보정 완료! 이 기기에서는 이제 실측 기준으로 표시됩니다. (다른 사람과는 공유되지 않아요)');
+    }
+
+    function refreshMarker(id) {
+      const obj = markers.find(m => m.sig.id === id);
+      if (!obj) return;
+      const { state } = getSignalState(obj.sig.cycle, calibrations[id]);
+      obj.marker.setIcon(iconFor(state));
+      if (obj.infoWindow.getMap()) {
+        obj.infoWindow.setContent(infoContent(obj.sig));
+      }
+    }
+
+    function iconFor(state) {
+      const url = state === "초록"
+        ? "https://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png"
+        : "https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png";
+      return { url, size: new naver.maps.Size(24, 24), origin: new naver.maps.Point(0, 0) };
+    }
+
+    async function boot() {
+      const signalsRes = await fetch("signals.json", { cache: "no-cache" });
+      if (!signalsRes.ok) throw new Error("HTTP " + signalsRes.status);
+      const signals = await signalsRes.json();
+
+      if (!Array.isArray(signals)) throw new Error("signals.json 형식 오류: 배열 아님");
+
+      const onlyGreenRed = signals.filter(s =>
+        s && s.cycle && Number.isFinite(s.cycle.green) && Number.isFinite(s.cycle.red)
+        && Number.isFinite(s.lat) && Number.isFinite(s.lng)
+      );
+      if (onlyGreenRed.length === 0) throw new Error("유효한 신호등 데이터 없음");
+
+      onlyGreenRed.forEach(sig => {
+        const { state } = getSignalState(sig.cycle, calibrations[sig.id]);
+        const marker = new naver.maps.Marker({
+          position: new naver.maps.LatLng(sig.lat, sig.lng),
+          map,
+          title: sig.name,
+          icon: iconFor(state)
+        });
+        const infoWindow = new naver.maps.InfoWindow();
+
+        naver.maps.Event.addListener(marker, "click", () => {
+          infoWindow.setContent(infoContent(sig));
+          if (infoWindow.getMap()) {
+            infoWindow.close();
+          } else {
+            infoWindow.open(map, marker);
+          }
+        });
+
+        markers.push({ sig, marker, infoWindow });
+      });
+
+      setInterval(() => {
+        markers.forEach(obj => {
+          const { state } = getSignalState(obj.sig.cycle, calibrations[obj.sig.id]);
+          obj.marker.setIcon(iconFor(state));
+          if (obj.infoWindow.getMap()) {
+            obj.infoWindow.setContent(infoContent(obj.sig));
+          }
+        });
+      }, 1000);
+    }
+
+    boot().catch(err => {
+      console.error("초기화 실패:", err);
+      alert("데이터를 불러오지 못했습니다. (콘솔 확인)");
+    });
+  </script>
+</body>
+</html>

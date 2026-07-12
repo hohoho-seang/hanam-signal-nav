@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+  <title>신호 예측 보행 내비게이션</title>
+  <script type="text/javascript"
+          src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=u2z8etsnaf"></script>
+  <script src="signal.js"></script>
+  <script src="config.js"></script>
+  <style>
+    html, body { margin: 0; height: 100%; font-family: sans-serif; }
+    #layout { display: flex; height: 100%; }
+    #map { flex: 1; height: 100%; }
+    #panel { width: 300px; padding: 10px; box-sizing: border-box; overflow-y: auto; font-size: 13px; border-left: 1px solid #ddd; }
+    #panel h3 { margin: 4px 0; font-size: 14px; }
+    #panel button { padding: 6px 10px; margin: 3px 3px 3px 0; cursor: pointer; }
+    #panel input[type=number] { width: 60px; }
+    .hint { color: #666; font-size: 12px; margin: 6px 0; }
+    .summary { background: #f4f6f8; padding: 8px; border-radius: 6px; margin: 8px 0; }
+    .sig-item { border-left: 4px solid #999; padding: 4px 6px; margin: 4px 0; background: #fafafa; }
+    .sig-item.green { border-color: #1a9c1a; }
+    .sig-item.red { border-color: #d92b2b; }
+    .sig-item .badge { font-size: 10px; color: #fff; padding: 0 5px; border-radius: 6px; }
+    .badge.calibrated { background: #1a73e8; }
+    .badge.estimated { background: #999; }
+    @media (max-width: 700px) {
+      #layout { flex-direction: column; }
+      #panel { width: 100%; height: 45%; order: 2; }
+      #map { height: 55%; order: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div id="layout">
+    <div id="map"></div>
+    <div id="panel">
+      <h3>보행 내비게이션</h3>
+      <div class="hint">지도를 클릭해 <b>출발지</b>를 먼저 찍고, 다시 클릭해 <b>도착지</b>를 찍으세요.</div>
+      <div>
+        <button id="useMyLocBtn">내 위치를 출발지로</button>
+        <button id="resetBtn">초기화</button>
+      </div>
+      <div style="margin-top:8px;">
+        도보속도: <input id="walkSpeed" type="number" step="0.1" value="1.2"> m/s
+        (보통 성인 약 1.2, 노약자 약 1.0)
+      </div>
+      <div id="status" class="hint"></div>
+      <div id="summary"></div>
+      <div id="signalList"></div>
+    </div>
+  </div>
+
+  <script>
+    const map = new naver.maps.Map("map", {
+      center: new naver.maps.LatLng(37.5380, 127.2046),
+      zoom: 16
+    });
+
+    let start = null, goal = null;
+    let startMarker = null, goalMarker = null;
+    let routePolyline = null;
+    let signalMarkers = [];
+    let signals = [];
+    let calibrations = loadCalibrations(); // 이 브라우저(localStorage)에 저장된 보정값
+
+    function toRad(d) { return d * Math.PI / 180; }
+    function haversine(lat1, lon1, lat2, lon2) {
+      const R = 6371000;
+      const dLat = toRad(lat2 - lat1);
+      const dLon = toRad(lon2 - lon1);
+      const a = Math.sin(dLat / 2) ** 2 +
+                Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+      return 2 * R * Math.asin(Math.sqrt(a));
+    }
+
+    async function loadData() {
+      const signalsRes = await fetch("signals.json", { cache: "no-cache" });
+      signals = signalsRes.ok ? await signalsRes.json() : [];
+    }
+
+    naver.maps.Event.addListener(map, "click", (e) => {
+      const latlng = e.coord;
+      if (!start) {
+        start = latlng;
+        if (startMarker) startMarker.setMap(null);
+        startMarker = new naver.maps.Marker({ position: latlng, map, title: "출발", icon: { url: "https://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png" } });
+        setStatus("도착지를 클릭하세요.");
+      } else if (!goal) {
+        goal = latlng;
+        if (goalMarker) goalMarker.setMap(null);
+        goalMarker = new naver.maps.Marker({ position: latlng, map, title: "도착" });
+        findRoute();
+      } else {
+        // 재시작
+        clearRoute();
+        start = latlng;
+        if (startMarker) startMarker.setMap(null);
+        startMarker = new naver.maps.Marker({ position: latlng, map, title: "출발", icon: { url: "https://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png" } });
+        goal = null;
+        setStatus("도착지를 클릭하세요.");
+      }
+    });
+
+    document.getElementById("useMyLocBtn").addEventListener("click", () => {
+      if (!navigator.geolocation) { alert("위치 정보를 사용할 수 없습니다."); return; }
+      navigator.geolocation.getCurrentPosition(pos => {
+        const latlng = new naver.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+        start = latlng;
+        if (startMarker) startMarker.setMap(null);
+        startMarker = new naver.maps.Marker({ position: latlng, map, title: "출발", icon: { url: "https://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png" } });
+        map.setCenter(latlng);
+        setStatus("도착지를 클릭하세요.");
+      }, () => alert("위치를 가져오지 못했습니다."));
+    });
+
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      clearRoute();
+      start = null; goal = null;
+      if (startMarker) startMarker.setMap(null);
+      if (goalMarker) goalMarker.setMap(null);
+      startMarker = null; goalMarker = null;
+      setStatus("출발지를 클릭하세요.");
+      document.getElementById("summary").innerHTML = "";
+      document.getElementById("signalList").innerHTML = "";
+    });
+
+    function clearRoute() {
+      if (routePolyline) { routePolyline.setMap(null); routePolyline = null; }
+      signalMarkers.forEach(m => m.setMap(null));
+      signalMarkers = [];
+    }
+
+    function setStatus(msg) {
+      document.getElementById("status").textContent = msg;
+    }
+
+    async function findRoute() {
+      clearRoute();
+      setStatus("경로 탐색 중...");
+      try {
+        const res = await fetch("https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "appKey": TMAP_APP_KEY,
+          },
+          body: JSON.stringify({
+            startX: String(start.x), startY: String(start.y),
+            endX: String(goal.x), endY: String(goal.y),
+            startName: "출발지", endName: "도착지",
+            reqCoordType: "WGS84GEO", resCoordType: "WGS84GEO",
+            searchOption: "0",
+          }),
+        });
+        const data = await res.json();
+        if (!res.ok || !data.features) {
+          setStatus("경로를 찾지 못했습니다: " + (data.error?.message || JSON.stringify(data)));
+          return;
+        }
+        renderRoute(data);
+      } catch (e) {
+        console.error(e);
+        setStatus("경로 탐색 실패 (네트워크 오류)");
+      }
+    }
+
+    // Tmap GeoJSON -> [{lat, lng, cumDist}] 좌표열 생성
+    function buildRoutePoints(geojson) {
+      const coords = []; // [lng, lat]
+      geojson.features.forEach(f => {
+        if (f.geometry && f.geometry.type === "LineString") {
+          f.geometry.coordinates.forEach(c => coords.push(c));
+        }
+      });
+      const points = [];
+      let cumDist = 0;
+      coords.forEach((c, i) => {
+        const [lng, lat] = c;
+        if (i > 0) {
+          const prev = coords[i - 1];
+          cumDist += haversine(prev[1], prev[0], lat, lng);
+        }
+        points.push({ lat, lng, cumDist });
+      });
+      return points;
+    }
+
+    function matchSignalsToRoute(routePoints, thresholdMeters) {
+      const matched = [];
+      signals.forEach(sig => {
+        let best = null;
+        routePoints.forEach(p => {
+          const d = haversine(sig.lat, sig.lng, p.lat, p.lng);
+          if (!best || d < best.dist) best = { dist: d, cumDist: p.cumDist };
+        });
+        if (best && best.dist <= thresholdMeters) {
+          matched.push({ sig, cumDist: best.cumDist, dist: best.dist });
+        }
+      });
+      matched.sort((a, b) => a.cumDist - b.cumDist);
+      // 같은 교차로의 중복 신호(좌표 근접)는 가장 가까운 것 하나만 남김
+      const dedup = [];
+      matched.forEach(m => {
+        const dup = dedup.find(d => haversine(d.sig.lat, d.sig.lng, m.sig.lat, m.sig.lng) < 15);
+        if (!dup) dedup.push(m);
+      });
+      return dedup;
+    }
+
+    function renderRoute(geojson) {
+      const routePoints = buildRoutePoints(geojson);
+      if (routePoints.length === 0) { setStatus("경로 좌표가 비어 있습니다."); return; }
+
+      const path = routePoints.map(p => new naver.maps.LatLng(p.lat, p.lng));
+      routePolyline = new naver.maps.Polyline({
+        map, path, strokeColor: '#1a73e8', strokeOpacity: 0.85, strokeWeight: 5
+      });
+      map.fitBounds(new naver.maps.LatLngBounds(path[0], path[path.length - 1]));
+
+      const totalDistance = routePoints[routePoints.length - 1].cumDist;
+      const walkSpeed = Math.max(0.3, Number(document.getElementById("walkSpeed").value) || 1.2);
+      const totalWalkTime = totalDistance / walkSpeed;
+
+      const matched = matchSignalsToRoute(routePoints, 40);
+      const now = new Date();
+      let extraDelay = 0;
+      matched.forEach(m => {
+        const walkTimeToHere = m.cumDist / walkSpeed;
+        const arrivalTime = new Date(now.getTime() + (walkTimeToHere + extraDelay) * 1000);
+        const predicted = getSignalState(m.sig.cycle, calibrations[m.sig.id], arrivalTime);
+        if (predicted.state === "빨강") {
+          extraDelay += predicted.remaining;
+        }
+        m.predicted = predicted;
+        m.arrivalTime = arrivalTime;
+
+        const icon = predicted.state === "초록"
+          ? "https://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png"
+          : "https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png";
+        const marker = new naver.maps.Marker({
+          position: new naver.maps.LatLng(m.sig.lat, m.sig.lng),
+          map, title: m.sig.name,
+          icon: { url: icon, size: new naver.maps.Size(20, 20), origin: new naver.maps.Point(0, 0) }
+        });
+        signalMarkers.push(marker);
+      });
+
+      const totalETA = totalWalkTime + extraDelay;
+      document.getElementById("summary").innerHTML = `
+        <div class="summary">
+          총 거리: ${Math.round(totalDistance)}m<br>
+          도보 시간: ${Math.round(totalWalkTime / 60)}분<br>
+          예상 신호대기: ${Math.round(extraDelay)}초<br>
+          <b>총 예상 소요시간: ${Math.round(totalETA / 60)}분 ${Math.round(totalETA % 60)}초</b>
+        </div>
+      `;
+
+      document.getElementById("signalList").innerHTML =
+        `<h3>경로상 신호 (${matched.length}개)</h3>` +
+        matched.map(m => {
+          const cls = m.predicted.state === "초록" ? "green" : "red";
+          const badgeCls = m.predicted.source === "calibrated" ? "calibrated" : "estimated";
+          const badgeLabel = m.predicted.source === "calibrated" ? "실측" : "추정";
+          const etaMin = Math.round(m.cumDist / walkSpeed / 60 * 10) / 10;
+          return `
+            <div class="sig-item ${cls}">
+              <b>${m.sig.name}</b> <span class="badge ${badgeCls}">${badgeLabel}</span><br>
+              도착 예상: ${etaMin}분 후<br>
+              예측 신호: <b style="color:${cls === 'green' ? 'green' : 'red'}">${m.predicted.state}</b>
+              (${m.predicted.remaining}초 남음)
+            </div>
+          `;
+        }).join("");
+
+      if (matched.length === 0) {
+        setStatus("경로 완성 (경로 40m 이내 신호 데이터 없음)");
+      } else {
+        setStatus("경로 완성");
+      }
+    }
+
+    loadData().then(() => setStatus("출발지를 클릭하세요."));
+  </script>
+</body>
+</html>
