@@ -6,10 +6,11 @@
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
   <title>신장사거리 신호등 지도</title>
-  <script type="text/javascript"
-          src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=u2z8etsnaf"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="signal.js"></script>
   <style>
+    html, body { margin: 0; }
     #map { width: 100%; height: 900px; }
     .cal-form { padding: 8px; font-size: 13px; }
     .cal-form button { margin: 2px; padding: 4px 8px; }
@@ -32,12 +33,13 @@
         .catch(err => console.error('Service Worker 등록 실패:', err));
     }
 
-    const map = new naver.maps.Map("map", {
-      center: new naver.maps.LatLng(37.55060183, 127.2143176),
-      zoom: 15
-    });
+    const map = L.map('map').setView([37.55060183, 127.2143176], 15);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 19
+    }).addTo(map);
 
-    const markers = []; // { sig, marker, infoWindow }
+    const markers = []; // { sig, marker }
     let calibrations = loadCalibrations(); // 이 브라우저(localStorage)에 저장된 보정값
 
     function infoContent(sig) {
@@ -46,7 +48,7 @@
         ? `<span class="cal-badge calibrated">${calibrationAgeLabel(calibratedAt)}</span>`
         : `<span class="cal-badge estimated">추정치(미보정)</span>`;
       return `
-        <div style="padding:6px; line-height:1.4; font-size:13px; min-width:200px;">
+        <div style="line-height:1.4; font-size:13px; min-width:200px;">
           <b>${sig.name}</b> ${badge}<br>
           현재 신호: <span style="color:${state==="초록" ? "green":"red"}">${state}</span><br>
           남은 시간: ${remaining}초
@@ -88,8 +90,8 @@
       if (!obj) return;
       const { state } = getSignalState(obj.sig.cycle, calibrations[id]);
       obj.marker.setIcon(iconFor(state));
-      if (obj.infoWindow.getMap()) {
-        obj.infoWindow.setContent(infoContent(obj.sig));
+      if (obj.marker.isPopupOpen()) {
+        obj.marker.setPopupContent(infoContent(obj.sig));
       }
     }
 
@@ -97,7 +99,7 @@
       const url = state === "초록"
         ? "https://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png"
         : "https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png";
-      return { url, size: new naver.maps.Size(24, 24), origin: new naver.maps.Point(0, 0) };
+      return L.icon({ iconUrl: url, iconSize: [24, 24], iconAnchor: [12, 12] });
     }
 
     async function boot() {
@@ -115,32 +117,18 @@
 
       onlyGreenRed.forEach(sig => {
         const { state } = getSignalState(sig.cycle, calibrations[sig.id]);
-        const marker = new naver.maps.Marker({
-          position: new naver.maps.LatLng(sig.lat, sig.lng),
-          map,
-          title: sig.name,
-          icon: iconFor(state)
-        });
-        const infoWindow = new naver.maps.InfoWindow();
-
-        naver.maps.Event.addListener(marker, "click", () => {
-          infoWindow.setContent(infoContent(sig));
-          if (infoWindow.getMap()) {
-            infoWindow.close();
-          } else {
-            infoWindow.open(map, marker);
-          }
-        });
-
-        markers.push({ sig, marker, infoWindow });
+        const marker = L.marker([sig.lat, sig.lng], { icon: iconFor(state), title: sig.name }).addTo(map);
+        marker.bindPopup(infoContent(sig));
+        marker.on('popupopen', () => marker.setPopupContent(infoContent(sig)));
+        markers.push({ sig, marker });
       });
 
       setInterval(() => {
         markers.forEach(obj => {
           const { state } = getSignalState(obj.sig.cycle, calibrations[obj.sig.id]);
           obj.marker.setIcon(iconFor(state));
-          if (obj.infoWindow.getMap()) {
-            obj.infoWindow.setContent(infoContent(obj.sig));
+          if (obj.marker.isPopupOpen()) {
+            obj.marker.setPopupContent(infoContent(obj.sig));
           }
         });
       }, 1000);

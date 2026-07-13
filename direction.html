@@ -6,8 +6,8 @@
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
   <title>신호 예측 보행 내비게이션</title>
-  <script type="text/javascript"
-          src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=u2z8etsnaf"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="signal.js"></script>
   <script src="config.js"></script>
   <style>
@@ -54,10 +54,13 @@
   </div>
 
   <script>
-    const map = new naver.maps.Map("map", {
-      center: new naver.maps.LatLng(37.5380, 127.2046),
-      zoom: 16
-    });
+    const map = L.map('map').setView([37.5380, 127.2046], 16);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 19
+    }).addTo(map);
+
+    const blueIcon = L.icon({ iconUrl: "https://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png", iconSize: [24, 24], iconAnchor: [12, 12] });
 
     let start = null, goal = null;
     let startMarker = null, goalMarker = null;
@@ -81,24 +84,24 @@
       signals = signalsRes.ok ? await signalsRes.json() : [];
     }
 
-    naver.maps.Event.addListener(map, "click", (e) => {
-      const latlng = e.coord;
+    map.on('click', (e) => {
+      const latlng = e.latlng;
       if (!start) {
         start = latlng;
-        if (startMarker) startMarker.setMap(null);
-        startMarker = new naver.maps.Marker({ position: latlng, map, title: "출발", icon: { url: "https://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png" } });
+        if (startMarker) map.removeLayer(startMarker);
+        startMarker = L.marker(latlng, { icon: blueIcon, title: "출발" }).addTo(map);
         setStatus("도착지를 클릭하세요.");
       } else if (!goal) {
         goal = latlng;
-        if (goalMarker) goalMarker.setMap(null);
-        goalMarker = new naver.maps.Marker({ position: latlng, map, title: "도착" });
+        if (goalMarker) map.removeLayer(goalMarker);
+        goalMarker = L.marker(latlng, { title: "도착" }).addTo(map);
         findRoute();
       } else {
         // 재시작
         clearRoute();
         start = latlng;
-        if (startMarker) startMarker.setMap(null);
-        startMarker = new naver.maps.Marker({ position: latlng, map, title: "출발", icon: { url: "https://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png" } });
+        if (startMarker) map.removeLayer(startMarker);
+        startMarker = L.marker(latlng, { icon: blueIcon, title: "출발" }).addTo(map);
         goal = null;
         setStatus("도착지를 클릭하세요.");
       }
@@ -107,11 +110,11 @@
     document.getElementById("useMyLocBtn").addEventListener("click", () => {
       if (!navigator.geolocation) { alert("위치 정보를 사용할 수 없습니다."); return; }
       navigator.geolocation.getCurrentPosition(pos => {
-        const latlng = new naver.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+        const latlng = L.latLng(pos.coords.latitude, pos.coords.longitude);
         start = latlng;
-        if (startMarker) startMarker.setMap(null);
-        startMarker = new naver.maps.Marker({ position: latlng, map, title: "출발", icon: { url: "https://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png" } });
-        map.setCenter(latlng);
+        if (startMarker) map.removeLayer(startMarker);
+        startMarker = L.marker(latlng, { icon: blueIcon, title: "출발" }).addTo(map);
+        map.setView(latlng);
         setStatus("도착지를 클릭하세요.");
       }, () => alert("위치를 가져오지 못했습니다."));
     });
@@ -119,8 +122,8 @@
     document.getElementById("resetBtn").addEventListener("click", () => {
       clearRoute();
       start = null; goal = null;
-      if (startMarker) startMarker.setMap(null);
-      if (goalMarker) goalMarker.setMap(null);
+      if (startMarker) map.removeLayer(startMarker);
+      if (goalMarker) map.removeLayer(goalMarker);
       startMarker = null; goalMarker = null;
       setStatus("출발지를 클릭하세요.");
       document.getElementById("summary").innerHTML = "";
@@ -128,8 +131,8 @@
     });
 
     function clearRoute() {
-      if (routePolyline) { routePolyline.setMap(null); routePolyline = null; }
-      signalMarkers.forEach(m => m.setMap(null));
+      if (routePolyline) { map.removeLayer(routePolyline); routePolyline = null; }
+      signalMarkers.forEach(m => map.removeLayer(m));
       signalMarkers = [];
     }
 
@@ -149,8 +152,8 @@
             "appKey": TMAP_APP_KEY,
           },
           body: JSON.stringify({
-            startX: String(start.x), startY: String(start.y),
-            endX: String(goal.x), endY: String(goal.y),
+            startX: String(start.lng), startY: String(start.lat),
+            endX: String(goal.lng), endY: String(goal.lat),
             startName: "출발지", endName: "도착지",
             reqCoordType: "WGS84GEO", resCoordType: "WGS84GEO",
             searchOption: "0",
@@ -215,11 +218,9 @@
       const routePoints = buildRoutePoints(geojson);
       if (routePoints.length === 0) { setStatus("경로 좌표가 비어 있습니다."); return; }
 
-      const path = routePoints.map(p => new naver.maps.LatLng(p.lat, p.lng));
-      routePolyline = new naver.maps.Polyline({
-        map, path, strokeColor: '#1a73e8', strokeOpacity: 0.85, strokeWeight: 5
-      });
-      map.fitBounds(new naver.maps.LatLngBounds(path[0], path[path.length - 1]));
+      const path = routePoints.map(p => [p.lat, p.lng]);
+      routePolyline = L.polyline(path, { color: '#1a73e8', opacity: 0.85, weight: 5 }).addTo(map);
+      map.fitBounds(routePolyline.getBounds());
 
       const totalDistance = routePoints[routePoints.length - 1].cumDist;
       const walkSpeed = Math.max(0.3, Number(document.getElementById("walkSpeed").value) || 1.2);
@@ -241,11 +242,10 @@
         const icon = predicted.state === "초록"
           ? "https://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png"
           : "https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png";
-        const marker = new naver.maps.Marker({
-          position: new naver.maps.LatLng(m.sig.lat, m.sig.lng),
-          map, title: m.sig.name,
-          icon: { url: icon, size: new naver.maps.Size(20, 20), origin: new naver.maps.Point(0, 0) }
-        });
+        const marker = L.marker([m.sig.lat, m.sig.lng], {
+          icon: L.icon({ iconUrl: icon, iconSize: [20, 20], iconAnchor: [10, 10] }),
+          title: m.sig.name
+        }).addTo(map);
         signalMarkers.push(marker);
       });
 

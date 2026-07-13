@@ -4,7 +4,8 @@ const urlsToCache = [
     'manifest.json',
     'signals.json',
     'signal.js',
-    'https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=u2z8etsnaf',
+    'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
+    'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
     'image/apple-touch-icon-144x144.png',
     'image/apple-touch-icon-152x152.png',
     'https://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png', // 외부 마커 아이콘
