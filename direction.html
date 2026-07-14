@@ -775,12 +775,9 @@
     }
 
     // ---- AR 모드: 카메라 화면 위에 경로/신호를 겹쳐 표시(센서 기반, SLAM 아님) ----
-    // 위치는 GPS(watchPosition, 위 onNavPosition과 동일 경로 재사용), 시선 방향은 나침반(좌우 회전)만 반영한다.
-    // beta/gamma(위아래·좌우 기울임)까지 쿼터니언으로 반영해봤으나 실기기 테스트 결과
-    // 방향 전환 자체가 다루기 힘들어졌다는 피드백으로 되돌림 — 대신 기울임 센서 없이도
-    // 바닥의 경로가 화면에 잡히도록 고정된 하향 각도를 더해 절충한다.
-    const AR_PITCH_OFFSET = -12 * Math.PI / 180; // 항상 살짝 아래를 보게 고정(센서 아님, 상수)
-
+    // 위치는 GPS(watchPosition, 위 onNavPosition과 동일 경로 재사용), 시선 방향은 나침반(좌우 회전)만 반영.
+    // 기울임(beta/gamma)·고정 하향각 등을 추가해봤지만 실기기에서 좌우 반전+불안정 문제가 생겨
+    // 전부 걷어내고 최초의 단순 버전(수평 시선만)으로 되돌림 — 가장 안정적이었던 상태.
     function updateCompassHeading(e) {
       let heading = null;
       if (typeof e.webkitCompassHeading === 'number') {
@@ -789,9 +786,7 @@
         heading = (360 - e.alpha) % 360; // Android(절대방위 이벤트)
       }
       if (heading === null) return;
-      // 'YXZ' 순서 필수: 기본순서(XYZ)로 하면 동/서쪽을 볼 때 하향각이 수학적으로 사라짐
-      // (yaw 회전이 pitch 성분을 지워버림) — YXZ는 방향과 무관하게 하향각이 일정하게 유지됨.
-      camera3d.rotation.set(AR_PITCH_OFFSET, -heading * Math.PI / 180, 0, 'YXZ');
+      camera3d.rotation.set(0, -heading * Math.PI / 180, 0); // 수평 시선만 반영(단순화)
     }
 
     function startCompass() {
