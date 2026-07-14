@@ -63,7 +63,7 @@
     </div>
     <div id="panel">
       <h3>보행 내비게이션</h3>
-      <div class="hint">지도를 클릭해 <b>출발지</b>를 먼저 찍고, 다시 클릭해 <b>도착지</b>를 찍으세요. (작은 박스를 누르면 3D/2D가 서로 바뀝니다. 경로가 계산되면 3D에서 자동으로 미리보기가 재생됩니다)</div>
+      <div class="hint">지도를 클릭해 <b>출발지</b>를 먼저 찍고, 다시 클릭해 <b>도착지</b>를 찍으세요. (작은 박스를 누르면 3D/2D가 서로 바뀝니다)</div>
       <div>
         <button id="useMyLocBtn">내 위치를 출발지로</button>
         <button id="resetBtn">초기화</button>
@@ -75,6 +75,9 @@
       <div style="margin-top:8px;">
         <button id="startNavBtn">🧭 내비게이션 시작(GPS)</button>
         <button id="stopNavBtn" style="display:none;">⏹ 내비게이션 종료</button>
+      </div>
+      <div style="margin-top:4px;">
+        <button id="previewBtn">▶ 3D 미리보기(자동재생, 테스트용)</button>
       </div>
       <div id="status" class="hint"></div>
       <div id="summary"></div>
@@ -134,13 +137,49 @@
     view3dEl.addEventListener('click', () => { if (view3dEl.classList.contains('pip-mini')) swapPiP(); });
 
     // ================= Three.js 3D 씬 (건물 + 도로 + 경로, 카메라가 경로를 따라 이동) =================
-    let scene3d, camera3d, renderer3d, buildingsGroup, routeMesh3d;
+    let scene3d, camera3d, renderer3d, buildingsGroup, roadsGroup, routeMesh3d;
     let originLat = null, originLng = null;
     let signalMarkers3d = []; // { sig, mesh }
     let navMode = 'idle'; // 'idle' | 'preview' | 'live'
     let progressM = 0;
     let lastFrameTs = null;
     const buildingMaterial = new THREE.MeshLambertMaterial({ color: 0xcfd8dc });
+    const roadMaterial = new THREE.MeshLambertMaterial({ color: 0x4a4a4a });
+    const footwayMaterial = new THREE.MeshLambertMaterial({ color: 0x9e9e9e });
+    const routeMaterial = new THREE.MeshBasicMaterial({ color: 0x2979ff });
+
+    // 도로 폭(m) 추정 — 실측 폭 데이터가 없어 highway 태그 기반 표준 추정치 사용.
+    const ROAD_WIDTH_BY_TYPE = {
+      motorway: 12, trunk: 11, primary: 10, secondary: 8.5, tertiary: 7,
+      residential: 6, unclassified: 5.5, service: 4,
+      footway: 2, path: 1.5, pedestrian: 4, cycleway: 2, steps: 1.5,
+    };
+
+    // 좌표열을 따라가는 평평한 리본(도로/경로 표시용) 지오메트리. 원기둥(Tube)과 달리
+    // 바닥에 얇게 붙어서 "유저가 경로를 뚫고 지나가는" 느낌 없이 실제 도로 표시처럼 보인다.
+    function buildRibbonGeometry(points3d, width) {
+      const vertices = [], indices = [];
+      for (let i = 0; i < points3d.length; i++) {
+        const p = points3d[i];
+        let dx, dz;
+        if (i === 0) { dx = points3d[1].x - p.x; dz = points3d[1].z - p.z; }
+        else if (i === points3d.length - 1) { dx = p.x - points3d[i - 1].x; dz = p.z - points3d[i - 1].z; }
+        else { dx = points3d[i + 1].x - points3d[i - 1].x; dz = points3d[i + 1].z - points3d[i - 1].z; }
+        const len = Math.hypot(dx, dz) || 1;
+        const nx = -dz / len, nz = dx / len;
+        vertices.push(p.x + nx * width / 2, p.y, p.z + nz * width / 2);
+        vertices.push(p.x - nx * width / 2, p.y, p.z - nz * width / 2);
+      }
+      for (let i = 0; i < points3d.length - 1; i++) {
+        const a = i * 2, b = i * 2 + 1, c = (i + 1) * 2, d = (i + 1) * 2 + 1;
+        indices.push(a, c, b, b, c, d);
+      }
+      const geom = new THREE.BufferGeometry();
+      geom.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+      geom.setIndex(indices);
+      geom.computeVertexNormals();
+      return geom;
+    }
 
     function initThree() {
       scene3d = new THREE.Scene();
@@ -157,13 +196,15 @@
 
       const ground = new THREE.Mesh(
         new THREE.PlaneGeometry(6000, 6000),
-        new THREE.MeshLambertMaterial({ color: 0xe0ddd5 })
+        new THREE.MeshLambertMaterial({ color: 0xb9c9a8 }) // 도로 아닌 구역(잔디/공터 근사)
       );
       ground.rotation.x = -Math.PI / 2;
       scene3d.add(ground);
 
       buildingsGroup = new THREE.Group();
       scene3d.add(buildingsGroup);
+      roadsGroup = new THREE.Group();
+      scene3d.add(roadsGroup);
 
       window.addEventListener('resize', resize3d);
       requestAnimationFrame(animate3d);
@@ -241,6 +282,7 @@
     function clearScene3d() {
       if (routeMesh3d) { scene3d.remove(routeMesh3d); routeMesh3d = null; }
       buildingsGroup.clear();
+      roadsGroup.clear();
       signalMarkers3d.forEach(m => scene3d.remove(m.mesh));
       signalMarkers3d = [];
       navMode = 'idle';
@@ -248,14 +290,15 @@
       sceneMsgEl.style.display = "none";
     }
 
+    // 경로를 바닥에 붙는 얇은 리본으로 표시(도로면 y=0.05보다 약간 위 y=0.09로 겹쳐그려서
+    // "페인트로 칠한 경로 표시"처럼 보이게 하고 z-fighting을 피한다).
     function buildRouteMesh3d(routePoints) {
-      const curvePts = routePoints.map(p => {
+      const pts = routePoints.map(p => {
         const { x, z } = project(p.lat, p.lng);
-        return new THREE.Vector3(x, 0.15, z);
+        return { x, y: 0.09, z };
       });
-      const curve = new THREE.CatmullRomCurve3(curvePts);
-      const tubeGeom = new THREE.TubeGeometry(curve, Math.max(20, routePoints.length), 1.6, 6, false);
-      routeMesh3d = new THREE.Mesh(tubeGeom, new THREE.MeshLambertMaterial({ color: 0x1a73e8 }));
+      const geom = buildRibbonGeometry(pts, 2.2);
+      routeMesh3d = new THREE.Mesh(geom, routeMaterial);
       scene3d.add(routeMesh3d);
     }
 
@@ -270,7 +313,55 @@
       });
     }
 
-    async function loadBuildingsForRoute(routePoints) {
+    async function fetchOverpass(query) {
+      // Overpass 무료 서버는 504(과부하)가 잦아 1회 재시도한다(신호정보센터 조사 때도 겪은 알려진 특성).
+      for (let attempt = 0; attempt < 2; attempt++) {
+        try {
+          const res = await fetch('https://overpass-api.de/api/interpreter', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'data=' + encodeURIComponent(query)
+          });
+          if (!res.ok) throw new Error('overpass http ' + res.status);
+          return await res.json();
+        } catch (e) {
+          if (attempt === 1) throw e;
+          console.warn('Overpass 1차 요청 실패, 재시도:', e);
+          await new Promise(r => setTimeout(r, 1500));
+        }
+      }
+    }
+
+    function addBuildingMesh(way) {
+      const shapePts = way.geometry.map(g => {
+        const { x, z } = project(g.lat, g.lon);
+        return new THREE.Vector2(x, z);
+      });
+      const shape = new THREE.Shape(shapePts);
+      const tags = way.tags || {};
+      let height = 9;
+      if (tags.height) height = parseFloat(tags.height) || 9;
+      else if (tags['building:levels']) height = (parseFloat(tags['building:levels']) || 3) * 3;
+      const geom = new THREE.ExtrudeGeometry(shape, { depth: height, bevelEnabled: false });
+      geom.rotateX(-Math.PI / 2);
+      buildingsGroup.add(new THREE.Mesh(geom, buildingMaterial));
+    }
+
+    function addRoadMesh(way) {
+      const tags = way.tags || {};
+      const isFootway = ['footway', 'path', 'pedestrian', 'cycleway', 'steps'].includes(tags.highway);
+      const width = ROAD_WIDTH_BY_TYPE[tags.highway] || 5.5;
+      const pts = way.geometry.map(g => {
+        const { x, z } = project(g.lat, g.lon);
+        return { x, y: 0.05, z };
+      });
+      if (pts.length < 2) return;
+      const geom = buildRibbonGeometry(pts, width);
+      roadsGroup.add(new THREE.Mesh(geom, isFootway ? footwayMaterial : roadMaterial));
+    }
+
+    // 건물+도로를 한 번의 Overpass 쿼리로 함께 가져온다(왕복 줄이기 = 504 위험 감소).
+    async function loadEnvironmentForRoute(routePoints) {
       if (routePoints.length === 0) return;
       let minLat = 90, maxLat = -90, minLng = 180, maxLng = -180;
       routePoints.forEach(p => {
@@ -279,46 +370,17 @@
       });
       const pad = 0.0015; // 약 150m
       const bbox = [minLat - pad, minLng - pad, maxLat + pad, maxLng + pad].join(',');
-      const query = `[out:json][timeout:25];way["building"](${bbox});out geom;`;
+      const query = `[out:json][timeout:25];(way["building"](${bbox});way["highway"](${bbox}););out geom;`;
       try {
-        // Overpass 무료 서버는 504(과부하)가 잦아 1회 재시도한다(신호정보센터 조사 때도 겪은 알려진 특성).
-        let res;
-        try {
-          res = await fetch('https://overpass-api.de/api/interpreter', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: 'data=' + encodeURIComponent(query)
-          });
-          if (!res.ok) throw new Error('overpass http ' + res.status);
-        } catch (firstErr) {
-          console.warn('건물 데이터 1차 요청 실패, 재시도:', firstErr);
-          await new Promise(r => setTimeout(r, 1500));
-          res = await fetch('https://overpass-api.de/api/interpreter', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: 'data=' + encodeURIComponent(query)
-          });
-          if (!res.ok) throw new Error('overpass http ' + res.status);
-        }
-        const data = await res.json();
+        const data = await fetchOverpass(query);
         (data.elements || []).forEach(way => {
-          if (!way.geometry || way.geometry.length < 3) return;
-          const shapePts = way.geometry.map(g => {
-            const { x, z } = project(g.lat, g.lon);
-            return new THREE.Vector2(x, z);
-          });
-          const shape = new THREE.Shape(shapePts);
+          if (!way.geometry || way.geometry.length < 2) return;
           const tags = way.tags || {};
-          let height = 9;
-          if (tags.height) height = parseFloat(tags.height) || 9;
-          else if (tags['building:levels']) height = (parseFloat(tags['building:levels']) || 3) * 3;
-          const geom = new THREE.ExtrudeGeometry(shape, { depth: height, bevelEnabled: false });
-          geom.rotateX(-Math.PI / 2);
-          const mesh = new THREE.Mesh(geom, buildingMaterial);
-          buildingsGroup.add(mesh);
+          if (tags.building && way.geometry.length >= 3) addBuildingMesh(way);
+          else if (tags.highway) addRoadMesh(way);
         });
       } catch (e) {
-        console.warn('건물 데이터 로드 실패(3D 씬은 건물 없이 표시됨):', e);
+        console.warn('주변환경 데이터 로드 실패(3D 씬은 건물/도로 없이 표시됨):', e);
       }
     }
 
@@ -385,6 +447,12 @@
 
     document.getElementById("startNavBtn").addEventListener("click", startNav);
     document.getElementById("stopNavBtn").addEventListener("click", stopNav);
+    document.getElementById("previewBtn").addEventListener("click", () => {
+      if (currentRoutePoints.length === 0) { alert("먼저 지도를 클릭해 경로를 탐색하세요."); return; }
+      if (!view3dEl.classList.contains('pip-main')) swapPiP();
+      progressM = 0;
+      navMode = 'preview';
+    });
 
     function clearRoute() {
       if (routePolyline) { map.removeLayer(routePolyline); routePolyline = null; }
@@ -509,14 +577,16 @@
         signalMarkers.push(marker);
       });
 
-      // ---- 3D 씬 구성: 원점 설정, 경로, 신호 마커, 건물(비동기) ----
+      // ---- 3D 씬 구성: 원점 설정, 경로, 신호 마커, 건물/도로(비동기) ----
       originLat = routePoints[0].lat;
       originLng = routePoints[0].lng;
       buildRouteMesh3d(routePoints);
       buildSignalMarkers3d(matched);
-      loadBuildingsForRoute(routePoints);
+      loadEnvironmentForRoute(routePoints);
+      // 카메라는 출발지에 정지 상태로 배치만 한다 — 실제로 움직이는 건 GPS 내비게이션(startNav)
+      // 또는 "3D 미리보기" 버튼(테스트/시연용 자동재생)을 눌렀을 때뿐이다.
       positionCameraAt(routePoints[0].lat, routePoints[0].lng, 0);
-      navMode = 'preview'; // 내비게이션을 시작하지 않아도 자동으로 경로를 미리 걸어봄
+      navMode = 'idle';
 
       const totalETA = totalWalkTime + extraDelay;
       document.getElementById("summary").innerHTML = `
