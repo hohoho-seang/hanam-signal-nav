@@ -775,40 +775,23 @@
     }
 
     // ---- AR 모드: 카메라 화면 위에 경로/신호를 겹쳐 표시(센서 기반, SLAM 아님) ----
-    // 위치는 GPS(watchPosition, 위 onNavPosition과 동일 경로 재사용), 시선 "방향+기울임"은 방향센서로 결정.
-    // 처음엔 좌우 회전(나침반)만 반영했는데 — 폰을 자연스럽게 살짝 숙여 보면(위아래 기울임)
-    // 경로가 눈높이보다 아래(땅바닥)에 있어서 화면 밖으로 나가버리는 문제가 있었음.
-    // beta(앞뒤 기울임)/gamma(좌우 기울임)까지 반영하는 표준 쿼터니언 변환(three.js
-    // DeviceOrientationControls와 동일한 공식)으로 교체 — alpha 자리에 진북 보정된
-    // compass heading을 넣어서 좌우는 그대로 진북 기준을 유지한다.
-    const DEG2RAD = Math.PI / 180;
-    const arZee = new THREE.Vector3(0, 0, 1);
-    const arEuler = new THREE.Euler();
-    const arQ0 = new THREE.Quaternion();
-    const arQ1 = new THREE.Quaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5)); // 센서축(Z-up) -> three.js(Y-up)
-
-    function screenOrientationAngle() {
-      if (screen.orientation && typeof screen.orientation.angle === 'number') return screen.orientation.angle;
-      if (typeof window.orientation === 'number') return window.orientation;
-      return 0;
-    }
+    // 위치는 GPS(watchPosition, 위 onNavPosition과 동일 경로 재사용), 시선 방향은 나침반(좌우 회전)만 반영한다.
+    // beta/gamma(위아래·좌우 기울임)까지 쿼터니언으로 반영해봤으나 실기기 테스트 결과
+    // 방향 전환 자체가 다루기 힘들어졌다는 피드백으로 되돌림 — 대신 기울임 센서 없이도
+    // 바닥의 경로가 화면에 잡히도록 고정된 하향 각도를 더해 절충한다.
+    const AR_PITCH_OFFSET = -12 * Math.PI / 180; // 항상 살짝 아래를 보게 고정(센서 아님, 상수)
 
     function updateCompassHeading(e) {
       let heading = null;
       if (typeof e.webkitCompassHeading === 'number') {
-        heading = e.webkitCompassHeading; // iOS: 0=북, 시계방향 값 그대로 사용(진북 보정됨)
+        heading = e.webkitCompassHeading; // iOS: 0=북, 시계방향 값 그대로 사용
       } else if (e.absolute && typeof e.alpha === 'number') {
-        heading = e.alpha; // Android(절대방위 이벤트) alpha도 진북 기준
+        heading = (360 - e.alpha) % 360; // Android(절대방위 이벤트)
       }
       if (heading === null) return;
-      const beta = e.beta || 0;   // 앞뒤 기울임
-      const gamma = e.gamma || 0; // 좌우 기울임
-      const orient = screenOrientationAngle();
-
-      arEuler.set(beta * DEG2RAD, heading * DEG2RAD, -gamma * DEG2RAD, 'YXZ');
-      camera3d.quaternion.setFromEuler(arEuler);
-      camera3d.quaternion.multiply(arQ1);
-      camera3d.quaternion.multiply(arQ0.setFromAxisAngle(arZee, -orient * DEG2RAD));
+      // 'YXZ' 순서 필수: 기본순서(XYZ)로 하면 동/서쪽을 볼 때 하향각이 수학적으로 사라짐
+      // (yaw 회전이 pitch 성분을 지워버림) — YXZ는 방향과 무관하게 하향각이 일정하게 유지됨.
+      camera3d.rotation.set(AR_PITCH_OFFSET, -heading * Math.PI / 180, 0, 'YXZ');
     }
 
     function startCompass() {
