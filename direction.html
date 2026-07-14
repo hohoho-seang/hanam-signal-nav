@@ -305,6 +305,10 @@
       routePolyline = L.polyline(path, { color: '#1a73e8', opacity: 0.85, weight: 5 }).addTo(map);
       map.fitBounds(routePolyline.getBounds());
 
+      // 실시간 내비게이션을 시작하지 않아도 출발지 기준으로 로드뷰를 바로 미리보기
+      const aimPoint = routePoints[Math.min(3, routePoints.length - 1)];
+      updateRoadviewAt(routePoints[0].lat, routePoints[0].lng, aimPoint.lat, aimPoint.lng);
+
       const totalDistance = routePoints[routePoints.length - 1].cumDist;
       const walkSpeed = Math.max(0.3, Number(document.getElementById("walkSpeed").value) || 1.2);
       const totalWalkTime = totalDistance / walkSpeed;
@@ -367,6 +371,29 @@
       }
     }
 
+    // 로드뷰를 (lat,lng) 위치로 이동시키고 (aimLat,aimLng) 방향을 바라보게 한다.
+    // 경로 계산 직후(정적 미리보기)와 실시간 내비게이션(GPS 추적) 양쪽에서 재사용.
+    function updateRoadviewAt(lat, lng, aimLat, aimLng) {
+      if (!roadview || !roadviewClient) {
+        roadviewMsgEl.textContent = "3D 로드뷰를 불러오는 중이거나 사용할 수 없습니다.";
+        roadviewMsgEl.style.display = "block";
+        return;
+      }
+      const kakaoPos = new kakao.maps.LatLng(lat, lng);
+      roadviewClient.getNearestPanoId(kakaoPos, 50, panoId => {
+        if (!panoId) {
+          roadviewMsgEl.textContent = "이 구간은 로드뷰 데이터가 없습니다.";
+          roadviewMsgEl.style.display = "block";
+          return;
+        }
+        roadviewMsgEl.style.display = "none";
+        const heading = bearingTo(lat, lng, aimLat, aimLng);
+        roadview.setPanoId(panoId, kakaoPos);
+        roadview.setViewpoint({ pan: heading, tilt: 0, zoom: 0 });
+        roadview.relayout(); // 컨테이너 크기가 늦게 확정된 경우(PiP 초기 레이아웃)를 대비
+      });
+    }
+
     // ---- 실시간 내비게이션(GPS로 로드뷰 추적 + 다음 신호 잔여시간 HUD) ----
     function nearestRouteProgress(lat, lng) {
       let best = null;
@@ -413,21 +440,9 @@
       }
 
       // 로드뷰 위치/방향 갱신
-      if (!roadview || !roadviewClient) return;
-      const kakaoPos = new kakao.maps.LatLng(lat, lng);
-      roadviewClient.getNearestPanoId(kakaoPos, 50, panoId => {
-        if (!panoId) {
-          roadviewMsgEl.textContent = "이 구간은 로드뷰 데이터가 없습니다.";
-          roadviewMsgEl.style.display = "block";
-          return;
-        }
-        roadviewMsgEl.style.display = "none";
-        const lookIdx = Math.min(progress.index + 3, currentRoutePoints.length - 1);
-        const next = currentRoutePoints[lookIdx];
-        const heading = bearingTo(lat, lng, next.lat, next.lng);
-        roadview.setPanoId(panoId, kakaoPos);
-        roadview.setViewpoint({ pan: heading, tilt: 0, zoom: 0 });
-      });
+      const lookIdx = Math.min(progress.index + 3, currentRoutePoints.length - 1);
+      const next = currentRoutePoints[lookIdx];
+      updateRoadviewAt(lat, lng, next.lat, next.lng);
     }
 
     loadData().then(() => {
