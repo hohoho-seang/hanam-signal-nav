@@ -8,7 +8,7 @@
   <title>신호 예측 보행 내비게이션</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+  <script src="https://unpkg.com/three@0.149.0/build/three.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
   <script src="config.js"></script>
@@ -279,13 +279,27 @@
       });
       const pad = 0.0015; // 약 150m
       const bbox = [minLat - pad, minLng - pad, maxLat + pad, maxLng + pad].join(',');
+      const query = `[out:json][timeout:25];way["building"](${bbox});out geom;`;
       try {
-        const res = await fetch('https://overpass-api.de/api/interpreter', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: 'data=' + encodeURIComponent(`[out:json][timeout:25];way["building"](${bbox});out geom;`)
-        });
-        if (!res.ok) throw new Error('overpass http ' + res.status);
+        // Overpass 무료 서버는 504(과부하)가 잦아 1회 재시도한다(신호정보센터 조사 때도 겪은 알려진 특성).
+        let res;
+        try {
+          res = await fetch('https://overpass-api.de/api/interpreter', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'data=' + encodeURIComponent(query)
+          });
+          if (!res.ok) throw new Error('overpass http ' + res.status);
+        } catch (firstErr) {
+          console.warn('건물 데이터 1차 요청 실패, 재시도:', firstErr);
+          await new Promise(r => setTimeout(r, 1500));
+          res = await fetch('https://overpass-api.de/api/interpreter', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'data=' + encodeURIComponent(query)
+          });
+          if (!res.ok) throw new Error('overpass http ' + res.status);
+        }
         const data = await res.json();
         (data.elements || []).forEach(way => {
           if (!way.geometry || way.geometry.length < 3) return;
