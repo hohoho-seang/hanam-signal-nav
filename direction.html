@@ -18,6 +18,9 @@
     #layout { display: flex; height: 100%; }
     #stage { position: relative; flex: 1; height: 100%; background: #111; }
     #view2d, #view3d { width: 100%; height: 100%; }
+    #view3d { position: relative; overflow: hidden; }
+    #view3d video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: none; }
+    #view3d canvas { position: absolute; top: 0; left: 0; }
     #stage > div.pip-main { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1; }
     #stage > div.pip-mini {
       position: absolute; width: 170px; height: 130px; bottom: 14px; right: 14px; z-index: 20;
@@ -56,7 +59,9 @@
 <body>
   <div id="layout">
     <div id="stage">
-      <div id="view3d" class="pip-main"></div>
+      <div id="view3d" class="pip-main">
+        <video id="arVideo" autoplay muted playsinline></video>
+      </div>
       <div id="view2d" class="pip-mini"></div>
       <div id="navHud" class="hud"></div>
       <div id="sceneMsg" class="hud-msg"></div>
@@ -79,6 +84,11 @@
       <div style="margin-top:4px;">
         <button id="previewBtn">▶ 3D 미리보기(자동재생, 테스트용)</button>
       </div>
+      <div style="margin-top:4px;">
+        <button id="arBtn">📷 AR 모드 시작</button>
+        <button id="arStopBtn" style="display:none;">⏹ AR 모드 종료</button>
+      </div>
+      <div class="hint">AR은 카메라·방향센서 권한이 필요합니다. 실제 걷는 방향(나침반)과 GPS 위치로 화면에 경로/신호를 겹쳐 보여줍니다 — 정밀 공간추적(SLAM)은 아니라 오차가 있을 수 있습니다.</div>
       <div id="status" class="hint"></div>
       <div id="summary"></div>
       <div id="signalList"></div>
@@ -111,6 +121,9 @@
     let currentRoutePoints = [];
     let currentMatchedSignals = [];
     let watchId = null;
+    let arMode = false;
+    let arStream = null;
+    let compassHandler = null;
 
     function toRad(d) { return d * Math.PI / 180; }
     function haversine(lat1, lon1, lat2, lon2) {
@@ -185,7 +198,7 @@
       scene3d = new THREE.Scene();
       scene3d.background = new THREE.Color(0x8fc7ff);
       camera3d = new THREE.PerspectiveCamera(70, 1, 0.1, 3000);
-      renderer3d = new THREE.WebGLRenderer({ antialias: true });
+      renderer3d = new THREE.WebGLRenderer({ antialias: true, alpha: true }); // alpha: AR모드에서 카메라 영상 위에 투명 합성
       view3dEl.appendChild(renderer3d.domElement);
       resize3d();
 
@@ -239,12 +252,17 @@
     }
 
     function positionCameraAt(lat, lng, cumDist) {
-      const endDist = currentRoutePoints[currentRoutePoints.length - 1].cumDist;
-      const aheadPoint = pointAtCumDist(Math.min(cumDist + 8, endDist));
       const p = project(lat, lng);
-      const aim = project(aheadPoint.lat, aheadPoint.lng);
       camera3d.position.set(p.x, EYE_HEIGHT, p.z);
-      camera3d.lookAt(aim.x, EYE_HEIGHT, aim.z);
+      if (!arMode) {
+        // 일반 3D 모드: 항상 경로 진행방향을 바라보게 lookAt으로 시선을 고정한다.
+        const endDist = currentRoutePoints[currentRoutePoints.length - 1].cumDist;
+        const aheadPoint = pointAtCumDist(Math.min(cumDist + 8, endDist));
+        const aim = project(aheadPoint.lat, aheadPoint.lng);
+        camera3d.lookAt(aim.x, EYE_HEIGHT, aim.z);
+      }
+      // AR모드에서는 시선(회전)을 나침반 센서(updateCompassHeading)가 따로 담당하고
+      // 여기서는 위치만 갱신한다 — 실제 폰이 보는 방향과 3D 오버레이가 맞아야 하므로.
       updateSignalHud(cumDist);
     }
 
@@ -434,6 +452,7 @@
     });
 
     document.getElementById("resetBtn").addEventListener("click", () => {
+      if (arMode) stopAR();
       stopNav();
       clearRoute();
       start = null; goal = null;
@@ -658,6 +677,74 @@
       if (!progress) return;
       positionCameraAt(lat, lng, progress.cumDist);
     }
+
+    // ---- AR 모드: 카메라 화면 위에 경로/신호를 겹쳐 표시(센서 기반, SLAM 아님) ----
+    // 위치는 GPS(watchPosition, 위 onNavPosition과 동일 경로 재사용), 시선 방향은 나침반(방향센서)로 결정.
+    function updateCompassHeading(e) {
+      let heading = null;
+      if (typeof e.webkitCompassHeading === 'number') {
+        heading = e.webkitCompassHeading; // iOS: 0=북, 시계방향 값 그대로 사용
+      } else if (e.absolute && typeof e.alpha === 'number') {
+        heading = (360 - e.alpha) % 360; // Android(절대방위 이벤트)
+      }
+      if (heading === null) return;
+      camera3d.rotation.set(0, -heading * Math.PI / 180, 0); // 수평 시선만 반영(단순화)
+    }
+
+    function startCompass() {
+      compassHandler = updateCompassHeading;
+      const evName = 'ondeviceorientationabsolute' in window ? 'deviceorientationabsolute' : 'deviceorientation';
+      window.addEventListener(evName, compassHandler);
+    }
+
+    function stopCompass() {
+      if (!compassHandler) return;
+      window.removeEventListener('deviceorientationabsolute', compassHandler);
+      window.removeEventListener('deviceorientation', compassHandler);
+      compassHandler = null;
+    }
+
+    async function startAR() {
+      if (currentRoutePoints.length === 0) { alert("먼저 지도를 클릭해 경로를 탐색하세요."); return; }
+      try {
+        if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+          const perm = await DeviceOrientationEvent.requestPermission(); // iOS는 사용자 제스처 안에서 호출 필수
+          if (perm !== 'granted') { alert("방향센서 권한이 필요합니다."); return; }
+        }
+        arStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+      } catch (e) {
+        console.error("AR 시작 실패:", e);
+        alert("카메라 또는 방향센서 권한을 허용해야 AR 모드를 사용할 수 있습니다.");
+        return;
+      }
+      const video = document.getElementById('arVideo');
+      video.srcObject = arStream;
+      video.style.display = 'block';
+      arMode = true;
+      scene3d.background = null;
+      renderer3d.setClearColor(0x000000, 0);
+      startCompass();
+      if (!view3dEl.classList.contains('pip-main')) swapPiP();
+      document.getElementById("arBtn").style.display = "none";
+      document.getElementById("arStopBtn").style.display = "inline-block";
+      if (watchId === null) startNav(); // GPS 위치추적이 아직 없으면 같이 시작
+    }
+
+    function stopAR() {
+      arMode = false;
+      if (arStream) { arStream.getTracks().forEach(t => t.stop()); arStream = null; }
+      const video = document.getElementById('arVideo');
+      video.style.display = 'none';
+      video.srcObject = null;
+      scene3d.background = new THREE.Color(0x8fc7ff);
+      renderer3d.setClearColor(0x8fc7ff, 1);
+      stopCompass();
+      document.getElementById("arBtn").style.display = "inline-block";
+      document.getElementById("arStopBtn").style.display = "none";
+    }
+
+    document.getElementById("arBtn").addEventListener("click", startAR);
+    document.getElementById("arStopBtn").addEventListener("click", stopAR);
 
     initThree();
     loadData().then(() => {
