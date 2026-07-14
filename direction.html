@@ -8,6 +8,7 @@
   <title>신호 예측 보행 내비게이션</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
   <script src="config.js"></script>
@@ -58,11 +59,11 @@
       <div id="view3d" class="pip-main"></div>
       <div id="view2d" class="pip-mini"></div>
       <div id="navHud" class="hud"></div>
-      <div id="roadviewMsg" class="hud-msg"></div>
+      <div id="sceneMsg" class="hud-msg"></div>
     </div>
     <div id="panel">
       <h3>보행 내비게이션</h3>
-      <div class="hint">지도를 클릭해 <b>출발지</b>를 먼저 찍고, 다시 클릭해 <b>도착지</b>를 찍으세요. (작은 박스를 누르면 3D/2D가 서로 바뀝니다)</div>
+      <div class="hint">지도를 클릭해 <b>출발지</b>를 먼저 찍고, 다시 클릭해 <b>도착지</b>를 찍으세요. (작은 박스를 누르면 3D/2D가 서로 바뀝니다. 경로가 계산되면 3D에서 자동으로 미리보기가 재생됩니다)</div>
       <div>
         <button id="useMyLocBtn">내 위치를 출발지로</button>
         <button id="resetBtn">초기화</button>
@@ -72,7 +73,7 @@
         (보통 성인 약 1.2, 노약자 약 1.0)
       </div>
       <div style="margin-top:8px;">
-        <button id="startNavBtn">🧭 내비게이션 시작</button>
+        <button id="startNavBtn">🧭 내비게이션 시작(GPS)</button>
         <button id="stopNavBtn" style="display:none;">⏹ 내비게이션 종료</button>
       </div>
       <div id="status" class="hint"></div>
@@ -85,7 +86,9 @@
     const view2dEl = document.getElementById('view2d');
     const view3dEl = document.getElementById('view3d');
     const hudEl = document.getElementById('navHud');
-    const roadviewMsgEl = document.getElementById('roadviewMsg');
+    const sceneMsgEl = document.getElementById('sceneMsg');
+    const HUD_TRIGGER_RADIUS = 60; // 다음 신호까지 이 거리(m) 이내로 들어오면 HUD 자동 표시
+    const EYE_HEIGHT = 1.6;
 
     const map = L.map(view2dEl).setView([37.5380, 127.2046], 16);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -102,12 +105,9 @@
     let signals = [];
     let calibrations = loadCalibrations(); // 로컬 캐시(Firebase 설정 시 실시간 동기화로 갱신됨)
 
-    // 내비게이션 진행중 상태
     let currentRoutePoints = [];
     let currentMatchedSignals = [];
     let watchId = null;
-    let roadview = null;
-    let roadviewClient = null;
 
     function toRad(d) { return d * Math.PI / 180; }
     function haversine(lat1, lon1, lat2, lon2) {
@@ -117,12 +117,6 @@
       const a = Math.sin(dLat / 2) ** 2 +
                 Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
       return 2 * R * Math.asin(Math.sqrt(a));
-    }
-    function bearingTo(lat1, lon1, lat2, lon2) {
-      const φ1 = toRad(lat1), φ2 = toRad(lat2), Δλ = toRad(lon2 - lon1);
-      const y = Math.sin(Δλ) * Math.cos(φ2);
-      const x = Math.cos(φ1) * Math.sin(φ2) - Math.sin(φ1) * Math.cos(φ2) * Math.cos(Δλ);
-      return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
     }
 
     // ---- PiP(3D 메인 / 2D 미니, 클릭시 교체) ----
@@ -134,27 +128,194 @@
       view2dEl.classList.toggle('pip-mini', !view3dWasMain);
       setTimeout(() => {
         map.invalidateSize();
-        if (roadview) roadview.relayout();
+        resize3d();
       }, 30);
     }
     view3dEl.addEventListener('click', () => { if (view3dEl.classList.contains('pip-mini')) swapPiP(); });
 
-    // ---- Kakao 로드뷰 (실사진 3D). 키 미설정시 조용히 비활성화 ----
-    function loadKakaoSdk(onReady) {
-      if (typeof KAKAO_JS_KEY === 'undefined' || !KAKAO_JS_KEY || KAKAO_JS_KEY.startsWith('YOUR_')) {
-        console.warn('Kakao 키 미설정 — 3D 로드뷰 비활성화(2D만 사용 가능)');
-        return;
-      }
-      const script = document.createElement('script');
-      script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_JS_KEY}&autoload=false&libraries=services`;
-      script.onload = () => kakao.maps.load(onReady);
-      script.onerror = () => console.error('Kakao SDK 로드 실패');
-      document.head.appendChild(script);
+    // ================= Three.js 3D 씬 (건물 + 도로 + 경로, 카메라가 경로를 따라 이동) =================
+    let scene3d, camera3d, renderer3d, buildingsGroup, routeMesh3d;
+    let originLat = null, originLng = null;
+    let signalMarkers3d = []; // { sig, mesh }
+    let navMode = 'idle'; // 'idle' | 'preview' | 'live'
+    let progressM = 0;
+    let lastFrameTs = null;
+    const buildingMaterial = new THREE.MeshLambertMaterial({ color: 0xcfd8dc });
+
+    function initThree() {
+      scene3d = new THREE.Scene();
+      scene3d.background = new THREE.Color(0x8fc7ff);
+      camera3d = new THREE.PerspectiveCamera(70, 1, 0.1, 3000);
+      renderer3d = new THREE.WebGLRenderer({ antialias: true });
+      view3dEl.appendChild(renderer3d.domElement);
+      resize3d();
+
+      scene3d.add(new THREE.AmbientLight(0xffffff, 0.75));
+      const sun = new THREE.DirectionalLight(0xffffff, 0.7);
+      sun.position.set(150, 300, 100);
+      scene3d.add(sun);
+
+      const ground = new THREE.Mesh(
+        new THREE.PlaneGeometry(6000, 6000),
+        new THREE.MeshLambertMaterial({ color: 0xe0ddd5 })
+      );
+      ground.rotation.x = -Math.PI / 2;
+      scene3d.add(ground);
+
+      buildingsGroup = new THREE.Group();
+      scene3d.add(buildingsGroup);
+
+      window.addEventListener('resize', resize3d);
+      requestAnimationFrame(animate3d);
     }
-    loadKakaoSdk(() => {
-      roadview = new kakao.maps.Roadview(view3dEl);
-      roadviewClient = new kakao.maps.RoadviewClient();
-    });
+
+    function resize3d() {
+      if (!renderer3d) return;
+      const w = Math.max(1, view3dEl.clientWidth), h = Math.max(1, view3dEl.clientHeight);
+      renderer3d.setSize(w, h);
+      camera3d.aspect = w / h;
+      camera3d.updateProjectionMatrix();
+    }
+
+    function project(lat, lng) {
+      const mPerDegLat = 110540;
+      const mPerDegLng = 111320 * Math.cos(originLat * Math.PI / 180);
+      return { x: (lng - originLng) * mPerDegLng, z: -(lat - originLat) * mPerDegLat };
+    }
+
+    function pointAtCumDist(cumDist) {
+      const pts = currentRoutePoints;
+      if (pts.length === 0) return null;
+      if (cumDist <= pts[0].cumDist) return pts[0];
+      for (let i = 1; i < pts.length; i++) {
+        if (cumDist <= pts[i].cumDist) {
+          const a = pts[i - 1], b = pts[i];
+          const t = (cumDist - a.cumDist) / Math.max(1e-6, b.cumDist - a.cumDist);
+          return { lat: a.lat + (b.lat - a.lat) * t, lng: a.lng + (b.lng - a.lng) * t };
+        }
+      }
+      return pts[pts.length - 1];
+    }
+
+    function positionCameraAt(lat, lng, cumDist) {
+      const endDist = currentRoutePoints[currentRoutePoints.length - 1].cumDist;
+      const aheadPoint = pointAtCumDist(Math.min(cumDist + 8, endDist));
+      const p = project(lat, lng);
+      const aim = project(aheadPoint.lat, aheadPoint.lng);
+      camera3d.position.set(p.x, EYE_HEIGHT, p.z);
+      camera3d.lookAt(aim.x, EYE_HEIGHT, aim.z);
+      updateSignalHud(cumDist);
+    }
+
+    function updateSignalHud(cumDist) {
+      const upcoming = currentMatchedSignals.find(m => m.cumDist > cumDist);
+      if (upcoming && (upcoming.cumDist - cumDist) <= HUD_TRIGGER_RADIUS) {
+        const live = getSignalState(upcoming.sig.cycle, calibrations[upcoming.sig.id], new Date());
+        hudEl.style.display = "block";
+        hudEl.innerHTML = `<b>${upcoming.sig.name}</b><br>남은 거리: ${Math.round(upcoming.cumDist - cumDist)}m<br>
+          현재 신호: <span style="color:${live.state==='초록' ? '#4caf50' : '#f44336'}">${live.state}</span> (${live.remaining}초)`;
+      } else {
+        hudEl.style.display = "none";
+      }
+    }
+
+    function animate3d(ts) {
+      requestAnimationFrame(animate3d);
+      if (navMode === 'preview' && currentRoutePoints.length > 1) {
+        if (lastFrameTs != null) {
+          const dt = (ts - lastFrameTs) / 1000;
+          const walkSpeed = Math.max(0.3, Number(document.getElementById('walkSpeed').value) || 1.2);
+          const endDist = currentRoutePoints[currentRoutePoints.length - 1].cumDist;
+          progressM = Math.min(progressM + dt * walkSpeed * 4, endDist); // 시연용 4배속 자동재생
+          const pt = pointAtCumDist(progressM);
+          positionCameraAt(pt.lat, pt.lng, progressM);
+          if (progressM >= endDist) navMode = 'idle';
+        }
+        lastFrameTs = ts;
+      } else {
+        lastFrameTs = null;
+      }
+      if (renderer3d) renderer3d.render(scene3d, camera3d);
+    }
+
+    function clearScene3d() {
+      if (routeMesh3d) { scene3d.remove(routeMesh3d); routeMesh3d = null; }
+      buildingsGroup.clear();
+      signalMarkers3d.forEach(m => scene3d.remove(m.mesh));
+      signalMarkers3d = [];
+      navMode = 'idle';
+      progressM = 0;
+      sceneMsgEl.style.display = "none";
+    }
+
+    function buildRouteMesh3d(routePoints) {
+      const curvePts = routePoints.map(p => {
+        const { x, z } = project(p.lat, p.lng);
+        return new THREE.Vector3(x, 0.15, z);
+      });
+      const curve = new THREE.CatmullRomCurve3(curvePts);
+      const tubeGeom = new THREE.TubeGeometry(curve, Math.max(20, routePoints.length), 1.6, 6, false);
+      routeMesh3d = new THREE.Mesh(tubeGeom, new THREE.MeshLambertMaterial({ color: 0x1a73e8 }));
+      scene3d.add(routeMesh3d);
+    }
+
+    function buildSignalMarkers3d(matched) {
+      matched.forEach(m => {
+        const { x, z } = project(m.sig.lat, m.sig.lng);
+        const geom = new THREE.CylinderGeometry(0.4, 0.4, 3, 8);
+        const mesh = new THREE.Mesh(geom, new THREE.MeshLambertMaterial({ color: 0x999999 }));
+        mesh.position.set(x, 1.5, z);
+        scene3d.add(mesh);
+        signalMarkers3d.push({ sig: m.sig, mesh });
+      });
+    }
+
+    async function loadBuildingsForRoute(routePoints) {
+      if (routePoints.length === 0) return;
+      let minLat = 90, maxLat = -90, minLng = 180, maxLng = -180;
+      routePoints.forEach(p => {
+        minLat = Math.min(minLat, p.lat); maxLat = Math.max(maxLat, p.lat);
+        minLng = Math.min(minLng, p.lng); maxLng = Math.max(maxLng, p.lng);
+      });
+      const pad = 0.0015; // 약 150m
+      const bbox = [minLat - pad, minLng - pad, maxLat + pad, maxLng + pad].join(',');
+      try {
+        const res = await fetch('https://overpass-api.de/api/interpreter', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: 'data=' + encodeURIComponent(`[out:json][timeout:25];way["building"](${bbox});out geom;`)
+        });
+        if (!res.ok) throw new Error('overpass http ' + res.status);
+        const data = await res.json();
+        (data.elements || []).forEach(way => {
+          if (!way.geometry || way.geometry.length < 3) return;
+          const shapePts = way.geometry.map(g => {
+            const { x, z } = project(g.lat, g.lon);
+            return new THREE.Vector2(x, z);
+          });
+          const shape = new THREE.Shape(shapePts);
+          const tags = way.tags || {};
+          let height = 9;
+          if (tags.height) height = parseFloat(tags.height) || 9;
+          else if (tags['building:levels']) height = (parseFloat(tags['building:levels']) || 3) * 3;
+          const geom = new THREE.ExtrudeGeometry(shape, { depth: height, bevelEnabled: false });
+          geom.rotateX(-Math.PI / 2);
+          const mesh = new THREE.Mesh(geom, buildingMaterial);
+          buildingsGroup.add(mesh);
+        });
+      } catch (e) {
+        console.warn('건물 데이터 로드 실패(3D 씬은 건물 없이 표시됨):', e);
+      }
+    }
+
+    setInterval(() => {
+      signalMarkers3d.forEach(m => {
+        const { state } = getSignalState(m.sig.cycle, calibrations[m.sig.id], new Date());
+        m.mesh.material.color.set(state === '초록' ? 0x2ecc71 : 0xe74c3c);
+      });
+    }, 1000);
+
+    // ================= 라우팅/신호 매칭 (기존 로직, 지도 라이브러리와 무관) =================
 
     async function loadData() {
       const signalsRes = await fetch("signals.json", { cache: "no-cache" });
@@ -217,6 +378,7 @@
       signalMarkers = [];
       currentRoutePoints = [];
       currentMatchedSignals = [];
+      clearScene3d();
     }
 
     function setStatus(msg) {
@@ -305,10 +467,6 @@
       routePolyline = L.polyline(path, { color: '#1a73e8', opacity: 0.85, weight: 5 }).addTo(map);
       map.fitBounds(routePolyline.getBounds());
 
-      // 실시간 내비게이션을 시작하지 않아도 출발지 기준으로 로드뷰를 바로 미리보기
-      const aimPoint = routePoints[Math.min(3, routePoints.length - 1)];
-      updateRoadviewAt(routePoints[0].lat, routePoints[0].lng, aimPoint.lat, aimPoint.lng);
-
       const totalDistance = routePoints[routePoints.length - 1].cumDist;
       const walkSpeed = Math.max(0.3, Number(document.getElementById("walkSpeed").value) || 1.2);
       const totalWalkTime = totalDistance / walkSpeed;
@@ -336,6 +494,15 @@
         }).addTo(map);
         signalMarkers.push(marker);
       });
+
+      // ---- 3D 씬 구성: 원점 설정, 경로, 신호 마커, 건물(비동기) ----
+      originLat = routePoints[0].lat;
+      originLng = routePoints[0].lng;
+      buildRouteMesh3d(routePoints);
+      buildSignalMarkers3d(matched);
+      loadBuildingsForRoute(routePoints);
+      positionCameraAt(routePoints[0].lat, routePoints[0].lng, 0);
+      navMode = 'preview'; // 내비게이션을 시작하지 않아도 자동으로 경로를 미리 걸어봄
 
       const totalETA = totalWalkTime + extraDelay;
       document.getElementById("summary").innerHTML = `
@@ -371,30 +538,7 @@
       }
     }
 
-    // 로드뷰를 (lat,lng) 위치로 이동시키고 (aimLat,aimLng) 방향을 바라보게 한다.
-    // 경로 계산 직후(정적 미리보기)와 실시간 내비게이션(GPS 추적) 양쪽에서 재사용.
-    function updateRoadviewAt(lat, lng, aimLat, aimLng) {
-      if (!roadview || !roadviewClient) {
-        roadviewMsgEl.textContent = "3D 로드뷰를 불러오는 중이거나 사용할 수 없습니다.";
-        roadviewMsgEl.style.display = "block";
-        return;
-      }
-      const kakaoPos = new kakao.maps.LatLng(lat, lng);
-      roadviewClient.getNearestPanoId(kakaoPos, 50, panoId => {
-        if (!panoId) {
-          roadviewMsgEl.textContent = "이 구간은 로드뷰 데이터가 없습니다.";
-          roadviewMsgEl.style.display = "block";
-          return;
-        }
-        roadviewMsgEl.style.display = "none";
-        const heading = bearingTo(lat, lng, aimLat, aimLng);
-        roadview.setPanoId(panoId, kakaoPos);
-        roadview.setViewpoint({ pan: heading, tilt: 0, zoom: 0 });
-        roadview.relayout(); // 컨테이너 크기가 늦게 확정된 경우(PiP 초기 레이아웃)를 대비
-      });
-    }
-
-    // ---- 실시간 내비게이션(GPS로 로드뷰 추적 + 다음 신호 잔여시간 HUD) ----
+    // ---- 실시간 내비게이션(GPS로 카메라 추적 + 근접 신호 HUD 자동표시) ----
     function nearestRouteProgress(lat, lng) {
       let best = null;
       currentRoutePoints.forEach((p, i) => {
@@ -409,8 +553,8 @@
       if (currentRoutePoints.length === 0) { alert("먼저 지도를 클릭해 경로를 탐색하세요."); return; }
       document.getElementById("startNavBtn").style.display = "none";
       document.getElementById("stopNavBtn").style.display = "inline-block";
-      hudEl.style.display = "block";
       if (!view3dEl.classList.contains('pip-main')) swapPiP();
+      navMode = 'live';
       watchId = navigator.geolocation.watchPosition(onNavPosition, err => {
         console.error("GPS 오류:", err);
       }, { enableHighAccuracy: true });
@@ -421,30 +565,17 @@
       document.getElementById("startNavBtn").style.display = "inline-block";
       document.getElementById("stopNavBtn").style.display = "none";
       hudEl.style.display = "none";
-      roadviewMsgEl.style.display = "none";
+      navMode = 'idle';
     }
 
     function onNavPosition(pos) {
       const { latitude: lat, longitude: lng } = pos.coords;
       const progress = nearestRouteProgress(lat, lng);
       if (!progress) return;
-
-      // 다음 신호 잔여시간 HUD
-      const upcoming = currentMatchedSignals.find(m => m.cumDist > progress.cumDist);
-      if (upcoming) {
-        const live = getSignalState(upcoming.sig.cycle, calibrations[upcoming.sig.id], new Date());
-        hudEl.innerHTML = `<b>${upcoming.sig.name}</b><br>남은 거리: ${Math.round(upcoming.cumDist - progress.cumDist)}m<br>
-          현재 신호: <span style="color:${live.state==='초록' ? '#4caf50' : '#f44336'}">${live.state}</span> (${live.remaining}초)`;
-      } else {
-        hudEl.innerHTML = "앞에 남은 신호 없음";
-      }
-
-      // 로드뷰 위치/방향 갱신
-      const lookIdx = Math.min(progress.index + 3, currentRoutePoints.length - 1);
-      const next = currentRoutePoints[lookIdx];
-      updateRoadviewAt(lat, lng, next.lat, next.lng);
+      positionCameraAt(lat, lng, progress.cumDist);
     }
 
+    initThree();
     loadData().then(() => {
       setStatus("출발지를 클릭하세요.");
       initCalibrationSync(remote => { calibrations = remote; });
