@@ -8,6 +8,9 @@
   <title>신장사거리 신호등 지도</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+  <script src="config.js"></script>
   <script src="signal.js"></script>
   <style>
     html, body { margin: 0; }
@@ -82,7 +85,10 @@
       const remaining = Number(document.getElementById(`calremain-${id}`).value);
       calibrations[id] = saveCalibration(id, state, remaining);
       refreshMarker(id);
-      alert('보정 완료! 이 기기에서는 이제 실측 기준으로 표시됩니다. (다른 사람과는 공유되지 않아요)');
+      const shared = typeof firestoreDb !== 'undefined' && firestoreDb;
+      alert(shared
+        ? '보정 완료! 다른 사용자에게도 실시간으로 공유됩니다.'
+        : '보정 완료! 이 기기에서는 이제 실측 기준으로 표시됩니다. (공유 서버 미설정 — 이 기기에만 저장)');
     }
 
     function refreshMarker(id) {
@@ -134,7 +140,18 @@
       }, 1000);
     }
 
-    boot().catch(err => {
+    boot().then(() => {
+      initCalibrationSync(remote => {
+        calibrations = remote;
+        markers.forEach(obj => {
+          const { state } = getSignalState(obj.sig.cycle, calibrations[obj.sig.id]);
+          obj.marker.setIcon(iconFor(state));
+          if (obj.marker.isPopupOpen()) {
+            obj.marker.setPopupContent(infoContent(obj.sig));
+          }
+        });
+      });
+    }).catch(err => {
       console.error("초기화 실패:", err);
       alert("데이터를 불러오지 못했습니다. (콘솔 확인)");
     });

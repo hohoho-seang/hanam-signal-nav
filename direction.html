@@ -8,12 +8,31 @@
   <title>신호 예측 보행 내비게이션</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="signal.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
   <script src="config.js"></script>
+  <script src="signal.js"></script>
   <style>
     html, body { margin: 0; height: 100%; font-family: sans-serif; }
     #layout { display: flex; height: 100%; }
-    #map { flex: 1; height: 100%; }
+    #stage { position: relative; flex: 1; height: 100%; background: #111; }
+    #view2d, #view3d { width: 100%; height: 100%; }
+    #stage > div.pip-main { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1; }
+    #stage > div.pip-mini {
+      position: absolute; width: 170px; height: 130px; bottom: 14px; right: 14px; z-index: 20;
+      border: 3px solid #fff; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,.35);
+      cursor: pointer; overflow: hidden;
+    }
+    .hud {
+      position: absolute; top: 12px; left: 12px; z-index: 15;
+      background: rgba(0,0,0,.65); color: #fff; padding: 8px 12px; border-radius: 8px;
+      font-size: 13px; line-height: 1.5; max-width: 260px; display: none;
+    }
+    .hud-msg {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 15;
+      background: rgba(0,0,0,.7); color: #fff; padding: 10px 16px; border-radius: 8px;
+      font-size: 13px; display: none; text-align: center;
+    }
     #panel { width: 300px; padding: 10px; box-sizing: border-box; overflow-y: auto; font-size: 13px; border-left: 1px solid #ddd; }
     #panel h3 { margin: 4px 0; font-size: 14px; }
     #panel button { padding: 6px 10px; margin: 3px 3px 3px 0; cursor: pointer; }
@@ -29,16 +48,21 @@
     @media (max-width: 700px) {
       #layout { flex-direction: column; }
       #panel { width: 100%; height: 45%; order: 2; }
-      #map { height: 55%; order: 1; }
+      #stage { height: 55%; order: 1; }
     }
   </style>
 </head>
 <body>
   <div id="layout">
-    <div id="map"></div>
+    <div id="stage">
+      <div id="view3d" class="pip-main"></div>
+      <div id="view2d" class="pip-mini"></div>
+      <div id="navHud" class="hud"></div>
+      <div id="roadviewMsg" class="hud-msg"></div>
+    </div>
     <div id="panel">
       <h3>보행 내비게이션</h3>
-      <div class="hint">지도를 클릭해 <b>출발지</b>를 먼저 찍고, 다시 클릭해 <b>도착지</b>를 찍으세요.</div>
+      <div class="hint">지도를 클릭해 <b>출발지</b>를 먼저 찍고, 다시 클릭해 <b>도착지</b>를 찍으세요. (작은 박스를 누르면 3D/2D가 서로 바뀝니다)</div>
       <div>
         <button id="useMyLocBtn">내 위치를 출발지로</button>
         <button id="resetBtn">초기화</button>
@@ -47,6 +71,10 @@
         도보속도: <input id="walkSpeed" type="number" step="0.1" value="1.2"> m/s
         (보통 성인 약 1.2, 노약자 약 1.0)
       </div>
+      <div style="margin-top:8px;">
+        <button id="startNavBtn">🧭 내비게이션 시작</button>
+        <button id="stopNavBtn" style="display:none;">⏹ 내비게이션 종료</button>
+      </div>
       <div id="status" class="hint"></div>
       <div id="summary"></div>
       <div id="signalList"></div>
@@ -54,7 +82,12 @@
   </div>
 
   <script>
-    const map = L.map('map').setView([37.5380, 127.2046], 16);
+    const view2dEl = document.getElementById('view2d');
+    const view3dEl = document.getElementById('view3d');
+    const hudEl = document.getElementById('navHud');
+    const roadviewMsgEl = document.getElementById('roadviewMsg');
+
+    const map = L.map(view2dEl).setView([37.5380, 127.2046], 16);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       maxZoom: 19
@@ -67,7 +100,14 @@
     let routePolyline = null;
     let signalMarkers = [];
     let signals = [];
-    let calibrations = loadCalibrations(); // 이 브라우저(localStorage)에 저장된 보정값
+    let calibrations = loadCalibrations(); // 로컬 캐시(Firebase 설정 시 실시간 동기화로 갱신됨)
+
+    // 내비게이션 진행중 상태
+    let currentRoutePoints = [];
+    let currentMatchedSignals = [];
+    let watchId = null;
+    let roadview = null;
+    let roadviewClient = null;
 
     function toRad(d) { return d * Math.PI / 180; }
     function haversine(lat1, lon1, lat2, lon2) {
@@ -78,6 +118,43 @@
                 Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
       return 2 * R * Math.asin(Math.sqrt(a));
     }
+    function bearingTo(lat1, lon1, lat2, lon2) {
+      const φ1 = toRad(lat1), φ2 = toRad(lat2), Δλ = toRad(lon2 - lon1);
+      const y = Math.sin(Δλ) * Math.cos(φ2);
+      const x = Math.cos(φ1) * Math.sin(φ2) - Math.sin(φ1) * Math.cos(φ2) * Math.cos(Δλ);
+      return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
+    }
+
+    // ---- PiP(3D 메인 / 2D 미니, 클릭시 교체) ----
+    function swapPiP() {
+      const view3dWasMain = view3dEl.classList.contains('pip-main');
+      view3dEl.classList.toggle('pip-main', !view3dWasMain);
+      view3dEl.classList.toggle('pip-mini', view3dWasMain);
+      view2dEl.classList.toggle('pip-main', view3dWasMain);
+      view2dEl.classList.toggle('pip-mini', !view3dWasMain);
+      setTimeout(() => {
+        map.invalidateSize();
+        if (roadview) roadview.relayout();
+      }, 30);
+    }
+    view3dEl.addEventListener('click', () => { if (view3dEl.classList.contains('pip-mini')) swapPiP(); });
+
+    // ---- Kakao 로드뷰 (실사진 3D). 키 미설정시 조용히 비활성화 ----
+    function loadKakaoSdk(onReady) {
+      if (typeof KAKAO_JS_KEY === 'undefined' || !KAKAO_JS_KEY || KAKAO_JS_KEY.startsWith('YOUR_')) {
+        console.warn('Kakao 키 미설정 — 3D 로드뷰 비활성화(2D만 사용 가능)');
+        return;
+      }
+      const script = document.createElement('script');
+      script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_JS_KEY}&autoload=false&libraries=services`;
+      script.onload = () => kakao.maps.load(onReady);
+      script.onerror = () => console.error('Kakao SDK 로드 실패');
+      document.head.appendChild(script);
+    }
+    loadKakaoSdk(() => {
+      roadview = new kakao.maps.Roadview(view3dEl);
+      roadviewClient = new kakao.maps.RoadviewClient();
+    });
 
     async function loadData() {
       const signalsRes = await fetch("signals.json", { cache: "no-cache" });
@@ -85,6 +162,7 @@
     }
 
     map.on('click', (e) => {
+      if (view2dEl.classList.contains('pip-mini')) { swapPiP(); return; }
       const latlng = e.latlng;
       if (!start) {
         start = latlng;
@@ -97,7 +175,6 @@
         goalMarker = L.marker(latlng, { title: "도착" }).addTo(map);
         findRoute();
       } else {
-        // 재시작
         clearRoute();
         start = latlng;
         if (startMarker) map.removeLayer(startMarker);
@@ -120,6 +197,7 @@
     });
 
     document.getElementById("resetBtn").addEventListener("click", () => {
+      stopNav();
       clearRoute();
       start = null; goal = null;
       if (startMarker) map.removeLayer(startMarker);
@@ -130,10 +208,15 @@
       document.getElementById("signalList").innerHTML = "";
     });
 
+    document.getElementById("startNavBtn").addEventListener("click", startNav);
+    document.getElementById("stopNavBtn").addEventListener("click", stopNav);
+
     function clearRoute() {
       if (routePolyline) { map.removeLayer(routePolyline); routePolyline = null; }
       signalMarkers.forEach(m => map.removeLayer(m));
       signalMarkers = [];
+      currentRoutePoints = [];
+      currentMatchedSignals = [];
     }
 
     function setStatus(msg) {
@@ -205,7 +288,6 @@
         }
       });
       matched.sort((a, b) => a.cumDist - b.cumDist);
-      // 같은 교차로의 중복 신호(좌표 근접)는 가장 가까운 것 하나만 남김
       const dedup = [];
       matched.forEach(m => {
         const dup = dedup.find(d => haversine(d.sig.lat, d.sig.lng, m.sig.lat, m.sig.lng) < 15);
@@ -217,6 +299,7 @@
     function renderRoute(geojson) {
       const routePoints = buildRoutePoints(geojson);
       if (routePoints.length === 0) { setStatus("경로 좌표가 비어 있습니다."); return; }
+      currentRoutePoints = routePoints;
 
       const path = routePoints.map(p => [p.lat, p.lng]);
       routePolyline = L.polyline(path, { color: '#1a73e8', opacity: 0.85, weight: 5 }).addTo(map);
@@ -227,6 +310,7 @@
       const totalWalkTime = totalDistance / walkSpeed;
 
       const matched = matchSignalsToRoute(routePoints, 40);
+      currentMatchedSignals = matched;
       const now = new Date();
       let extraDelay = 0;
       matched.forEach(m => {
@@ -283,7 +367,73 @@
       }
     }
 
-    loadData().then(() => setStatus("출발지를 클릭하세요."));
+    // ---- 실시간 내비게이션(GPS로 로드뷰 추적 + 다음 신호 잔여시간 HUD) ----
+    function nearestRouteProgress(lat, lng) {
+      let best = null;
+      currentRoutePoints.forEach((p, i) => {
+        const d = haversine(lat, lng, p.lat, p.lng);
+        if (!best || d < best.dist) best = { dist: d, cumDist: p.cumDist, index: i };
+      });
+      return best;
+    }
+
+    function startNav() {
+      if (!navigator.geolocation) { alert("위치 정보를 사용할 수 없습니다."); return; }
+      if (currentRoutePoints.length === 0) { alert("먼저 지도를 클릭해 경로를 탐색하세요."); return; }
+      document.getElementById("startNavBtn").style.display = "none";
+      document.getElementById("stopNavBtn").style.display = "inline-block";
+      hudEl.style.display = "block";
+      if (!view3dEl.classList.contains('pip-main')) swapPiP();
+      watchId = navigator.geolocation.watchPosition(onNavPosition, err => {
+        console.error("GPS 오류:", err);
+      }, { enableHighAccuracy: true });
+    }
+
+    function stopNav() {
+      if (watchId !== null) { navigator.geolocation.clearWatch(watchId); watchId = null; }
+      document.getElementById("startNavBtn").style.display = "inline-block";
+      document.getElementById("stopNavBtn").style.display = "none";
+      hudEl.style.display = "none";
+      roadviewMsgEl.style.display = "none";
+    }
+
+    function onNavPosition(pos) {
+      const { latitude: lat, longitude: lng } = pos.coords;
+      const progress = nearestRouteProgress(lat, lng);
+      if (!progress) return;
+
+      // 다음 신호 잔여시간 HUD
+      const upcoming = currentMatchedSignals.find(m => m.cumDist > progress.cumDist);
+      if (upcoming) {
+        const live = getSignalState(upcoming.sig.cycle, calibrations[upcoming.sig.id], new Date());
+        hudEl.innerHTML = `<b>${upcoming.sig.name}</b><br>남은 거리: ${Math.round(upcoming.cumDist - progress.cumDist)}m<br>
+          현재 신호: <span style="color:${live.state==='초록' ? '#4caf50' : '#f44336'}">${live.state}</span> (${live.remaining}초)`;
+      } else {
+        hudEl.innerHTML = "앞에 남은 신호 없음";
+      }
+
+      // 로드뷰 위치/방향 갱신
+      if (!roadview || !roadviewClient) return;
+      const kakaoPos = new kakao.maps.LatLng(lat, lng);
+      roadviewClient.getNearestPanoId(kakaoPos, 50, panoId => {
+        if (!panoId) {
+          roadviewMsgEl.textContent = "이 구간은 로드뷰 데이터가 없습니다.";
+          roadviewMsgEl.style.display = "block";
+          return;
+        }
+        roadviewMsgEl.style.display = "none";
+        const lookIdx = Math.min(progress.index + 3, currentRoutePoints.length - 1);
+        const next = currentRoutePoints[lookIdx];
+        const heading = bearingTo(lat, lng, next.lat, next.lng);
+        roadview.setPanoId(panoId, kakaoPos);
+        roadview.setViewpoint({ pan: heading, tilt: 0, zoom: 0 });
+      });
+    }
+
+    loadData().then(() => {
+      setStatus("출발지를 클릭하세요.");
+      initCalibrationSync(remote => { calibrations = remote; });
+    });
   </script>
 </body>
 </html>

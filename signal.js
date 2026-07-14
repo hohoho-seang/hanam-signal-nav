@@ -49,9 +49,10 @@ function calibrationAgeLabel(calibratedAt, atDate) {
   return `${Math.round(hours)}시간 전 실측`;
 }
 
-// 정적 사이트라 서버 저장이 없음 — 이 기기(브라우저)의 localStorage에만 보정값을 저장한다.
-// 즉 보정은 다른 사람과 공유되지 않고, 이 폰/PC에서 이전에 입력한 값만 반영된다.
+// 기본은 이 기기(브라우저)의 localStorage — 오프라인에서도 즉시 읽고 쓸 수 있는 캐시 역할.
+// FIREBASE_CONFIG가 설정되어 있으면 Firestore와 실시간 동기화되어 다른 사용자와 보정값을 공유한다.
 const CALIBRATION_STORAGE_KEY = 'signalCalibrations';
+let firestoreDb = null;
 
 function loadCalibrations() {
   try {
@@ -61,13 +62,41 @@ function loadCalibrations() {
   }
 }
 
+function firebaseConfigured() {
+  return typeof FIREBASE_CONFIG !== 'undefined' && FIREBASE_CONFIG.apiKey
+    && !FIREBASE_CONFIG.apiKey.startsWith('YOUR_');
+}
+
+// 설정되어 있으면 Firestore 'calibrations' 컬렉션을 구독해 변경이 생길 때마다 onRemoteUpdate(전체 보정맵)를 호출한다.
+// 설정 안 돼있으면 조용히 아무 것도 하지 않고 localStorage만 쓰는 이전 동작으로 남는다.
+function initCalibrationSync(onRemoteUpdate) {
+  if (!firebaseConfigured() || typeof firebase === 'undefined') return;
+  try {
+    firebase.initializeApp(FIREBASE_CONFIG);
+    firestoreDb = firebase.firestore();
+    firestoreDb.collection('calibrations').onSnapshot(snapshot => {
+      const remote = {};
+      snapshot.forEach(doc => { remote[doc.id] = doc.data(); });
+      localStorage.setItem(CALIBRATION_STORAGE_KEY, JSON.stringify(remote)); // 오프라인 폴백용 캐시 갱신
+      onRemoteUpdate(remote);
+    }, err => console.error('보정 동기화 실패(로컬 데이터로 계속 동작):', err));
+  } catch (e) {
+    console.error('Firebase 초기화 실패(로컬 전용으로 동작):', e);
+  }
+}
+
 function saveCalibration(id, state, remaining) {
   const calibrations = loadCalibrations();
-  calibrations[id] = {
+  const entry = {
     calibratedAt: new Date().toISOString(),
     state,
     remaining,
   };
+  calibrations[id] = entry;
   localStorage.setItem(CALIBRATION_STORAGE_KEY, JSON.stringify(calibrations));
-  return calibrations[id];
+  if (firestoreDb) {
+    firestoreDb.collection('calibrations').doc(id).set(entry)
+      .catch(e => console.error('보정 공유 실패(이 기기에는 저장됨):', e));
+  }
+  return entry;
 }
