@@ -20,6 +20,28 @@
     .cal-badge { font-size: 11px; padding: 1px 6px; border-radius: 8px; color: #fff; }
     .cal-badge.calibrated { background: #1a73e8; }
     .cal-badge.estimated { background: #999; }
+    .cal-sample { font-size: 11px; color: #555; }
+
+    #proximityBanner {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 2000;
+      display: none; background: #1a73e8; color: #fff;
+      font-size: 14px; box-shadow: 0 2px 8px rgba(0,0,0,.25);
+    }
+    .banner-prompt { padding: 10px 14px; cursor: pointer; }
+    .banner-quick { padding: 10px 14px 14px; background: #fff; color: #222; }
+    .banner-quick-title { font-weight: bold; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+    .banner-close { cursor: pointer; font-size: 16px; color: #888; padding: 0 4px; }
+    .banner-quick-slider { margin: 10px 0; font-size: 13px; }
+    .banner-quick-slider input[type=range] { width: 100%; }
+    .banner-quick-bucket { margin-bottom: 10px; font-size: 13px; }
+    .banner-quick-buttons { display: flex; gap: 10px; }
+    .big-btn {
+      flex: 1; padding: 16px 0; font-size: 16px; font-weight: bold; border: none;
+      border-radius: 10px; color: #fff; cursor: pointer;
+    }
+    .big-btn.green { background: #1a9c1a; }
+    .big-btn.red { background: #d92b2b; }
+    .banner-thanks { padding: 12px 14px; background: #1a9c1a; color: #fff; font-size: 14px; }
   </style>
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon-precomposed" sizes="144x144" href="image/apple-touch-icon-144x144.png" />
@@ -27,6 +49,7 @@
   <meta name="application-name" content="&nbsp;"/>
 </head>
 <body>
+  <div id="proximityBanner"></div>
   <div id="map"></div>
 
   <script>
@@ -44,17 +67,26 @@
 
     const markers = []; // { sig, marker }
     let calibrations = loadCalibrations(); // 이 브라우저(localStorage)에 저장된 보정값
+    let allSignals = []; // boot()에서 채워짐(근접 배너 탐색용)
+
+    function timeBucketOptions(selected) {
+      return Object.keys(TIME_BUCKET_LABELS).map(k =>
+        `<option value="${k}" ${k === selected ? 'selected' : ''}>${TIME_BUCKET_LABELS[k]}</option>`
+      ).join('');
+    }
 
     function infoContent(sig) {
-      const { state, remaining, source, calibratedAt } = getSignalState(sig.cycle, calibrations[sig.id]);
+      const { state, remaining, source, calibratedAt, sampleCount } = getSignalState(sig.cycle, calibrations[sig.id]);
       const badge = source === 'calibrated'
         ? `<span class="cal-badge calibrated">${calibrationAgeLabel(calibratedAt)}</span>`
         : `<span class="cal-badge estimated">추정치(미보정)</span>`;
+      const sampleLabel = sampleCount >= 1 ? `<div class="cal-sample">${sampleCount}명이 확인함</div>` : '';
       return `
         <div style="line-height:1.4; font-size:13px; min-width:200px;">
           <b>${sig.name}</b> ${badge}<br>
           현재 신호: <span style="color:${state==="초록" ? "green":"red"}">${state}</span><br>
           남은 시간: ${remaining}초
+          ${sampleLabel}
           <div class="cal-form">
             지금 이 신호를 보고 계신가요?<br>
             <button onclick="openCalibrateForm('${sig.id}')">지금 신호 알려주기</button>
@@ -75,20 +107,130 @@
             <option value="red">빨강</option>
           </select>
           잔여초: <input id="calremain-${id}" type="number" min="0" style="width:50px;" value="0">
+          시간대:
+          <select id="caltime-${id}">${timeBucketOptions(suggestTimeBucket())}</select>
           <button onclick="submitCalibration('${id}')">전송</button>
         </div>
       `;
     }
 
     function submitCalibration(id) {
+      const sig = markers.find(m => m.sig.id === id)?.sig || allSignals.find(s => s.id === id);
+      if (!sig) return;
       const state = document.getElementById(`calstate-${id}`).value;
       const remaining = Number(document.getElementById(`calremain-${id}`).value);
-      calibrations[id] = saveCalibration(id, state, remaining);
-      refreshMarker(id);
-      const shared = typeof firestoreDb !== 'undefined' && firestoreDb;
-      alert(shared
-        ? '보정 완료! 다른 사용자에게도 실시간으로 공유됩니다.'
-        : '보정 완료! 이 기기에서는 이제 실측 기준으로 표시됩니다. (공유 서버 미설정 — 이 기기에만 저장)');
+      const timeBucket = document.getElementById(`caltime-${id}`).value;
+      saveCalibration(id, sig.cycle, state, remaining, timeBucket).then(entry => {
+        calibrations[id] = entry;
+        refreshMarker(id);
+        const shared = typeof firestoreDb !== 'undefined' && firestoreDb;
+        alert(shared
+          ? `보정 완료! 다른 사용자에게도 실시간으로 공유됩니다. (${entry.sampleCount}명이 확인함)`
+          : '보정 완료! 이 기기에서는 이제 실측 기준으로 표시됩니다. (공유 서버 미설정 — 이 기기에만 저장)');
+      }).catch(err => {
+        console.error('보정 저장 실패:', err);
+        alert('보정 저장에 실패했습니다. 다시 시도해주세요.');
+      });
+    }
+
+    // ---- 크라우드소싱 참여 장벽 낮추기: 근처에 미보정 신호가 있으면 배너로 1탭 제보 유도 ----
+    const NEARBY_RADIUS_M = 100;
+    let bannerSig = null;
+
+    function haversineDistance(lat1, lon1, lat2, lon2) {
+      const toRad = d => d * Math.PI / 180;
+      const R = 6371000;
+      const dLat = toRad(lat2 - lat1), dLon = toRad(lon2 - lon1);
+      const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+      return 2 * R * Math.asin(Math.sqrt(a));
+    }
+
+    function findNearbyUncalibratedSignal(lat, lng) {
+      let best = null;
+      allSignals.forEach(sig => {
+        const { source } = getSignalState(sig.cycle, calibrations[sig.id]);
+        if (source !== 'estimated') return; // 이미 실측 기반이면 굳이 재요청하지 않음
+        const d = haversineDistance(lat, lng, sig.lat, sig.lng);
+        if (d <= NEARBY_RADIUS_M && (!best || d < best.dist)) best = { sig, dist: d };
+      });
+      return best ? best.sig : null;
+    }
+
+    function requestProximityPrompt() {
+      if (!navigator.geolocation) return; // 미지원 브라우저는 조용히 건너뜀
+      navigator.geolocation.getCurrentPosition(pos => {
+        const nearby = findNearbyUncalibratedSignal(pos.coords.latitude, pos.coords.longitude);
+        if (nearby) showProximityBanner(nearby);
+      }, err => {
+        console.warn('위치 권한 거부/실패 — 근접 배너 기능만 비활성화, 나머지 기능은 정상 동작:', err);
+      }, { timeout: 8000, maximumAge: 60000 });
+    }
+
+    function showProximityBanner(sig) {
+      bannerSig = sig;
+      const el = document.getElementById('proximityBanner');
+      el.style.display = 'block';
+      el.innerHTML = `
+        <div class="banner-prompt" onclick="expandProximityBanner()">
+          📍 지금 <b>${sig.name}</b> 신호가 보이시나요? 1탭으로 정확도를 높여주세요 ▸
+        </div>
+      `;
+    }
+
+    function expandProximityBanner() {
+      if (!bannerSig) return;
+      const c = normalizeCycle(bannerSig.cycle);
+      const total = c.green + c.red;
+      const el = document.getElementById('proximityBanner');
+      el.innerHTML = `
+        <div class="banner-quick">
+          <div class="banner-quick-title">
+            ${bannerSig.name} — 지금 신호는?
+            <span class="banner-close" onclick="closeProximityBanner()">✕</span>
+          </div>
+          <div class="banner-quick-slider">
+            남은 시간: <span id="quickRemainVal">5</span>초
+            <input id="quickRemainSlider" type="range" min="0" max="${total}" value="5"
+              oninput="document.getElementById('quickRemainVal').textContent=this.value">
+          </div>
+          <div class="banner-quick-bucket">
+            시간대: <select id="quickTimeBucket">${timeBucketOptions(suggestTimeBucket())}</select>
+          </div>
+          <div class="banner-quick-buttons">
+            <button class="big-btn green" onclick="quickSubmit('green')">🟢 지금 초록</button>
+            <button class="big-btn red" onclick="quickSubmit('red')">🔴 지금 빨강</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function quickSubmit(state) {
+      const sig = bannerSig;
+      if (!sig) return;
+      const remaining = Number(document.getElementById('quickRemainSlider').value);
+      const timeBucket = document.getElementById('quickTimeBucket').value;
+      saveCalibration(sig.id, sig.cycle, state, remaining, timeBucket).then(entry => {
+        calibrations[sig.id] = entry;
+        refreshMarker(sig.id);
+        showProximityThanks(entry);
+      }).catch(err => {
+        console.error('보정 저장 실패:', err);
+        alert('보정 저장에 실패했습니다. 다시 시도해주세요.');
+      });
+    }
+
+    function showProximityThanks(entry) {
+      const el = document.getElementById('proximityBanner');
+      const n = entry.sampleCount || 1;
+      el.innerHTML = `<div class="banner-thanks">감사합니다! 실측 기반으로 전환됨 · ${n}명이 확인함</div>`;
+      setTimeout(closeProximityBanner, 3000);
+    }
+
+    function closeProximityBanner() {
+      const el = document.getElementById('proximityBanner');
+      el.style.display = 'none';
+      el.innerHTML = '';
+      bannerSig = null;
     }
 
     function refreshMarker(id) {
@@ -115,11 +257,15 @@
 
       if (!Array.isArray(signals)) throw new Error("signals.json 형식 오류: 배열 아님");
 
-      const onlyGreenRed = signals.filter(s =>
-        s && s.cycle && Number.isFinite(s.cycle.green) && Number.isFinite(s.cycle.red)
-        && Number.isFinite(s.lat) && Number.isFinite(s.lng)
-      );
+      // cycle은 {green,red} 단일 객체이거나(대부분) [{green,red}, ...] 후보 배열(일부 신호) —
+      // normalizeCycle로 첫 후보를 기준값 삼아 검증한다.
+      const onlyGreenRed = signals.filter(s => {
+        if (!s || !s.cycle || !Number.isFinite(s.lat) || !Number.isFinite(s.lng)) return false;
+        const c = normalizeCycle(s.cycle);
+        return c && Number.isFinite(c.green) && Number.isFinite(c.red);
+      });
       if (onlyGreenRed.length === 0) throw new Error("유효한 신호등 데이터 없음");
+      allSignals = onlyGreenRed;
 
       onlyGreenRed.forEach(sig => {
         const { state } = getSignalState(sig.cycle, calibrations[sig.id]);
@@ -141,6 +287,7 @@
     }
 
     boot().then(() => {
+      requestProximityPrompt();
       initCalibrationSync(remote => {
         calibrations = remote;
         markers.forEach(obj => {
