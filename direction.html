@@ -41,7 +41,17 @@
     #panel h3 { margin: 4px 0; font-size: 14px; }
     #panel button { padding: 6px 10px; margin: 3px 3px 3px 0; cursor: pointer; }
     #panel input[type=number] { width: 60px; }
+    #panel input[type=text] { width: 100%; box-sizing: border-box; padding: 7px 8px; font-size: 13px; border: 1px solid #ccc; border-radius: 6px; }
     .hint { color: #666; font-size: 12px; margin: 6px 0; }
+    .suggestions {
+      display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 50; margin-top: 2px;
+      background: #fff; border: 1px solid #ddd; border-radius: 6px; max-height: 220px; overflow-y: auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,.15);
+    }
+    .sugg-item { padding: 8px 10px; cursor: pointer; border-bottom: 1px solid #f0f0f0; }
+    .sugg-item:hover { background: #f4f6f8; }
+    .sugg-addr { color: #777; font-size: 11px; }
+    .sugg-empty { padding: 8px 10px; color: #999; font-size: 12px; }
     .summary { background: #f4f6f8; padding: 8px; border-radius: 6px; margin: 8px 0; }
     .sig-item { border-left: 4px solid #999; padding: 4px 6px; margin: 4px 0; background: #fafafa; }
     .sig-item.green { border-color: #1a9c1a; }
@@ -68,8 +78,16 @@
     </div>
     <div id="panel">
       <h3>보행 내비게이션</h3>
-      <div class="hint">지도를 클릭해 <b>출발지</b>를 먼저 찍고, 다시 클릭해 <b>도착지</b>를 찍으세요. (작은 박스를 누르면 3D/2D가 서로 바뀝니다)</div>
-      <div>
+      <div class="hint">출발지/도착지를 검색하거나, 지도를 클릭해서 찍을 수도 있습니다. (작은 박스를 누르면 3D/2D가 서로 바뀝니다)</div>
+      <div style="position:relative; margin-top:6px;">
+        <input id="startInput" type="text" placeholder="출발지 검색 (예: 남한고등학교)" autocomplete="off">
+        <div id="startSuggestions" class="suggestions"></div>
+      </div>
+      <div style="position:relative; margin-top:4px;">
+        <input id="goalInput" type="text" placeholder="도착지 검색" autocomplete="off">
+        <div id="goalSuggestions" class="suggestions"></div>
+      </div>
+      <div style="margin-top:6px;">
         <button id="useMyLocBtn">내 위치를 출발지로</button>
         <button id="resetBtn">초기화</button>
       </div>
@@ -416,36 +434,112 @@
       signals = signalsRes.ok ? await signalsRes.json() : [];
     }
 
-    map.on('click', (e) => {
+    // ---- 출발지/도착지 설정 헬퍼(지도클릭·검색·내위치 세 경로가 전부 공유) ----
+    function setStart(latlng, label) {
+      start = latlng;
+      if (startMarker) map.removeLayer(startMarker);
+      startMarker = L.marker(latlng, { icon: blueIcon, title: "출발" }).addTo(map);
+      document.getElementById("startInput").value = label;
+      if (goal) findRoute();
+    }
+
+    function setGoal(latlng, label) {
+      goal = latlng;
+      if (goalMarker) map.removeLayer(goalMarker);
+      goalMarker = L.marker(latlng, { title: "도착" }).addTo(map);
+      document.getElementById("goalInput").value = label;
+      if (start) findRoute();
+    }
+
+    // Tmap 역지오코딩: 좌표 -> 주소 텍스트(입력창 자동 채우기용). 실패해도 좌표로 폴백.
+    async function reverseGeocode(lat, lng) {
+      try {
+        const res = await fetch(`https://apis.openapi.sk.com/tmap/geo/reversegeocoding?version=1&lat=${lat}&lon=${lng}&coordType=WGS84GEO&addressType=A10`, {
+          headers: { appKey: TMAP_APP_KEY }
+        });
+        const data = await res.json();
+        const full = data?.addressInfo?.fullAddress;
+        if (full) return full.split(',')[0];
+      } catch (e) { console.warn('역지오코딩 실패:', e); }
+      return `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+    }
+
+    map.on('click', async (e) => {
       if (view2dEl.classList.contains('pip-mini')) { swapPiP(); return; }
       const latlng = e.latlng;
       if (!start) {
-        start = latlng;
-        if (startMarker) map.removeLayer(startMarker);
-        startMarker = L.marker(latlng, { icon: blueIcon, title: "출발" }).addTo(map);
+        setStatus("주소 확인 중...");
+        setStart(latlng, await reverseGeocode(latlng.lat, latlng.lng));
         setStatus("도착지를 클릭하세요.");
       } else if (!goal) {
-        goal = latlng;
-        if (goalMarker) map.removeLayer(goalMarker);
-        goalMarker = L.marker(latlng, { title: "도착" }).addTo(map);
-        findRoute();
+        setStatus("주소 확인 중...");
+        setGoal(latlng, await reverseGeocode(latlng.lat, latlng.lng));
       } else {
         clearRoute();
-        start = latlng;
-        if (startMarker) map.removeLayer(startMarker);
-        startMarker = L.marker(latlng, { icon: blueIcon, title: "출발" }).addTo(map);
         goal = null;
+        document.getElementById("goalInput").value = "";
+        setStatus("주소 확인 중...");
+        setStart(latlng, await reverseGeocode(latlng.lat, latlng.lng));
         setStatus("도착지를 클릭하세요.");
       }
     });
 
+    // ---- 검색창 자동완성(Tmap POI 검색, 실제 존재하는 장소만 추천) ----
+    function wireSearchInput(inputEl, suggestionsEl, onSelect) {
+      let debounceTimer = null;
+      inputEl.addEventListener('input', () => {
+        clearTimeout(debounceTimer);
+        const q = inputEl.value.trim();
+        if (q.length < 2) { suggestionsEl.style.display = "none"; suggestionsEl.innerHTML = ""; return; }
+        debounceTimer = setTimeout(() => searchPOI(q, suggestionsEl, onSelect), 300);
+      });
+      inputEl.addEventListener('blur', () => setTimeout(() => { suggestionsEl.style.display = "none"; }, 150));
+      inputEl.addEventListener('focus', () => { if (suggestionsEl.innerHTML) suggestionsEl.style.display = "block"; });
+    }
+
+    async function searchPOI(query, suggestionsEl, onSelect) {
+      try {
+        const url = `https://apis.openapi.sk.com/tmap/pois?version=1&format=json&searchKeyword=${encodeURIComponent(query)}` +
+          `&resCoordType=WGS84GEO&reqCoordType=WGS84GEO&count=8&centerLon=127.2046&centerLat=37.5380&radius=10`;
+        const res = await fetch(url, { headers: { appKey: TMAP_APP_KEY } });
+        const data = await res.json();
+        let pois = data?.searchPoiInfo?.pois?.poi || [];
+        if (!Array.isArray(pois)) pois = [pois]; // 결과 1개일 때 배열이 아니라 객체로 오는 Tmap API 특성 보정
+        if (pois.length === 0) {
+          suggestionsEl.innerHTML = '<div class="sugg-empty">검색 결과가 없습니다</div>';
+          suggestionsEl.style.display = "block";
+          return;
+        }
+        suggestionsEl.innerHTML = pois.map((p, i) => {
+          const addr = p.newAddressList?.newAddress?.[0]?.fullAddressRoad
+            || `${p.upperAddrName || ''} ${p.middleAddrName || ''} ${p.lowerAddrName || ''}`.trim();
+          return `<div class="sugg-item" data-idx="${i}"><b>${p.name}</b><br><span class="sugg-addr">${addr}</span></div>`;
+        }).join("");
+        suggestionsEl.style.display = "block";
+        Array.from(suggestionsEl.children).forEach((el, i) => {
+          el.addEventListener('mousedown', (ev) => { // blur보다 먼저 처리되도록 mousedown 사용
+            ev.preventDefault();
+            const p = pois[i];
+            const lat = parseFloat(p.noorLat || p.frontLat);
+            const lng = parseFloat(p.noorLon || p.frontLon);
+            onSelect(L.latLng(lat, lng), p.name);
+            suggestionsEl.style.display = "none";
+          });
+        });
+      } catch (e) {
+        console.error('POI 검색 실패:', e);
+      }
+    }
+
+    wireSearchInput(document.getElementById("startInput"), document.getElementById("startSuggestions"), setStart);
+    wireSearchInput(document.getElementById("goalInput"), document.getElementById("goalSuggestions"), setGoal);
+
     document.getElementById("useMyLocBtn").addEventListener("click", () => {
       if (!navigator.geolocation) { alert("위치 정보를 사용할 수 없습니다."); return; }
-      navigator.geolocation.getCurrentPosition(pos => {
+      navigator.geolocation.getCurrentPosition(async pos => {
         const latlng = L.latLng(pos.coords.latitude, pos.coords.longitude);
-        start = latlng;
-        if (startMarker) map.removeLayer(startMarker);
-        startMarker = L.marker(latlng, { icon: blueIcon, title: "출발" }).addTo(map);
+        setStatus("주소 확인 중...");
+        setStart(latlng, await reverseGeocode(latlng.lat, latlng.lng));
         map.setView(latlng);
         setStatus("도착지를 클릭하세요.");
       }, () => alert("위치를 가져오지 못했습니다."));
@@ -459,6 +553,8 @@
       if (startMarker) map.removeLayer(startMarker);
       if (goalMarker) map.removeLayer(goalMarker);
       startMarker = null; goalMarker = null;
+      document.getElementById("startInput").value = "";
+      document.getElementById("goalInput").value = "";
       setStatus("출발지를 클릭하세요.");
       document.getElementById("summary").innerHTML = "";
       document.getElementById("signalList").innerHTML = "";
