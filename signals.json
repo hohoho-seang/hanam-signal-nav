@@ -17,7 +17,11 @@
       "green": 20,
       "red": 58
     },
-    "id": "sig_01"
+    "id": "sig_01",
+    "official": {
+      "green": 20,
+      "red": 58
+    }
   },
   {
     "name": "경기도 하남시 신장동 423-49",
@@ -69,7 +73,11 @@
         "red": 86
       }
     ],
-    "id": "sig_05"
+    "id": "sig_05",
+    "official": {
+      "green": 24,
+      "red": 114
+    }
   },
   {
     "name": "경기도 하남시 신장동 318-15",
@@ -79,7 +87,11 @@
       "green": 34,
       "red": 106
     },
-    "id": "sig_06"
+    "id": "sig_06",
+    "official": {
+      "green": 34,
+      "red": 106
+    }
   },
   {
     "name": "경기도 하남시 신장동 306-7",
@@ -99,7 +111,11 @@
       "green": 33,
       "red": 67
     },
-    "id": "sig_08"
+    "id": "sig_08",
+    "official": {
+      "green": 33,
+      "red": 67
+    }
   },
   {
     "name": "경기도 하남시 덕풍동 695",
@@ -135,7 +151,11 @@
       "green": 31,
       "red": 109
     },
-    "id": "sig_11"
+    "id": "sig_11",
+    "official": {
+      "green": 34,
+      "red": 106
+    }
   },
   {
     "name": "경기도 하남시 덕풍동 454-2",
@@ -155,7 +175,11 @@
       "green": 27,
       "red": 48
     },
-    "id": "sig_13"
+    "id": "sig_13",
+    "official": {
+      "green": 27,
+      "red": 48
+    }
   },
   {
     "name": "경기도 하남시 덕풍동 450-4",
@@ -195,7 +219,11 @@
       "green": 26,
       "red": 125
     },
-    "id": "sig_17"
+    "id": "sig_17",
+    "official": {
+      "green": 26,
+      "red": 125
+    }
   },
   {
     "name": "경기도 하남시 신장동 571",
@@ -241,7 +269,11 @@
       "green": 34,
       "red": 106
     },
-    "id": "sig_21"
+    "id": "sig_21",
+    "official": {
+      "green": 30,
+      "red": 110
+    }
   },
   {
     "name": "경기도 하남시 신장동 424-1",
@@ -261,7 +293,11 @@
       "green": 40,
       "red": 140
     },
-    "id": "sig_23"
+    "id": "sig_23",
+    "official": {
+      "green": 40,
+      "red": 140
+    }
   },
   {
     "name": "경기도 하남시 신장동 320-3",
@@ -281,7 +317,11 @@
       "green": 26,
       "red": 125
     },
-    "id": "sig_25"
+    "id": "sig_25",
+    "official": {
+      "green": 26,
+      "red": 125
+    }
   },
   {
     "name": "경기도 하남시 덕풍동 646-4",
@@ -331,7 +371,11 @@
       "green": 26,
       "red": 94
     },
-    "id": "sig_30"
+    "id": "sig_30",
+    "official": {
+      "green": 26,
+      "red": 94
+    }
   },
   {
     "name": "경기도 하남시 덕풍동 392-3",
@@ -351,7 +395,11 @@
       "green": 25,
       "red": 95
     },
-    "id": "sig_32"
+    "id": "sig_32",
+    "official": {
+      "green": 25,
+      "red": 95
+    }
   },
   {
     "name": "경기도 하남시 덕풍동 356-9",
@@ -371,7 +419,11 @@
       "green": 26,
       "red": 125
     },
-    "id": "sig_34"
+    "id": "sig_34",
+    "official": {
+      "green": 26,
+      "red": 125
+    }
   },
   {
     "name": "경기도 하남시 덕풍동 419-17",
@@ -391,7 +443,11 @@
       "green": 25,
       "red": 95
     },
-    "id": "sig_36"
+    "id": "sig_36",
+    "official": {
+      "green": 25,
+      "red": 95
+    }
   },
   {
     "name": "경기도 하남시 천현동 591-3",
@@ -401,7 +457,11 @@
       "green": 23,
       "red": 127
     },
-    "id": "sig_37"
+    "id": "sig_37",
+    "official": {
+      "green": 23,
+      "red": 127
+    }
   },
   {
     "name": "경기도 하남시 천현동 194-28",
@@ -462,5 +522,7177 @@
       "red": 56
     },
     "id": "sig_43"
+  },
+  {
+    "name": "경기도 하남시 창우동 532",
+    "lat": 37.5387251,
+    "lng": 127.2289224,
+    "cycle": {
+      "green": 33,
+      "red": 157
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_44"
+  },
+  {
+    "name": "경기도 하남시 춘궁동 산 39-3",
+    "lat": 37.5212473,
+    "lng": 127.186382,
+    "cycle": {
+      "green": 22,
+      "red": 138
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_45"
+  },
+  {
+    "name": "경기도 하남시 춘궁동 589",
+    "lat": 37.5224639,
+    "lng": 127.1897221,
+    "cycle": {
+      "green": 26,
+      "red": 134
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_46"
+  },
+  {
+    "name": "경기도 하남시 창우동 534",
+    "lat": 37.5346076,
+    "lng": 127.2265508,
+    "cycle": {
+      "green": 31,
+      "red": 149
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_47"
+  },
+  {
+    "name": "경기도 하남시 창우동 308-12",
+    "lat": 37.5343556,
+    "lng": 127.2264143,
+    "cycle": {
+      "green": 22,
+      "red": 158
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_48"
+  },
+  {
+    "name": "경기도 하남시 창우동 534",
+    "lat": 37.5344294,
+    "lng": 127.2266549,
+    "cycle": {
+      "green": 31,
+      "red": 149
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_49"
+  },
+  {
+    "name": "경기도 하남시 교산동 317-3",
+    "lat": 37.522399,
+    "lng": 127.1977283,
+    "cycle": {
+      "green": 27,
+      "red": 88
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_50"
+  },
+  {
+    "name": "경기도 하남시 춘궁동 247-2",
+    "lat": 37.5225345,
+    "lng": 127.1974854,
+    "cycle": {
+      "green": 27,
+      "red": 88
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_51"
+  },
+  {
+    "name": "경기도 하남시 교산동 317-2",
+    "lat": 37.5226984,
+    "lng": 127.1978309,
+    "cycle": {
+      "green": 20,
+      "red": 140
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_52"
+  },
+  {
+    "name": "경기도 하남시 교산동 225",
+    "lat": 37.5225168,
+    "lng": 127.1979916,
+    "cycle": {
+      "green": 20,
+      "red": 140
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_53"
+  },
+  {
+    "name": "경기도 하남시 광암동 산 30-15",
+    "lat": 37.5192741,
+    "lng": 127.1753141,
+    "cycle": {
+      "green": 24,
+      "red": 136
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_54"
+  },
+  {
+    "name": "경기도 하남시 창우동 534",
+    "lat": 37.5361936,
+    "lng": 127.2275555,
+    "cycle": {
+      "green": 30,
+      "red": 148
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_55"
+  },
+  {
+    "name": "경기도 하남시 창우동 529-1",
+    "lat": 37.5350465,
+    "lng": 127.224343,
+    "cycle": {
+      "green": 20,
+      "red": 68
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_56"
+  },
+  {
+    "name": "경기도 하남시 창우동 529-1",
+    "lat": 37.5353278,
+    "lng": 127.2232775,
+    "cycle": {
+      "green": 23,
+      "red": 106
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_57"
+  },
+  {
+    "name": "경기도 하남시 창우동 529-1",
+    "lat": 37.5361926,
+    "lng": 127.2221882,
+    "cycle": {
+      "green": 30,
+      "red": 98
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_58"
+  },
+  {
+    "name": "경기도 하남시 창우동 527",
+    "lat": 37.5363885,
+    "lng": 127.2222256,
+    "cycle": {
+      "green": 99,
+      "red": 98
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_59"
+  },
+  {
+    "name": "경기도 하남시 창우동 529-1",
+    "lat": 37.5364137,
+    "lng": 127.2219994,
+    "cycle": {
+      "green": 30,
+      "red": 99
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_60"
+  },
+  {
+    "name": "경기도 하남시 창우동 527",
+    "lat": 37.5371651,
+    "lng": 127.2236818,
+    "cycle": {
+      "green": 34,
+      "red": 54
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_61"
+  },
+  {
+    "name": "경기도 하남시 창우동 527",
+    "lat": 37.5376219,
+    "lng": 127.2239208,
+    "cycle": {
+      "green": 40,
+      "red": 50
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_62"
+  },
+  {
+    "name": "경기도 하남시 창우동 527",
+    "lat": 37.5376869,
+    "lng": 127.2240964,
+    "cycle": {
+      "green": 40,
+      "red": 50
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_63"
+  },
+  {
+    "name": "경기도 하남시 창우동 527",
+    "lat": 37.5385078,
+    "lng": 127.2247466,
+    "cycle": {
+      "green": 22,
+      "red": 72
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_64"
+  },
+  {
+    "name": "경기도 하남시 대청로 119",
+    "lat": 37.5395369,
+    "lng": 127.2249378,
+    "cycle": {
+      "green": 30,
+      "red": 120
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_65"
+  },
+  {
+    "name": "경기도 하남시 대청로 100",
+    "lat": 37.5393091,
+    "lng": 127.2250686,
+    "cycle": {
+      "green": 36,
+      "red": 114
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_66"
+  },
+  {
+    "name": "경기도 하남시 창우동 526",
+    "lat": 37.5393392,
+    "lng": 127.225807,
+    "cycle": {
+      "green": 32,
+      "red": 108
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_67"
+  },
+  {
+    "name": "경기도 하남시 광암동 421-2",
+    "lat": 37.5287374,
+    "lng": 127.1734667,
+    "cycle": {
+      "green": 28,
+      "red": 92
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_68"
+  },
+  {
+    "name": "경기도 하남시 창우동 519-2",
+    "lat": 37.5391327,
+    "lng": 127.227812,
+    "cycle": {
+      "green": 33,
+      "red": 61
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_69"
+  },
+  {
+    "name": "경기도 하남시 창우동 519-2",
+    "lat": 37.5391367,
+    "lng": 127.2280439,
+    "cycle": {
+      "green": 33,
+      "red": 63
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_70"
+  },
+  {
+    "name": "경기도 하남시 신장동 622",
+    "lat": 37.5421289,
+    "lng": 127.2252242,
+    "cycle": {
+      "green": 30,
+      "red": 110
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_71"
+  },
+  {
+    "name": "경기도 하남시 신장동 617",
+    "lat": 37.5423205,
+    "lng": 127.2251767,
+    "cycle": {
+      "green": 27,
+      "red": 113
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_72"
+  },
+  {
+    "name": "경기도 하남시 신장동 622",
+    "lat": 37.5422466,
+    "lng": 127.2249389,
+    "cycle": {
+      "green": 30,
+      "red": 110
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_73"
+  },
+  {
+    "name": "경기도 하남시 대청로 100",
+    "lat": 37.5397932,
+    "lng": 127.2228213,
+    "cycle": {
+      "green": 43,
+      "red": 107
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_74"
+  },
+  {
+    "name": "경기도 하남시 대청로 100",
+    "lat": 37.5399462,
+    "lng": 127.2228641,
+    "cycle": {
+      "green": 43,
+      "red": 107
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_75"
+  },
+  {
+    "name": "경기도 하남시 창우동 526",
+    "lat": 37.5401792,
+    "lng": 127.2211817,
+    "cycle": {
+      "green": 29,
+      "red": 133
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_76"
+  },
+  {
+    "name": "경기도 하남시 신장동 551",
+    "lat": 37.5403574,
+    "lng": 127.2210238,
+    "cycle": {
+      "green": 29,
+      "red": 133
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_77"
+  },
+  {
+    "name": "경기도 하남시 신장동 551",
+    "lat": 37.5402633,
+    "lng": 127.2207492,
+    "cycle": {
+      "green": 29,
+      "red": 133
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_78"
+  },
+  {
+    "name": "경기도 하남시 신장동 552",
+    "lat": 37.5400649,
+    "lng": 127.2208617,
+    "cycle": {
+      "green": 30,
+      "red": 132
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_79"
+  },
+  {
+    "name": "경기도 하남시 신장동 622",
+    "lat": 37.5429285,
+    "lng": 127.2228999,
+    "cycle": {
+      "green": 25,
+      "red": 115
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_80"
+  },
+  {
+    "name": "경기도 하남시 신장동 622",
+    "lat": 37.5430408,
+    "lng": 127.2230572,
+    "cycle": {
+      "green": 34,
+      "red": 106
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_81"
+  },
+  {
+    "name": "경기도 하남시 신장동 611",
+    "lat": 37.5432121,
+    "lng": 127.2230238,
+    "cycle": {
+      "green": 25,
+      "red": 115
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_82"
+  },
+  {
+    "name": "경기도 하남시 신장동 611",
+    "lat": 37.5442157,
+    "lng": 127.2235586,
+    "cycle": {
+      "green": 28,
+      "red": 112
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_83"
+  },
+  {
+    "name": "경기도 하남시 신장동 614",
+    "lat": 37.5442918,
+    "lng": 127.223788,
+    "cycle": {
+      "green": 31,
+      "red": 110
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_84"
+  },
+  {
+    "name": "경기도 하남시 신장동 614",
+    "lat": 37.5437634,
+    "lng": 127.2256874,
+    "cycle": {
+      "green": 28,
+      "red": 112
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_85"
+  },
+  {
+    "name": "경기도 하남시 창우동 529-1",
+    "lat": 37.5371266,
+    "lng": 127.2214103,
+    "cycle": {
+      "green": 25,
+      "red": 104
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_86"
+  },
+  {
+    "name": "경기도 하남시 신장동 107-44",
+    "lat": 37.5409382,
+    "lng": 127.2212094,
+    "cycle": {
+      "green": 22,
+      "red": 63
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_87"
+  },
+  {
+    "name": "경기도 하남시 창우동 525",
+    "lat": 37.5400592,
+    "lng": 127.2227061,
+    "cycle": {
+      "green": 20,
+      "red": 20
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_88"
+  },
+  {
+    "name": "경기도 하남시 신장동 99-1",
+    "lat": 37.5411615,
+    "lng": 127.2210672,
+    "cycle": {
+      "green": 22,
+      "red": 63
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_89"
+  },
+  {
+    "name": "경기도 하남시 대청로 79",
+    "lat": 37.5410934,
+    "lng": 127.2213188,
+    "cycle": {
+      "green": 22,
+      "red": 63
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_90"
+  },
+  {
+    "name": "경기도 하남시 신장동 90-47",
+    "lat": 37.5434726,
+    "lng": 127.2210231,
+    "cycle": {
+      "green": 26,
+      "red": 114
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_91"
+  },
+  {
+    "name": "경기도 하남시 신장동 621",
+    "lat": 37.5435895,
+    "lng": 127.2211678,
+    "cycle": {
+      "green": 25,
+      "red": 115
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_92"
+  },
+  {
+    "name": "경기도 하남시 신장동 621",
+    "lat": 37.5436103,
+    "lng": 127.2208566,
+    "cycle": {
+      "green": 25,
+      "red": 115
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_93"
+  },
+  {
+    "name": "경기도 하남시 신장동 607",
+    "lat": 37.5437271,
+    "lng": 127.2210211,
+    "cycle": {
+      "green": 25,
+      "red": 115
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_94"
+  },
+  {
+    "name": "경기도 하남시 창우동 528",
+    "lat": 37.5385052,
+    "lng": 127.2249234,
+    "cycle": {
+      "green": 21,
+      "red": 73
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_95"
+  },
+  {
+    "name": "경기도 하남시 신장동 607",
+    "lat": 37.5449209,
+    "lng": 127.2210472,
+    "cycle": {
+      "green": 36,
+      "red": 104
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_96"
+  },
+  {
+    "name": "경기도 하남시 신장동 616",
+    "lat": 37.545191,
+    "lng": 127.2211527,
+    "cycle": {
+      "green": 36,
+      "red": 104
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_97"
+  },
+  {
+    "name": "경기도 하남시 신장동 614",
+    "lat": 37.5451036,
+    "lng": 127.2209063,
+    "cycle": {
+      "green": 36,
+      "red": 104
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_98"
+  },
+  {
+    "name": "경기도 하남시 신장동 621",
+    "lat": 37.5435718,
+    "lng": 127.2197759,
+    "cycle": {
+      "green": 24,
+      "red": 116
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_99"
+  },
+  {
+    "name": "경기도 하남시 신장동 621",
+    "lat": 37.5436555,
+    "lng": 127.219564,
+    "cycle": {
+      "green": 24,
+      "red": 116
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_100"
+  },
+  {
+    "name": "경기도 하남시 신장동 621",
+    "lat": 37.5436018,
+    "lng": 127.2193969,
+    "cycle": {
+      "green": 24,
+      "red": 116
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_101"
+  },
+  {
+    "name": "경기도 하남시 신장동 621",
+    "lat": 37.5434505,
+    "lng": 127.219569,
+    "cycle": {
+      "green": 24,
+      "red": 116
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_102"
+  },
+  {
+    "name": "경기도 하남시 신장동 550",
+    "lat": 37.5407623,
+    "lng": 127.2189247,
+    "cycle": {
+      "green": 17,
+      "red": 27
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_103"
+  },
+  {
+    "name": "경기도 하남시 신장동 551",
+    "lat": 37.5406463,
+    "lng": 127.2182794,
+    "cycle": {
+      "green": 28,
+      "red": 126
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_104"
+  },
+  {
+    "name": "경기도 하남시 신장동 551",
+    "lat": 37.5407746,
+    "lng": 127.218325,
+    "cycle": {
+      "green": 28,
+      "red": 122
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_105"
+  },
+  {
+    "name": "경기도 하남시 신장동 551",
+    "lat": 37.5404689,
+    "lng": 127.219218,
+    "cycle": {
+      "green": 28,
+      "red": 122
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_106"
+  },
+  {
+    "name": "경기도 하남시 신장동 551",
+    "lat": 37.5406129,
+    "lng": 127.2192722,
+    "cycle": {
+      "green": 28,
+      "red": 122
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_107"
+  },
+  {
+    "name": "경기도 하남시 신장동 614",
+    "lat": 37.5450037,
+    "lng": 127.2213318,
+    "cycle": {
+      "green": 36,
+      "red": 104
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_108"
+  },
+  {
+    "name": "경기도 하남시 신장동 614",
+    "lat": 37.5456595,
+    "lng": 127.2175189,
+    "cycle": {
+      "green": 26,
+      "red": 114
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_109"
+  },
+  {
+    "name": "경기도 하남시 신장동 614",
+    "lat": 37.5455719,
+    "lng": 127.2174026,
+    "cycle": {
+      "green": 26,
+      "red": 114
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_110"
+  },
+  {
+    "name": "경기도 하남시 신장동 614",
+    "lat": 37.5456689,
+    "lng": 127.2173152,
+    "cycle": {
+      "green": 26,
+      "red": 114
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_111"
+  },
+  {
+    "name": "경기도 하남시 신장동 222-7",
+    "lat": 37.5457701,
+    "lng": 127.2174401,
+    "cycle": {
+      "green": 26,
+      "red": 114
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_112"
+  },
+  {
+    "name": "경기도 하남시 신장동 599",
+    "lat": 37.5444932,
+    "lng": 127.2172665,
+    "cycle": {
+      "green": 19,
+      "red": 41
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_113"
+  },
+  {
+    "name": "경기도 하남시 신장동 599",
+    "lat": 37.5434842,
+    "lng": 127.2172155,
+    "cycle": {
+      "green": 27,
+      "red": 113
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_114"
+  },
+  {
+    "name": "경기도 하남시 신장동 621",
+    "lat": 37.5434006,
+    "lng": 127.2173595,
+    "cycle": {
+      "green": 27,
+      "red": 113
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_115"
+  },
+  {
+    "name": "경기도 하남시 신장동 549",
+    "lat": 37.5433785,
+    "lng": 127.2171218,
+    "cycle": {
+      "green": 27,
+      "red": 113
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_116"
+  },
+  {
+    "name": "경기도 하남시 천현동 473-6",
+    "lat": 37.5278475,
+    "lng": 127.2219839,
+    "cycle": {
+      "green": 24,
+      "red": 136
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_117"
+  },
+  {
+    "name": "경기도 하남시 천현동 471-1",
+    "lat": 37.5279178,
+    "lng": 127.2217267,
+    "cycle": {
+      "green": 24,
+      "red": 136
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_118"
+  },
+  {
+    "name": "경기도 하남시 천현동 587-3",
+    "lat": 37.5314728,
+    "lng": 127.2190248,
+    "cycle": {
+      "green": 22,
+      "red": 138
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_119"
+  },
+  {
+    "name": "경기도 하남시 망월동 1-10",
+    "lat": 37.5604518,
+    "lng": 127.2035048,
+    "cycle": {
+      "green": 26,
+      "red": 144
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_120"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 2-29",
+    "lat": 37.5602104,
+    "lng": 127.2037645,
+    "cycle": {
+      "green": 38,
+      "red": 132
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_121"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 2-29",
+    "lat": 37.5601772,
+    "lng": 127.2034192,
+    "cycle": {
+      "green": 26,
+      "red": 144
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_122"
+  },
+  {
+    "name": "경기도 하남시 망월동 1208",
+    "lat": 37.5595771,
+    "lng": 127.2026677,
+    "cycle": {
+      "green": 33,
+      "red": 137
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_123"
+  },
+  {
+    "name": "경기도 하남시 망월동 1160",
+    "lat": 37.5596226,
+    "lng": 127.2023566,
+    "cycle": {
+      "green": 33,
+      "red": 137
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_124"
+  },
+  {
+    "name": "경기도 하남시 망월동 1208",
+    "lat": 37.5593658,
+    "lng": 127.2023927,
+    "cycle": {
+      "green": 33,
+      "red": 137
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_125"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 843",
+    "lat": 37.559327,
+    "lng": 127.2027152,
+    "cycle": {
+      "green": 33,
+      "red": 137
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_126"
+  },
+  {
+    "name": "경기도 하남시 신장동 427-15",
+    "lat": 37.5379476,
+    "lng": 127.2045412,
+    "cycle": {
+      "green": 26,
+      "red": 125
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_127"
+  },
+  {
+    "name": "경기도 하남시 신장동 513",
+    "lat": 37.5380739,
+    "lng": 127.2044793,
+    "cycle": {
+      "green": 26,
+      "red": 125
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_128"
+  },
+  {
+    "name": "경기도 하남시 신장동 513",
+    "lat": 37.5380399,
+    "lng": 127.2046234,
+    "cycle": {
+      "green": 26,
+      "red": 125
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_129"
+  },
+  {
+    "name": "경기도 하남시 신장동 513",
+    "lat": 37.5380512,
+    "lng": 127.2045697,
+    "cycle": {
+      "green": 26,
+      "red": 125
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_130"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 843",
+    "lat": 37.5581447,
+    "lng": 127.2038352,
+    "cycle": {
+      "green": 21,
+      "red": 98
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_131"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 843",
+    "lat": 37.5581466,
+    "lng": 127.2040333,
+    "cycle": {
+      "green": 21,
+      "red": 98
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_132"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 843",
+    "lat": 37.5583091,
+    "lng": 127.2038527,
+    "cycle": {
+      "green": 21,
+      "red": 98
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_133"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 843",
+    "lat": 37.5571404,
+    "lng": 127.2049812,
+    "cycle": {
+      "green": 25,
+      "red": 95
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_134"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 843",
+    "lat": 37.557289,
+    "lng": 127.2049845,
+    "cycle": {
+      "green": 25,
+      "red": 95
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_135"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 843",
+    "lat": 37.5571378,
+    "lng": 127.2051906,
+    "cycle": {
+      "green": 25,
+      "red": 95
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_136"
+  },
+  {
+    "name": "경기도 하남시 신장동 558",
+    "lat": 37.5357854,
+    "lng": 127.2145937,
+    "cycle": {
+      "green": 34,
+      "red": 146
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_137"
+  },
+  {
+    "name": "경기도 하남시 신장동 558-2",
+    "lat": 37.5357849,
+    "lng": 127.2148624,
+    "cycle": {
+      "green": 34,
+      "red": 146
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_138"
+  },
+  {
+    "name": "경기도 하남시 천현동 106-3",
+    "lat": 37.5354811,
+    "lng": 127.2147371,
+    "cycle": {
+      "green": 34,
+      "red": 146
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_139"
+  },
+  {
+    "name": "경기도 하남시 신장동 558-2",
+    "lat": 37.5380104,
+    "lng": 127.2173467,
+    "cycle": {
+      "green": 29,
+      "red": 109
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_140"
+  },
+  {
+    "name": "경기도 하남시 신장동 552-1",
+    "lat": 37.5381294,
+    "lng": 127.217514,
+    "cycle": {
+      "green": 29,
+      "red": 109
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_141"
+  },
+  {
+    "name": "경기도 하남시 신장동 555",
+    "lat": 37.5381501,
+    "lng": 127.2173471,
+    "cycle": {
+      "green": 29,
+      "red": 109
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_142"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 843",
+    "lat": 37.5559561,
+    "lng": 127.2059909,
+    "cycle": {
+      "green": 18,
+      "red": 112
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_143"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 911",
+    "lat": 37.5558167,
+    "lng": 127.2058377,
+    "cycle": {
+      "green": 18,
+      "red": 112
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_144"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 843",
+    "lat": 37.5557037,
+    "lng": 127.2060242,
+    "cycle": {
+      "green": 18,
+      "red": 112
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_145"
+  },
+  {
+    "name": "경기도 하남시 신장동 537",
+    "lat": 37.5378691,
+    "lng": 127.2132815,
+    "cycle": {
+      "green": 37,
+      "red": 143
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_146"
+  },
+  {
+    "name": "경기도 하남시 신장동 537",
+    "lat": 37.5381893,
+    "lng": 127.2130844,
+    "cycle": {
+      "green": 37,
+      "red": 143
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_147"
+  },
+  {
+    "name": "경기도 하남시 신장동 537",
+    "lat": 37.5388298,
+    "lng": 127.2126506,
+    "cycle": {
+      "green": 42,
+      "red": 139
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_148"
+  },
+  {
+    "name": "경기도 하남시 신장동 537",
+    "lat": 37.5390821,
+    "lng": 127.212657,
+    "cycle": {
+      "green": 42,
+      "red": 139
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_149"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 727",
+    "lat": 37.5554074,
+    "lng": 127.2015332,
+    "cycle": {
+      "green": 30,
+      "red": 70
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_150"
+  },
+  {
+    "name": "경기도 하남시 신장동 537",
+    "lat": 37.5389162,
+    "lng": 127.2121983,
+    "cycle": {
+      "green": 47,
+      "red": 128
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_151"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 727",
+    "lat": 37.5552793,
+    "lng": 127.2013829,
+    "cycle": {
+      "green": 30,
+      "red": 70
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_152"
+  },
+  {
+    "name": "경기도 하남시 신장동 538",
+    "lat": 37.5403246,
+    "lng": 127.2143634,
+    "cycle": {
+      "green": 31,
+      "red": 37
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_153"
+  },
+  {
+    "name": "경기도 하남시 신장동 538",
+    "lat": 37.5404307,
+    "lng": 127.2142364,
+    "cycle": {
+      "green": 31,
+      "red": 37
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_154"
+  },
+  {
+    "name": "경기도 하남시 신장동 538",
+    "lat": 37.5405334,
+    "lng": 127.2147374,
+    "cycle": {
+      "green": 31,
+      "red": 81
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_155"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 727-1",
+    "lat": 37.5547335,
+    "lng": 127.2056763,
+    "cycle": {
+      "green": 24,
+      "red": 107
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_156"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 726-2",
+    "lat": 37.5547557,
+    "lng": 127.2058518,
+    "cycle": {
+      "green": 29,
+      "red": 101
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_157"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 727-1",
+    "lat": 37.554582,
+    "lng": 127.2059928,
+    "cycle": {
+      "green": 24,
+      "red": 106
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_158"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 727-3",
+    "lat": 37.5545351,
+    "lng": 127.2057748,
+    "cycle": {
+      "green": 29,
+      "red": 101
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_159"
+  },
+  {
+    "name": "경기도 하남시 신장동 538",
+    "lat": 37.540653,
+    "lng": 127.2146275,
+    "cycle": {
+      "green": 31,
+      "red": 81
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_160"
+  },
+  {
+    "name": "경기도 하남시 대청로 50-2",
+    "lat": 37.5407693,
+    "lng": 127.2163222,
+    "cycle": {
+      "green": 24,
+      "red": 124
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_161"
+  },
+  {
+    "name": "경기도 하남시 신장동 542",
+    "lat": 37.5409088,
+    "lng": 127.2164245,
+    "cycle": {
+      "green": 24,
+      "red": 124
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_162"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 727",
+    "lat": 37.5547215,
+    "lng": 127.2008778,
+    "cycle": {
+      "green": 30,
+      "red": 70
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_163"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 756",
+    "lat": 37.5546657,
+    "lng": 127.1992197,
+    "cycle": {
+      "green": 22,
+      "red": 158
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_164"
+  },
+  {
+    "name": "경기도 하남시 망월동 1208",
+    "lat": 37.5557426,
+    "lng": 127.1977598,
+    "cycle": {
+      "green": 36,
+      "red": 144
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_165"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 830",
+    "lat": 37.555515,
+    "lng": 127.1978214,
+    "cycle": {
+      "green": 36,
+      "red": 144
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_166"
+  },
+  {
+    "name": "경기도 하남시 망월동 1208",
+    "lat": 37.5558151,
+    "lng": 127.1975195,
+    "cycle": {
+      "green": 37,
+      "red": 143
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_167"
+  },
+  {
+    "name": "경기도 하남시 풍산동 576",
+    "lat": 37.5555989,
+    "lng": 127.1975217,
+    "cycle": {
+      "green": 37,
+      "red": 143
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_168"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 756",
+    "lat": 37.5541079,
+    "lng": 127.2000924,
+    "cycle": {
+      "green": 37,
+      "red": 82
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_169"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 727",
+    "lat": 37.5541502,
+    "lng": 127.2003613,
+    "cycle": {
+      "green": 37,
+      "red": 82
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_170"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 756",
+    "lat": 37.5538799,
+    "lng": 127.2003691,
+    "cycle": {
+      "green": 37,
+      "red": 82
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_171"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 766",
+    "lat": 37.5538466,
+    "lng": 127.2001059,
+    "cycle": {
+      "green": 37,
+      "red": 82
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_172"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 756",
+    "lat": 37.5519059,
+    "lng": 127.2035268,
+    "cycle": {
+      "green": 30,
+      "red": 149
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_173"
+  },
+  {
+    "name": "경기도 하남시 덕풍서로 50",
+    "lat": 37.5516783,
+    "lng": 127.2035801,
+    "cycle": {
+      "green": 30,
+      "red": 149
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_174"
+  },
+  {
+    "name": "경기도 하남시 덕풍서로 50",
+    "lat": 37.5519798,
+    "lng": 127.2037732,
+    "cycle": {
+      "green": 30,
+      "red": 149
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_175"
+  },
+  {
+    "name": "경기도 하남시 덕풍서로 50",
+    "lat": 37.5518061,
+    "lng": 127.2038774,
+    "cycle": {
+      "green": 30,
+      "red": 149
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_176"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 727-3",
+    "lat": 37.5527806,
+    "lng": 127.2043865,
+    "cycle": {
+      "green": 36,
+      "red": 54
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_177"
+  },
+  {
+    "name": "경기도 하남시 하남대로 820",
+    "lat": 37.5418206,
+    "lng": 127.2066309,
+    "cycle": {
+      "green": 41,
+      "red": 139
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_178"
+  },
+  {
+    "name": "경기도 하남시 하남대로 820",
+    "lat": 37.5419055,
+    "lng": 127.2069989,
+    "cycle": {
+      "green": 40,
+      "red": 140
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_179"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 780",
+    "lat": 37.5501546,
+    "lng": 127.2002176,
+    "cycle": {
+      "green": 24,
+      "red": 66
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_180"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 780",
+    "lat": 37.5501751,
+    "lng": 127.2000593,
+    "cycle": {
+      "green": 24,
+      "red": 66
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_181"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 766",
+    "lat": 37.5527152,
+    "lng": 127.1991635,
+    "cycle": {
+      "green": 27,
+      "red": 123
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_182"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 766",
+    "lat": 37.5528075,
+    "lng": 127.1992091,
+    "cycle": {
+      "green": 27,
+      "red": 123
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_183"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 775",
+    "lat": 37.552778,
+    "lng": 127.1993363,
+    "cycle": {
+      "green": 27,
+      "red": 123
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_184"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 761",
+    "lat": 37.5528528,
+    "lng": 127.1990536,
+    "cycle": {
+      "green": 27,
+      "red": 123
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_185"
+  },
+  {
+    "name": "경기도 하남시 신장동 413-1",
+    "lat": 37.5407854,
+    "lng": 127.208611,
+    "cycle": {
+      "green": 38,
+      "red": 142
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_186"
+  },
+  {
+    "name": "경기도 하남시 신장동 413-1",
+    "lat": 37.5408979,
+    "lng": 127.208699,
+    "cycle": {
+      "green": 38,
+      "red": 142
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_187"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 766",
+    "lat": 37.5528997,
+    "lng": 127.1992574,
+    "cycle": {
+      "green": 27,
+      "red": 123
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_188"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 756",
+    "lat": 37.5514098,
+    "lng": 127.2064226,
+    "cycle": {
+      "green": 31,
+      "red": 149
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_189"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 756",
+    "lat": 37.5506991,
+    "lng": 127.2083699,
+    "cycle": {
+      "green": 37,
+      "red": 143
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_190"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 727-4",
+    "lat": 37.5507413,
+    "lng": 127.2086756,
+    "cycle": {
+      "green": 37,
+      "red": 143
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_191"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 756",
+    "lat": 37.5505025,
+    "lng": 127.2087315,
+    "cycle": {
+      "green": 37,
+      "red": 143
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_192"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 792",
+    "lat": 37.5504377,
+    "lng": 127.2084399,
+    "cycle": {
+      "green": 37,
+      "red": 143
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_193"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 727-2",
+    "lat": 37.5493631,
+    "lng": 127.2110397,
+    "cycle": {
+      "green": 30,
+      "red": 150
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_194"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 756",
+    "lat": 37.5493163,
+    "lng": 127.2107425,
+    "cycle": {
+      "green": 34,
+      "red": 146
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_195"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 804",
+    "lat": 37.5490753,
+    "lng": 127.2107644,
+    "cycle": {
+      "green": 30,
+      "red": 150
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_196"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 756",
+    "lat": 37.549131,
+    "lng": 127.2110758,
+    "cycle": {
+      "green": 34,
+      "red": 146
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_197"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 792",
+    "lat": 37.5497468,
+    "lng": 127.2080617,
+    "cycle": {
+      "green": 20,
+      "red": 54
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_198"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 804",
+    "lat": 37.5485895,
+    "lng": 127.2103189,
+    "cycle": {
+      "green": 28,
+      "red": 38
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_199"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 804",
+    "lat": 37.5479869,
+    "lng": 127.2097712,
+    "cycle": {
+      "green": 28,
+      "red": 38
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_200"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 804",
+    "lat": 37.5481353,
+    "lng": 127.2099131,
+    "cycle": {
+      "green": 28,
+      "red": 38
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_201"
+  },
+  {
+    "name": "경기도 하남시 신장동 278-3",
+    "lat": 37.5506905,
+    "lng": 127.2144299,
+    "cycle": {
+      "green": 26,
+      "red": 114
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_202"
+  },
+  {
+    "name": "경기도 하남시 신장동 246-1",
+    "lat": 37.5509269,
+    "lng": 127.214473,
+    "cycle": {
+      "green": 39,
+      "red": 101
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_203"
+  },
+  {
+    "name": "경기도 하남시 신장동 306-10",
+    "lat": 37.5485519,
+    "lng": 127.2124491,
+    "cycle": {
+      "green": 31,
+      "red": 109
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_204"
+  },
+  {
+    "name": "경기도 하남시 신장동 495-1",
+    "lat": 37.5472926,
+    "lng": 127.2113111,
+    "cycle": {
+      "green": 34,
+      "red": 106
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_205"
+  },
+  {
+    "name": "경기도 하남시 신장동 422-3",
+    "lat": 37.5427634,
+    "lng": 127.2071781,
+    "cycle": {
+      "green": 31,
+      "red": 139
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_206"
+  },
+  {
+    "name": "경기도 하남시 신장동 571",
+    "lat": 37.543029,
+    "lng": 127.2072821,
+    "cycle": {
+      "green": 31,
+      "red": 138
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_207"
+  },
+  {
+    "name": "경기도 하남시 신장동 614",
+    "lat": 37.5465501,
+    "lng": 127.2108988,
+    "cycle": {
+      "green": 30,
+      "red": 110
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_208"
+  },
+  {
+    "name": "경기도 하남시 신장동 621",
+    "lat": 37.5428913,
+    "lng": 127.2074514,
+    "cycle": {
+      "green": 33,
+      "red": 86
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_209"
+  },
+  {
+    "name": "경기도 하남시 신장동 320-1",
+    "lat": 37.5465213,
+    "lng": 127.210579,
+    "cycle": {
+      "green": 34,
+      "red": 106
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_210"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 820",
+    "lat": 37.5473748,
+    "lng": 127.2094243,
+    "cycle": {
+      "green": 50,
+      "red": 91
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_211"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 804",
+    "lat": 37.5475663,
+    "lng": 127.2094022,
+    "cycle": {
+      "green": 50,
+      "red": 91
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_212"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 820",
+    "lat": 37.5486151,
+    "lng": 127.2073286,
+    "cycle": {
+      "green": 21,
+      "red": 54
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_213"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 792",
+    "lat": 37.5487953,
+    "lng": 127.2073348,
+    "cycle": {
+      "green": 18,
+      "red": 57
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_214"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 763",
+    "lat": 37.5524587,
+    "lng": 127.1935497,
+    "cycle": {
+      "green": 27,
+      "red": 122
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_215"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 764",
+    "lat": 37.5523482,
+    "lng": 127.1936597,
+    "cycle": {
+      "green": 27,
+      "red": 122
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_216"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 763",
+    "lat": 37.5522313,
+    "lng": 127.1935208,
+    "cycle": {
+      "green": 27,
+      "red": 122
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_217"
+  },
+  {
+    "name": "경기도 하남시 신장동 614",
+    "lat": 37.5461979,
+    "lng": 127.2125612,
+    "cycle": {
+      "green": 32,
+      "red": 107
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_218"
+  },
+  {
+    "name": "경기도 하남시 신장동 590",
+    "lat": 37.5460947,
+    "lng": 127.2123374,
+    "cycle": {
+      "green": 33,
+      "red": 107
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_219"
+  },
+  {
+    "name": "경기도 하남시 신장동 590",
+    "lat": 37.5454031,
+    "lng": 127.2123609,
+    "cycle": {
+      "green": 40,
+      "red": 100
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_220"
+  },
+  {
+    "name": "경기도 하남시 신장동 590",
+    "lat": 37.5451576,
+    "lng": 127.2123716,
+    "cycle": {
+      "green": 40,
+      "red": 100
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_221"
+  },
+  {
+    "name": "경기도 하남시 신장동 590",
+    "lat": 37.5444862,
+    "lng": 127.2124234,
+    "cycle": {
+      "green": 24,
+      "red": 114
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_222"
+  },
+  {
+    "name": "경기도 하남시 신장동 621",
+    "lat": 37.543105,
+    "lng": 127.2101536,
+    "cycle": {
+      "green": 24,
+      "red": 56
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_223"
+  },
+  {
+    "name": "경기도 하남시 신장동 621",
+    "lat": 37.5429995,
+    "lng": 127.2087106,
+    "cycle": {
+      "green": 35,
+      "red": 105
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_224"
+  },
+  {
+    "name": "경기도 하남시 신장동 573",
+    "lat": 37.5431077,
+    "lng": 127.2086458,
+    "cycle": {
+      "green": 33,
+      "red": 104
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_225"
+  },
+  {
+    "name": "경기도 하남시 신장동 621",
+    "lat": 37.5432363,
+    "lng": 127.212301,
+    "cycle": {
+      "green": 24,
+      "red": 114
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_226"
+  },
+  {
+    "name": "경기도 하남시 신장동 590",
+    "lat": 37.5434094,
+    "lng": 127.2124854,
+    "cycle": {
+      "green": 25,
+      "red": 113
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_227"
+  },
+  {
+    "name": "경기도 하남시 신장동 567",
+    "lat": 37.5431075,
+    "lng": 127.2125213,
+    "cycle": {
+      "green": 25,
+      "red": 113
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_228"
+  },
+  {
+    "name": "경기도 하남시 신장동 614",
+    "lat": 37.5462083,
+    "lng": 127.2143011,
+    "cycle": {
+      "green": 24,
+      "red": 116
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_229"
+  },
+  {
+    "name": "경기도 하남시 신장동 614",
+    "lat": 37.5457585,
+    "lng": 127.2163819,
+    "cycle": {
+      "green": 20,
+      "red": 119
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_230"
+  },
+  {
+    "name": "경기도 하남시 신장동 614",
+    "lat": 37.5457422,
+    "lng": 127.2166648,
+    "cycle": {
+      "green": 20,
+      "red": 119
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_231"
+  },
+  {
+    "name": "경기도 하남시 신장동 614",
+    "lat": 37.5456681,
+    "lng": 127.2165457,
+    "cycle": {
+      "green": 20,
+      "red": 119
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_232"
+  },
+  {
+    "name": "경기도 하남시 신장동 597",
+    "lat": 37.5444949,
+    "lng": 127.2163501,
+    "cycle": {
+      "green": 19,
+      "red": 51
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_233"
+  },
+  {
+    "name": "경기도 하남시 신장동 621",
+    "lat": 37.5435534,
+    "lng": 127.2162935,
+    "cycle": {
+      "green": 34,
+      "red": 103
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_234"
+  },
+  {
+    "name": "경기도 하남시 신장동 621",
+    "lat": 37.5434495,
+    "lng": 127.2164658,
+    "cycle": {
+      "green": 34,
+      "red": 103
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_235"
+  },
+  {
+    "name": "경기도 하남시 신장동 621",
+    "lat": 37.5434636,
+    "lng": 127.2161518,
+    "cycle": {
+      "green": 34,
+      "red": 103
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_236"
+  },
+  {
+    "name": "경기도 하남시 신장동 540",
+    "lat": 37.5433282,
+    "lng": 127.2163126,
+    "cycle": {
+      "green": 34,
+      "red": 103
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_237"
+  },
+  {
+    "name": "경기도 하남시 신장동 621",
+    "lat": 37.5434206,
+    "lng": 127.2150314,
+    "cycle": {
+      "green": 32,
+      "red": 106
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_238"
+  },
+  {
+    "name": "경기도 하남시 신장동 567",
+    "lat": 37.5426682,
+    "lng": 127.2125767,
+    "cycle": {
+      "green": 17,
+      "red": 83
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_239"
+  },
+  {
+    "name": "경기도 하남시 신장동 567",
+    "lat": 37.5425417,
+    "lng": 127.2127658,
+    "cycle": {
+      "green": 21,
+      "red": 79
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_240"
+  },
+  {
+    "name": "경기도 하남시 신장동 540",
+    "lat": 37.5421749,
+    "lng": 127.2162923,
+    "cycle": {
+      "green": 29,
+      "red": 110
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_241"
+  },
+  {
+    "name": "경기도 하남시 신장동 539",
+    "lat": 37.5420582,
+    "lng": 127.2160855,
+    "cycle": {
+      "green": 27,
+      "red": 111
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_242"
+  },
+  {
+    "name": "경기도 하남시 신장동 571",
+    "lat": 37.5442547,
+    "lng": 127.2083661,
+    "cycle": {
+      "green": 35,
+      "red": 105
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_243"
+  },
+  {
+    "name": "경기도 하남시 신장동 326-26",
+    "lat": 37.5451642,
+    "lng": 127.2093177,
+    "cycle": {
+      "green": 35,
+      "red": 105
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_244"
+  },
+  {
+    "name": "경기도 하남시 신장동 567",
+    "lat": 37.5401469,
+    "lng": 127.2104875,
+    "cycle": {
+      "green": 22,
+      "red": 33
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_245"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 792",
+    "lat": 37.5456901,
+    "lng": 127.2054987,
+    "cycle": {
+      "green": 24,
+      "red": 61
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_246"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 792",
+    "lat": 37.5476052,
+    "lng": 127.2051956,
+    "cycle": {
+      "green": 22,
+      "red": 68
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_247"
+  },
+  {
+    "name": "경기도 하남시 천현동 419-1",
+    "lat": 37.5317036,
+    "lng": 127.2172351,
+    "cycle": {
+      "green": 40,
+      "red": 138
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_248"
+  },
+  {
+    "name": "경기도 하남시 풍산동 산 20-2",
+    "lat": 37.5465631,
+    "lng": 127.1981089,
+    "cycle": {
+      "green": 40,
+      "red": 130
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_249"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 산 34-2",
+    "lat": 37.5461348,
+    "lng": 127.198303,
+    "cycle": {
+      "green": 40,
+      "red": 130
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_250"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 343-23",
+    "lat": 37.5460542,
+    "lng": 127.1980227,
+    "cycle": {
+      "green": 40,
+      "red": 130
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_251"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 348-56",
+    "lat": 37.5417288,
+    "lng": 127.198396,
+    "cycle": {
+      "green": 21,
+      "red": 54
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_252"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 산 40-23",
+    "lat": 37.5414405,
+    "lng": 127.1984009,
+    "cycle": {
+      "green": 21,
+      "red": 54
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_253"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 662",
+    "lat": 37.5401562,
+    "lng": 127.2012545,
+    "cycle": {
+      "green": 19,
+      "red": 56
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_254"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 산 41-5",
+    "lat": 37.5404295,
+    "lng": 127.1981747,
+    "cycle": {
+      "green": 20,
+      "red": 55
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_255"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 695",
+    "lat": 37.5370201,
+    "lng": 127.2042699,
+    "cycle": {
+      "green": 27,
+      "red": 48
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_256"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 474-15",
+    "lat": 37.5351206,
+    "lng": 127.2046268,
+    "cycle": {
+      "green": 20,
+      "red": 100
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_257"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 508-15",
+    "lat": 37.5330366,
+    "lng": 127.2022763,
+    "cycle": {
+      "green": 25,
+      "red": 135
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_258"
+  },
+  {
+    "name": "경기도 하남시 천현동 249-6",
+    "lat": 37.532235,
+    "lng": 127.2020903,
+    "cycle": {
+      "green": 25,
+      "red": 135
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_259"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 682",
+    "lat": 37.5343975,
+    "lng": 127.1966851,
+    "cycle": {
+      "green": 27,
+      "red": 92
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_260"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 682",
+    "lat": 37.5343613,
+    "lng": 127.1968349,
+    "cycle": {
+      "green": 27,
+      "red": 92
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_261"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 682",
+    "lat": 37.5352568,
+    "lng": 127.1960424,
+    "cycle": {
+      "green": 27,
+      "red": 93
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_262"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 577-6",
+    "lat": 37.5363732,
+    "lng": 127.195177,
+    "cycle": {
+      "green": 27,
+      "red": 92
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_263"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 산 24-2",
+    "lat": 37.5448025,
+    "lng": 127.2002967,
+    "cycle": {
+      "green": 40,
+      "red": 130
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_264"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 산 24-2",
+    "lat": 37.5448992,
+    "lng": 127.2003677,
+    "cycle": {
+      "green": 40,
+      "red": 130
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_265"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 산 24-2",
+    "lat": 37.5449915,
+    "lng": 127.2004358,
+    "cycle": {
+      "green": 40,
+      "red": 130
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_266"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 323-2",
+    "lat": 37.5430144,
+    "lng": 127.2040571,
+    "cycle": {
+      "green": 43,
+      "red": 137
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_267"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 309-224",
+    "lat": 37.5431493,
+    "lng": 127.2041537,
+    "cycle": {
+      "green": 43,
+      "red": 137
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_268"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 310-4",
+    "lat": 37.5432982,
+    "lng": 127.2040381,
+    "cycle": {
+      "green": 40,
+      "red": 140
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_269"
+  },
+  {
+    "name": "경기도 하남시 신장동 406-3",
+    "lat": 37.5405188,
+    "lng": 127.2090601,
+    "cycle": {
+      "green": 38,
+      "red": 142
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_270"
+  },
+  {
+    "name": "경기도 하남시 신장동 406-3",
+    "lat": 37.5406515,
+    "lng": 127.2091736,
+    "cycle": {
+      "green": 38,
+      "red": 142
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_271"
+  },
+  {
+    "name": "경기도 하남시 망월동 1172",
+    "lat": 37.557236,
+    "lng": 127.1964424,
+    "cycle": {
+      "green": 29,
+      "red": 153
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_272"
+  },
+  {
+    "name": "경기도 하남시 망월동 1172",
+    "lat": 37.557457,
+    "lng": 127.1962732,
+    "cycle": {
+      "green": 27,
+      "red": 153
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_273"
+  },
+  {
+    "name": "경기도 하남시 망월동 1177",
+    "lat": 37.5574026,
+    "lng": 127.1965079,
+    "cycle": {
+      "green": 27,
+      "red": 153
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_274"
+  },
+  {
+    "name": "경기도 하남시 풍산동 575",
+    "lat": 37.5572837,
+    "lng": 127.196202,
+    "cycle": {
+      "green": 20,
+      "red": 92
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_275"
+  },
+  {
+    "name": "경기도 하남시 망월동 1172",
+    "lat": 37.5580885,
+    "lng": 127.1957938,
+    "cycle": {
+      "green": 30,
+      "red": 151
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_276"
+  },
+  {
+    "name": "경기도 하남시 망월동 1172",
+    "lat": 37.5593582,
+    "lng": 127.1948436,
+    "cycle": {
+      "green": 29,
+      "red": 151
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_277"
+  },
+  {
+    "name": "경기도 하남시 망월동 1172",
+    "lat": 37.5595928,
+    "lng": 127.194683,
+    "cycle": {
+      "green": 29,
+      "red": 151
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_278"
+  },
+  {
+    "name": "경기도 하남시 망월동 1162",
+    "lat": 37.5595338,
+    "lng": 127.1949092,
+    "cycle": {
+      "green": 20,
+      "red": 95
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_279"
+  },
+  {
+    "name": "경기도 하남시 풍산동 575",
+    "lat": 37.5606864,
+    "lng": 127.193936,
+    "cycle": {
+      "green": 32,
+      "red": 148
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_280"
+  },
+  {
+    "name": "경기도 하남시 망월동 1161",
+    "lat": 37.5609768,
+    "lng": 127.1940924,
+    "cycle": {
+      "green": 35,
+      "red": 145
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_281"
+  },
+  {
+    "name": "경기도 하남시 망월동 90-1",
+    "lat": 37.5610584,
+    "lng": 127.193736,
+    "cycle": {
+      "green": 33,
+      "red": 147
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_282"
+  },
+  {
+    "name": "경기도 하남시 풍산동 555",
+    "lat": 37.5607883,
+    "lng": 127.1936505,
+    "cycle": {
+      "green": 34,
+      "red": 146
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_283"
+  },
+  {
+    "name": "경기도 하남시 망월동 1161",
+    "lat": 37.5601479,
+    "lng": 127.1913116,
+    "cycle": {
+      "green": 26,
+      "red": 154
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_284"
+  },
+  {
+    "name": "경기도 하남시 망월동 830-62",
+    "lat": 37.5603104,
+    "lng": 127.1910687,
+    "cycle": {
+      "green": 27,
+      "red": 153
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_285"
+  },
+  {
+    "name": "경기도 하남시 망월동 1161",
+    "lat": 37.5600315,
+    "lng": 127.1908501,
+    "cycle": {
+      "green": 26,
+      "red": 154
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_286"
+  },
+  {
+    "name": "경기도 하남시 풍산동 554",
+    "lat": 37.5598824,
+    "lng": 127.1911129,
+    "cycle": {
+      "green": 26,
+      "red": 154
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_287"
+  },
+  {
+    "name": "경기도 하남시 풍산동 554",
+    "lat": 37.5585736,
+    "lng": 127.1911718,
+    "cycle": {
+      "green": 17,
+      "red": 83
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_288"
+  },
+  {
+    "name": "경기도 하남시 풍산동 554",
+    "lat": 37.5583325,
+    "lng": 127.1912278,
+    "cycle": {
+      "green": 17,
+      "red": 83
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_289"
+  },
+  {
+    "name": "경기도 하남시 풍산동 564",
+    "lat": 37.5585012,
+    "lng": 127.1913612,
+    "cycle": {
+      "green": 21,
+      "red": 79
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_290"
+  },
+  {
+    "name": "경기도 하남시 풍산동 564",
+    "lat": 37.5586714,
+    "lng": 127.1919982,
+    "cycle": {
+      "green": 25,
+      "red": 74
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_291"
+  },
+  {
+    "name": "경기도 하남시 미사강변동로 47",
+    "lat": 37.5588131,
+    "lng": 127.1920835,
+    "cycle": {
+      "green": 22,
+      "red": 78
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_292"
+  },
+  {
+    "name": "경기도 하남시 풍산동 564",
+    "lat": 37.5587453,
+    "lng": 127.1922701,
+    "cycle": {
+      "green": 25,
+      "red": 74
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_293"
+  },
+  {
+    "name": "경기도 하남시 미사강변중앙로 120",
+    "lat": 37.5585855,
+    "lng": 127.1921904,
+    "cycle": {
+      "green": 22,
+      "red": 78
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_294"
+  },
+  {
+    "name": "경기도 하남시 풍산동 564",
+    "lat": 37.5579796,
+    "lng": 127.1935328,
+    "cycle": {
+      "green": 19,
+      "red": 40
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_295"
+  },
+  {
+    "name": "경기도 하남시 풍산동 564",
+    "lat": 37.5571836,
+    "lng": 127.1940854,
+    "cycle": {
+      "green": 20,
+      "red": 40
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_296"
+  },
+  {
+    "name": "경기도 하남시 풍산동 564",
+    "lat": 37.5559334,
+    "lng": 127.1940821,
+    "cycle": {
+      "green": 27,
+      "red": 73
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_297"
+  },
+  {
+    "name": "경기도 하남시 풍산동 564",
+    "lat": 37.5557966,
+    "lng": 127.1937507,
+    "cycle": {
+      "green": 29,
+      "red": 71
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_298"
+  },
+  {
+    "name": "경기도 하남시 미사강변중앙로 100",
+    "lat": 37.5559474,
+    "lng": 127.1937964,
+    "cycle": {
+      "green": 23,
+      "red": 77
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_299"
+  },
+  {
+    "name": "경기도 하남시 미사강변중앙로 90",
+    "lat": 37.5557647,
+    "lng": 127.1939657,
+    "cycle": {
+      "green": 23,
+      "red": 77
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_300"
+  },
+  {
+    "name": "경기도 하남시 망월동 1029",
+    "lat": 37.570829,
+    "lng": 127.1785053,
+    "cycle": {
+      "green": 30,
+      "red": 80
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_301"
+  },
+  {
+    "name": "경기도 하남시 풍산동 564",
+    "lat": 37.5553457,
+    "lng": 127.1926207,
+    "cycle": {
+      "green": 19,
+      "red": 81
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_302"
+  },
+  {
+    "name": "경기도 하남시 선동 457",
+    "lat": 37.5709871,
+    "lng": 127.1782227,
+    "cycle": {
+      "green": 18,
+      "red": 92
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_303"
+  },
+  {
+    "name": "경기도 하남시 풍산동 554",
+    "lat": 37.5554429,
+    "lng": 127.192403,
+    "cycle": {
+      "green": 21,
+      "red": 79
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_304"
+  },
+  {
+    "name": "경기도 하남시 풍산동 554",
+    "lat": 37.5551657,
+    "lng": 127.1924702,
+    "cycle": {
+      "green": 21,
+      "red": 79
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_305"
+  },
+  {
+    "name": "경기도 하남시 풍산동 554",
+    "lat": 37.5564909,
+    "lng": 127.1920577,
+    "cycle": {
+      "green": 22,
+      "red": 78
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_306"
+  },
+  {
+    "name": "경기도 하남시 망월동 1029",
+    "lat": 37.5711964,
+    "lng": 127.1797825,
+    "cycle": {
+      "green": 28,
+      "red": 72
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_307"
+  },
+  {
+    "name": "경기도 하남시 선동 450",
+    "lat": 37.5715461,
+    "lng": 127.1808955,
+    "cycle": {
+      "green": 47,
+      "red": 133
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_308"
+  },
+  {
+    "name": "경기도 하남시 선동 450",
+    "lat": 37.5716492,
+    "lng": 127.1812155,
+    "cycle": {
+      "green": 47,
+      "red": 133
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_309"
+  },
+  {
+    "name": "경기도 하남시 풍산동 554",
+    "lat": 37.5584364,
+    "lng": 127.1910781,
+    "cycle": {
+      "green": 21,
+      "red": 79
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_310"
+  },
+  {
+    "name": "경기도 하남시 선동 450",
+    "lat": 37.5716001,
+    "lng": 127.1810343,
+    "cycle": {
+      "green": 47,
+      "red": 133
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_311"
+  },
+  {
+    "name": "경기도 하남시 망월동 1029",
+    "lat": 37.5715931,
+    "lng": 127.1810711,
+    "cycle": {
+      "green": 47,
+      "red": 133
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_312"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 763",
+    "lat": 37.5534035,
+    "lng": 127.1929552,
+    "cycle": {
+      "green": 35,
+      "red": 118
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_313"
+  },
+  {
+    "name": "경기도 하남시 망월동 1016",
+    "lat": 37.5714466,
+    "lng": 127.1811273,
+    "cycle": {
+      "green": 47,
+      "red": 133
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_314"
+  },
+  {
+    "name": "경기도 하남시 선동 450",
+    "lat": 37.5717216,
+    "lng": 127.1810006,
+    "cycle": {
+      "green": 47,
+      "red": 133
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_315"
+  },
+  {
+    "name": "경기도 하남시 선동 450",
+    "lat": 37.5719473,
+    "lng": 127.1822124,
+    "cycle": {
+      "green": 34,
+      "red": 146
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_316"
+  },
+  {
+    "name": "경기도 하남시 풍산동 448",
+    "lat": 37.5468406,
+    "lng": 127.1951392,
+    "cycle": {
+      "green": 42,
+      "red": 128
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_317"
+  },
+  {
+    "name": "경기도 하남시 풍산동 389-21",
+    "lat": 37.5470411,
+    "lng": 127.1951199,
+    "cycle": {
+      "green": 42,
+      "red": 128
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_318"
+  },
+  {
+    "name": "경기도 하남시 선동 416",
+    "lat": 37.5722173,
+    "lng": 127.1823602,
+    "cycle": {
+      "green": 32,
+      "red": 148
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_319"
+  },
+  {
+    "name": "경기도 하남시 풍산동 389-25",
+    "lat": 37.5470059,
+    "lng": 127.1946474,
+    "cycle": {
+      "green": 45,
+      "red": 128
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_320"
+  },
+  {
+    "name": "경기도 하남시 선동 431",
+    "lat": 37.5721087,
+    "lng": 127.1827137,
+    "cycle": {
+      "green": 34,
+      "red": 146
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_321"
+  },
+  {
+    "name": "경기도 하남시 풍산동 산 18-1",
+    "lat": 37.5468144,
+    "lng": 127.1946469,
+    "cycle": {
+      "green": 42,
+      "red": 128
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_322"
+  },
+  {
+    "name": "경기도 하남시 망월동 983",
+    "lat": 37.5718184,
+    "lng": 127.182546,
+    "cycle": {
+      "green": 39,
+      "red": 141
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_323"
+  },
+  {
+    "name": "경기도 하남시 망월동 944",
+    "lat": 37.5724983,
+    "lng": 127.1841834,
+    "cycle": {
+      "green": 30,
+      "red": 150
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_324"
+  },
+  {
+    "name": "경기도 하남시 선동 431",
+    "lat": 37.5725541,
+    "lng": 127.1845542,
+    "cycle": {
+      "green": 20,
+      "red": 103
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_325"
+  },
+  {
+    "name": "경기도 하남시 선동 432",
+    "lat": 37.5727232,
+    "lng": 127.1844273,
+    "cycle": {
+      "green": 20,
+      "red": 103
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_326"
+  },
+  {
+    "name": "경기도 하남시 선동 457",
+    "lat": 37.5715774,
+    "lng": 127.1781137,
+    "cycle": {
+      "green": 22,
+      "red": 88
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_327"
+  },
+  {
+    "name": "경기도 하남시 선동 457",
+    "lat": 37.5718162,
+    "lng": 127.1780662,
+    "cycle": {
+      "green": 22,
+      "red": 88
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_328"
+  },
+  {
+    "name": "경기도 하남시 선동 457",
+    "lat": 37.5729976,
+    "lng": 127.1773332,
+    "cycle": {
+      "green": 22,
+      "red": 88
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_329"
+  },
+  {
+    "name": "경기도 하남시 선동 457",
+    "lat": 37.5736177,
+    "lng": 127.1768875,
+    "cycle": {
+      "green": 22,
+      "red": 88
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_330"
+  },
+  {
+    "name": "경기도 하남시 풍산동 631",
+    "lat": 37.5448965,
+    "lng": 127.1925174,
+    "cycle": {
+      "green": 33,
+      "red": 137
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_331"
+  },
+  {
+    "name": "경기도 하남시 선동 457",
+    "lat": 37.5738026,
+    "lng": 127.176738,
+    "cycle": {
+      "green": 22,
+      "red": 88
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_332"
+  },
+  {
+    "name": "경기도 하남시 풍산동 394-9",
+    "lat": 37.5450388,
+    "lng": 127.1922801,
+    "cycle": {
+      "green": 34,
+      "red": 136
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_333"
+  },
+  {
+    "name": "경기도 하남시 풍산동 449-7",
+    "lat": 37.5448972,
+    "lng": 127.1920874,
+    "cycle": {
+      "green": 33,
+      "red": 137
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_334"
+  },
+  {
+    "name": "경기도 하남시 풍산동 394-10",
+    "lat": 37.5447662,
+    "lng": 127.192302,
+    "cycle": {
+      "green": 34,
+      "red": 136
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_335"
+  },
+  {
+    "name": "경기도 하남시 풍산동 393-31",
+    "lat": 37.5466765,
+    "lng": 127.1922193,
+    "cycle": {
+      "green": 25,
+      "red": 145
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_336"
+  },
+  {
+    "name": "경기도 하남시 선동 458",
+    "lat": 37.5749523,
+    "lng": 127.1761379,
+    "cycle": {
+      "green": 18,
+      "red": 83
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_337"
+  },
+  {
+    "name": "경기도 하남시 선동 457",
+    "lat": 37.574815,
+    "lng": 127.1760498,
+    "cycle": {
+      "green": 17,
+      "red": 83
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_338"
+  },
+  {
+    "name": "경기도 하남시 풍산동 604",
+    "lat": 37.547136,
+    "lng": 127.1922091,
+    "cycle": {
+      "green": 25,
+      "red": 145
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_339"
+  },
+  {
+    "name": "경기도 하남시 풍산동 495",
+    "lat": 37.5468789,
+    "lng": 127.1923895,
+    "cycle": {
+      "green": 25,
+      "red": 145
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_340"
+  },
+  {
+    "name": "경기도 하남시 풍산동 495",
+    "lat": 37.5469314,
+    "lng": 127.1920077,
+    "cycle": {
+      "green": 25,
+      "red": 145
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_341"
+  },
+  {
+    "name": "경기도 하남시 선동 416",
+    "lat": 37.5762636,
+    "lng": 127.180406,
+    "cycle": {
+      "green": 31,
+      "red": 150
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_342"
+  },
+  {
+    "name": "경기도 하남시 선동 422",
+    "lat": 37.5762292,
+    "lng": 127.1807483,
+    "cycle": {
+      "green": 23,
+      "red": 157
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_343"
+  },
+  {
+    "name": "경기도 하남시 선동 416",
+    "lat": 37.575984,
+    "lng": 127.1805525,
+    "cycle": {
+      "green": 29,
+      "red": 152
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_344"
+  },
+  {
+    "name": "경기도 하남시 선동 458",
+    "lat": 37.5760453,
+    "lng": 127.1802526,
+    "cycle": {
+      "green": 21,
+      "red": 159
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_345"
+  },
+  {
+    "name": "경기도 하남시 풍산동 605",
+    "lat": 37.5497095,
+    "lng": 127.1929202,
+    "cycle": {
+      "green": 28,
+      "red": 122
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_346"
+  },
+  {
+    "name": "경기도 하남시 풍산동 605",
+    "lat": 37.5499256,
+    "lng": 127.1929971,
+    "cycle": {
+      "green": 28,
+      "red": 122
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_347"
+  },
+  {
+    "name": "경기도 하남시 풍산동 608",
+    "lat": 37.5498037,
+    "lng": 127.1931326,
+    "cycle": {
+      "green": 28,
+      "red": 122
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_348"
+  },
+  {
+    "name": "경기도 하남시 선동 458",
+    "lat": 37.5755034,
+    "lng": 127.1781768,
+    "cycle": {
+      "green": 21,
+      "red": 69
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_349"
+  },
+  {
+    "name": "경기도 하남시 선동 458",
+    "lat": 37.5756779,
+    "lng": 127.1789499,
+    "cycle": {
+      "green": 20,
+      "red": 70
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_350"
+  },
+  {
+    "name": "경기도 하남시 선동 458",
+    "lat": 37.5756152,
+    "lng": 127.1786611,
+    "cycle": {
+      "green": 20,
+      "red": 69
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_351"
+  },
+  {
+    "name": "경기도 하남시 풍산동 608",
+    "lat": 37.5511546,
+    "lng": 127.1935095,
+    "cycle": {
+      "green": 28,
+      "red": 122
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_352"
+  },
+  {
+    "name": "경기도 하남시 풍산동 605",
+    "lat": 37.5512923,
+    "lng": 127.1933571,
+    "cycle": {
+      "green": 28,
+      "red": 122
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_353"
+  },
+  {
+    "name": "경기도 하남시 선동 422",
+    "lat": 37.5767263,
+    "lng": 127.1827165,
+    "cycle": {
+      "green": 20,
+      "red": 100
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_354"
+  },
+  {
+    "name": "경기도 하남시 풍산동 605",
+    "lat": 37.5510828,
+    "lng": 127.1933255,
+    "cycle": {
+      "green": 27,
+      "red": 122
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_355"
+  },
+  {
+    "name": "경기도 하남시 선동 422",
+    "lat": 37.5768069,
+    "lng": 127.1829884,
+    "cycle": {
+      "green": 20,
+      "red": 100
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_356"
+  },
+  {
+    "name": "경기도 하남시 풍산동 554",
+    "lat": 37.5537507,
+    "lng": 127.192775,
+    "cycle": {
+      "green": 35,
+      "red": 118
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_357"
+  },
+  {
+    "name": "경기도 하남시 선동 422",
+    "lat": 37.5772051,
+    "lng": 127.1847638,
+    "cycle": {
+      "green": 26,
+      "red": 94
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_358"
+  },
+  {
+    "name": "경기도 하남시 선동 422",
+    "lat": 37.5772113,
+    "lng": 127.1851601,
+    "cycle": {
+      "green": 26,
+      "red": 101
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_359"
+  },
+  {
+    "name": "경기도 하남시 선동 432",
+    "lat": 37.5770629,
+    "lng": 127.1849842,
+    "cycle": {
+      "green": 26,
+      "red": 94
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_360"
+  },
+  {
+    "name": "경기도 하남시 선동 422",
+    "lat": 37.5769577,
+    "lng": 127.1873641,
+    "cycle": {
+      "green": 24,
+      "red": 106
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_361"
+  },
+  {
+    "name": "경기도 하남시 풍산동 589",
+    "lat": 37.5512295,
+    "lng": 127.1931759,
+    "cycle": {
+      "green": 28,
+      "red": 122
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_362"
+  },
+  {
+    "name": "경기도 하남시 미사강변한강로 110",
+    "lat": 37.5768045,
+    "lng": 127.1874119,
+    "cycle": {
+      "green": 24,
+      "red": 106
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_363"
+  },
+  {
+    "name": "경기도 하남시 선동 422",
+    "lat": 37.5769099,
+    "lng": 127.187698,
+    "cycle": {
+      "green": 24,
+      "red": 106
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_364"
+  },
+  {
+    "name": "경기도 하남시 선동 432",
+    "lat": 37.5742949,
+    "lng": 127.1847963,
+    "cycle": {
+      "green": 29,
+      "red": 101
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_365"
+  },
+  {
+    "name": "경기도 하남시 미사강변대로 270",
+    "lat": 37.5742613,
+    "lng": 127.1846603,
+    "cycle": {
+      "green": 29,
+      "red": 101
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_366"
+  },
+  {
+    "name": "경기도 하남시 선동 427",
+    "lat": 37.5740628,
+    "lng": 127.1848466,
+    "cycle": {
+      "green": 29,
+      "red": 101
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_367"
+  },
+  {
+    "name": "경기도 하남시 풍산동 495",
+    "lat": 37.5499453,
+    "lng": 127.1863063,
+    "cycle": {
+      "green": 40,
+      "red": 140
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_368"
+  },
+  {
+    "name": "경기도 하남시 선동 432",
+    "lat": 37.5740314,
+    "lng": 127.1847362,
+    "cycle": {
+      "green": 29,
+      "red": 101
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_369"
+  },
+  {
+    "name": "경기도 하남시 선동 432",
+    "lat": 37.5753351,
+    "lng": 127.1850451,
+    "cycle": {
+      "green": 20,
+      "red": 40
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_370"
+  },
+  {
+    "name": "경기도 하남시 선동 432",
+    "lat": 37.5763012,
+    "lng": 127.1852144,
+    "cycle": {
+      "green": 27,
+      "red": 103
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_371"
+  },
+  {
+    "name": "경기도 하남시 선동 432",
+    "lat": 37.5765535,
+    "lng": 127.1851811,
+    "cycle": {
+      "green": 26,
+      "red": 104
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_372"
+  },
+  {
+    "name": "경기도 하남시 풍산동 495",
+    "lat": 37.5501313,
+    "lng": 127.1855005,
+    "cycle": {
+      "green": 31,
+      "red": 149
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_373"
+  },
+  {
+    "name": "경기도 하남시 풍산동 495",
+    "lat": 37.5503856,
+    "lng": 127.1856539,
+    "cycle": {
+      "green": 42,
+      "red": 138
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_374"
+  },
+  {
+    "name": "경기도 하남시 미사강변동로 47",
+    "lat": 37.5593947,
+    "lng": 127.1945778,
+    "cycle": {
+      "green": 29,
+      "red": 151
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_375"
+  },
+  {
+    "name": "경기도 하남시 망월동 1115",
+    "lat": 37.5618928,
+    "lng": 127.1931412,
+    "cycle": {
+      "green": 30,
+      "red": 150
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_376"
+  },
+  {
+    "name": "경기도 하남시 망월동 837",
+    "lat": 37.5765085,
+    "lng": 127.1908044,
+    "cycle": {
+      "green": 24,
+      "red": 106
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_377"
+  },
+  {
+    "name": "경기도 하남시 망월동 837",
+    "lat": 37.5764922,
+    "lng": 127.1911072,
+    "cycle": {
+      "green": 24,
+      "red": 106
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_378"
+  },
+  {
+    "name": "경기도 하남시 망월동 854",
+    "lat": 37.5763574,
+    "lng": 127.1909257,
+    "cycle": {
+      "green": 24,
+      "red": 106
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_379"
+  },
+  {
+    "name": "경기도 하남시 상산곡동 891",
+    "lat": 37.4932262,
+    "lng": 127.2338042,
+    "cycle": {
+      "green": 25,
+      "red": 125
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_380"
+  },
+  {
+    "name": "경기도 하남시 망월동 1107",
+    "lat": 37.5618582,
+    "lng": 127.1908633,
+    "cycle": {
+      "green": 23,
+      "red": 67
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_381"
+  },
+  {
+    "name": "경기도 하남시 망월동 759-8",
+    "lat": 37.5624513,
+    "lng": 127.1904743,
+    "cycle": {
+      "green": 22,
+      "red": 68
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_382"
+  },
+  {
+    "name": "경기도 하남시 망월동 109-7",
+    "lat": 37.5620863,
+    "lng": 127.1932747,
+    "cycle": {
+      "green": 30,
+      "red": 150
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_383"
+  },
+  {
+    "name": "경기도 하남시 망월동 102-1",
+    "lat": 37.5618158,
+    "lng": 127.1933956,
+    "cycle": {
+      "green": 30,
+      "red": 150
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_384"
+  },
+  {
+    "name": "경기도 하남시 미사강변한강로 170",
+    "lat": 37.5745861,
+    "lng": 127.1928542,
+    "cycle": {
+      "green": 28,
+      "red": 92
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_385"
+  },
+  {
+    "name": "경기도 하남시 망월동 837",
+    "lat": 37.573416,
+    "lng": 127.1934879,
+    "cycle": {
+      "green": 32,
+      "red": 98
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_386"
+  },
+  {
+    "name": "경기도 하남시 망월동 905",
+    "lat": 37.573236,
+    "lng": 127.1933516,
+    "cycle": {
+      "green": 32,
+      "red": 98
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_387"
+  },
+  {
+    "name": "경기도 하남시 망월동 905-1",
+    "lat": 37.5733142,
+    "lng": 127.1937452,
+    "cycle": {
+      "green": 27,
+      "red": 103
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_388"
+  },
+  {
+    "name": "경기도 하남시 망월동 939",
+    "lat": 37.5731365,
+    "lng": 127.1935947,
+    "cycle": {
+      "green": 27,
+      "red": 103
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_389"
+  },
+  {
+    "name": "경기도 하남시 망월동 220-3",
+    "lat": 37.5692651,
+    "lng": 127.1972805,
+    "cycle": {
+      "green": 48,
+      "red": 132
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_390"
+  },
+  {
+    "name": "경기도 하남시 망월동 939",
+    "lat": 37.5723522,
+    "lng": 127.1938417,
+    "cycle": {
+      "green": 26,
+      "red": 104
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_391"
+  },
+  {
+    "name": "경기도 하남시 망월동 232-4",
+    "lat": 37.5691894,
+    "lng": 127.1967822,
+    "cycle": {
+      "green": 53,
+      "red": 127
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_392"
+  },
+  {
+    "name": "경기도 하남시 망월동 939",
+    "lat": 37.5721155,
+    "lng": 127.193943,
+    "cycle": {
+      "green": 26,
+      "red": 104
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_393"
+  },
+  {
+    "name": "경기도 하남시 망월동 228",
+    "lat": 37.5694865,
+    "lng": 127.1969302,
+    "cycle": {
+      "green": 48,
+      "red": 132
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_394"
+  },
+  {
+    "name": "경기도 하남시 망월동 939",
+    "lat": 37.5711489,
+    "lng": 127.1941527,
+    "cycle": {
+      "green": 25,
+      "red": 104
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_395"
+  },
+  {
+    "name": "경기도 하남시 망월동 232-4",
+    "lat": 37.5689681,
+    "lng": 127.197124,
+    "cycle": {
+      "green": 53,
+      "red": 127
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_396"
+  },
+  {
+    "name": "경기도 하남시 망월동 939",
+    "lat": 37.5707297,
+    "lng": 127.1942677,
+    "cycle": {
+      "green": 25,
+      "red": 104
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_397"
+  },
+  {
+    "name": "경기도 하남시 망월동 763",
+    "lat": 37.561712,
+    "lng": 127.1907667,
+    "cycle": {
+      "green": 16,
+      "red": 74
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_398"
+  },
+  {
+    "name": "경기도 하남시 망월동 939",
+    "lat": 37.5704773,
+    "lng": 127.1943717,
+    "cycle": {
+      "green": 33,
+      "red": 97
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_399"
+  },
+  {
+    "name": "경기도 하남시 망월동 942",
+    "lat": 37.5706528,
+    "lng": 127.1944938,
+    "cycle": {
+      "green": 21,
+      "red": 110
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_400"
+  },
+  {
+    "name": "경기도 하남시 미사강변북로 130",
+    "lat": 37.5721497,
+    "lng": 127.193745,
+    "cycle": {
+      "green": 26,
+      "red": 104
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_401"
+  },
+  {
+    "name": "경기도 하남시 풍산동 496",
+    "lat": 37.5532764,
+    "lng": 127.1850782,
+    "cycle": {
+      "green": 34,
+      "red": 146
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_402"
+  },
+  {
+    "name": "경기도 하남시 망월동 939",
+    "lat": 37.5698529,
+    "lng": 127.1946163,
+    "cycle": {
+      "green": 27,
+      "red": 103
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_403"
+  },
+  {
+    "name": "경기도 하남시 풍산동 523",
+    "lat": 37.5534675,
+    "lng": 127.1853559,
+    "cycle": {
+      "green": 30,
+      "red": 150
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_404"
+  },
+  {
+    "name": "경기도 하남시 망월동 939",
+    "lat": 37.5696545,
+    "lng": 127.1947318,
+    "cycle": {
+      "green": 27,
+      "red": 103
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_405"
+  },
+  {
+    "name": "경기도 하남시 풍산동 496",
+    "lat": 37.5535939,
+    "lng": 127.1851808,
+    "cycle": {
+      "green": 29,
+      "red": 150
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_406"
+  },
+  {
+    "name": "경기도 하남시 풍산동 465",
+    "lat": 37.5533849,
+    "lng": 127.1848635,
+    "cycle": {
+      "green": 30,
+      "red": 150
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_407"
+  },
+  {
+    "name": "경기도 하남시 망월동 929",
+    "lat": 37.5697089,
+    "lng": 127.1945367,
+    "cycle": {
+      "green": 27,
+      "red": 103
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_408"
+  },
+  {
+    "name": "경기도 하남시 망월동 231",
+    "lat": 37.5697782,
+    "lng": 127.1948368,
+    "cycle": {
+      "green": 27,
+      "red": 103
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_409"
+  },
+  {
+    "name": "경기도 하남시 망월동 939",
+    "lat": 37.5690049,
+    "lng": 127.1952593,
+    "cycle": {
+      "green": 31,
+      "red": 150
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_410"
+  },
+  {
+    "name": "경기도 하남시 망월동 943-1",
+    "lat": 37.5689053,
+    "lng": 127.1955816,
+    "cycle": {
+      "green": 30,
+      "red": 150
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_411"
+  },
+  {
+    "name": "경기도 하남시 망월동 943-1",
+    "lat": 37.5688113,
+    "lng": 127.1951965,
+    "cycle": {
+      "green": 30,
+      "red": 150
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_412"
+  },
+  {
+    "name": "경기도 하남시 망월동 830",
+    "lat": 37.5686667,
+    "lng": 127.1954961,
+    "cycle": {
+      "green": 30,
+      "red": 150
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_413"
+  },
+  {
+    "name": "경기도 하남시 풍산동 501",
+    "lat": 37.5576466,
+    "lng": 127.1891124,
+    "cycle": {
+      "green": 23,
+      "red": 47
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_414"
+  },
+  {
+    "name": "경기도 하남시 풍산동 503",
+    "lat": 37.5577234,
+    "lng": 127.1889938,
+    "cycle": {
+      "green": 22,
+      "red": 48
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_415"
+  },
+  {
+    "name": "경기도 하남시 초이동 559-6",
+    "lat": 37.5445144,
+    "lng": 127.1730761,
+    "cycle": {
+      "green": 31,
+      "red": 129
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_416"
+  },
+  {
+    "name": "경기도 하남시 초이동 558",
+    "lat": 37.5445444,
+    "lng": 127.1726405,
+    "cycle": {
+      "green": 25,
+      "red": 135
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_417"
+  },
+  {
+    "name": "경기도 하남시 망월동 1160",
+    "lat": 37.5662523,
+    "lng": 127.196667,
+    "cycle": {
+      "green": 21,
+      "red": 109
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_418"
+  },
+  {
+    "name": "경기도 하남시 망월동 1124",
+    "lat": 37.566043,
+    "lng": 127.1965843,
+    "cycle": {
+      "green": 22,
+      "red": 108
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_419"
+  },
+  {
+    "name": "경기도 하남시 망월동 1160",
+    "lat": 37.5659727,
+    "lng": 127.1968303,
+    "cycle": {
+      "green": 18,
+      "red": 151
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_420"
+  },
+  {
+    "name": "경기도 하남시 망월동 1160",
+    "lat": 37.5647077,
+    "lng": 127.1976703,
+    "cycle": {
+      "green": 38,
+      "red": 91
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_421"
+  },
+  {
+    "name": "경기도 하남시 망월동 1160",
+    "lat": 37.5641168,
+    "lng": 127.1980903,
+    "cycle": {
+      "green": 25,
+      "red": 105
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_422"
+  },
+  {
+    "name": "경기도 하남시 망월동 1160",
+    "lat": 37.5635553,
+    "lng": 127.1985105,
+    "cycle": {
+      "green": 22,
+      "red": 108
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_423"
+  },
+  {
+    "name": "경기도 하남시 풍산동 496",
+    "lat": 37.5559112,
+    "lng": 127.1869068,
+    "cycle": {
+      "green": 34,
+      "red": 145
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_424"
+  },
+  {
+    "name": "경기도 하남시 풍산동 496",
+    "lat": 37.5559155,
+    "lng": 127.1870511,
+    "cycle": {
+      "green": 34,
+      "red": 145
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_425"
+  },
+  {
+    "name": "경기도 하남시 망월동 1160-1",
+    "lat": 37.5634849,
+    "lng": 127.1988215,
+    "cycle": {
+      "green": 22,
+      "red": 108
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_426"
+  },
+  {
+    "name": "경기도 하남시 망월동 1160",
+    "lat": 37.5632034,
+    "lng": 127.1988151,
+    "cycle": {
+      "green": 21,
+      "red": 108
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_427"
+  },
+  {
+    "name": "경기도 하남시 망월동 1160",
+    "lat": 37.561877,
+    "lng": 127.1999378,
+    "cycle": {
+      "green": 25,
+      "red": 105
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_428"
+  },
+  {
+    "name": "경기도 하남시 풍산동 496",
+    "lat": 37.5579731,
+    "lng": 127.1877749,
+    "cycle": {
+      "green": 33,
+      "red": 147
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_429"
+  },
+  {
+    "name": "경기도 하남시 망월동 1160",
+    "lat": 37.5616898,
+    "lng": 127.200107,
+    "cycle": {
+      "green": 25,
+      "red": 105
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_430"
+  },
+  {
+    "name": "경기도 하남시 미사강변한강로 326",
+    "lat": 37.5617171,
+    "lng": 127.1999034,
+    "cycle": {
+      "green": 25,
+      "red": 105
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_431"
+  },
+  {
+    "name": "경기도 하남시 망월동 1160",
+    "lat": 37.5613513,
+    "lng": 127.2004428,
+    "cycle": {
+      "green": 38,
+      "red": 82
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_432"
+  },
+  {
+    "name": "경기도 하남시 풍산동 501",
+    "lat": 37.5581125,
+    "lng": 127.187979,
+    "cycle": {
+      "green": 22,
+      "red": 158
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_433"
+  },
+  {
+    "name": "경기도 하남시 풍산동 496",
+    "lat": 37.5582885,
+    "lng": 127.1877418,
+    "cycle": {
+      "green": 27,
+      "red": 153
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_434"
+  },
+  {
+    "name": "경기도 하남시 풍산동 496",
+    "lat": 37.5581018,
+    "lng": 127.1875914,
+    "cycle": {
+      "green": 22,
+      "red": 158
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_435"
+  },
+  {
+    "name": "경기도 하남시 망월동 1160",
+    "lat": 37.5603494,
+    "lng": 127.2015182,
+    "cycle": {
+      "green": 26,
+      "red": 94
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_436"
+  },
+  {
+    "name": "경기도 하남시 풍산동 496",
+    "lat": 37.5598115,
+    "lng": 127.1875702,
+    "cycle": {
+      "green": 44,
+      "red": 136
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_437"
+  },
+  {
+    "name": "경기도 하남시 망월동 1070",
+    "lat": 37.5600364,
+    "lng": 127.1877801,
+    "cycle": {
+      "green": 44,
+      "red": 136
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_438"
+  },
+  {
+    "name": "경기도 하남시 망월동 1160",
+    "lat": 37.560214,
+    "lng": 127.2016791,
+    "cycle": {
+      "green": 26,
+      "red": 94
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_439"
+  },
+  {
+    "name": "경기도 하남시 망월동 1069",
+    "lat": 37.5602125,
+    "lng": 127.1875174,
+    "cycle": {
+      "green": 44,
+      "red": 136
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_440"
+  },
+  {
+    "name": "경기도 하남시 망월동 1197",
+    "lat": 37.5602075,
+    "lng": 127.2015008,
+    "cycle": {
+      "green": 26,
+      "red": 94
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_441"
+  },
+  {
+    "name": "경기도 하남시 망월동 산 5-7",
+    "lat": 37.5600012,
+    "lng": 127.1872679,
+    "cycle": {
+      "green": 44,
+      "red": 136
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_442"
+  },
+  {
+    "name": "경기도 하남시 학암동 675",
+    "lat": 37.4858363,
+    "lng": 127.1605229,
+    "cycle": {
+      "green": 22,
+      "red": 98
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_443"
+  },
+  {
+    "name": "경기도 하남시 초이동 255-3",
+    "lat": 37.5396878,
+    "lng": 127.171181,
+    "cycle": {
+      "green": 26,
+      "red": 134
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_444"
+  },
+  {
+    "name": "경기도 하남시 학암동 675-3",
+    "lat": 37.485672,
+    "lng": 127.1604717,
+    "cycle": {
+      "green": 22,
+      "red": 98
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_445"
+  },
+  {
+    "name": "경기도 하남시 학암동 675",
+    "lat": 37.4867136,
+    "lng": 127.1597644,
+    "cycle": {
+      "green": 22,
+      "red": 98
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_446"
+  },
+  {
+    "name": "경기도 하남시 학암동 675",
+    "lat": 37.4869594,
+    "lng": 127.1595473,
+    "cycle": {
+      "green": 22,
+      "red": 98
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_447"
+  },
+  {
+    "name": "경기도 하남시 학암동 675",
+    "lat": 37.4877374,
+    "lng": 127.1588677,
+    "cycle": {
+      "green": 20,
+      "red": 100
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_448"
+  },
+  {
+    "name": "경기도 하남시 망월동 1055",
+    "lat": 37.5596786,
+    "lng": 127.1847347,
+    "cycle": {
+      "green": 27,
+      "red": 153
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_449"
+  },
+  {
+    "name": "경기도 하남시 학암동 675-1",
+    "lat": 37.4877805,
+    "lng": 127.1586444,
+    "cycle": {
+      "green": 21,
+      "red": 79
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_450"
+  },
+  {
+    "name": "경기도 하남시 망월동 산 5-4",
+    "lat": 37.5594356,
+    "lng": 127.1845558,
+    "cycle": {
+      "green": 32,
+      "red": 146
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_451"
+  },
+  {
+    "name": "경기도 하남시 풍산동 산 54-1",
+    "lat": 37.5593001,
+    "lng": 127.1847621,
+    "cycle": {
+      "green": 26,
+      "red": 153
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_452"
+  },
+  {
+    "name": "경기도 하남시 학암동 675-1",
+    "lat": 37.4882316,
+    "lng": 127.1582355,
+    "cycle": {
+      "green": 15,
+      "red": 85
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_453"
+  },
+  {
+    "name": "경기도 하남시 풍산동 478",
+    "lat": 37.5580545,
+    "lng": 127.1847222,
+    "cycle": {
+      "green": 27,
+      "red": 113
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_454"
+  },
+  {
+    "name": "경기도 하남시 풍산동 480",
+    "lat": 37.5579079,
+    "lng": 127.1848435,
+    "cycle": {
+      "green": 27,
+      "red": 113
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_455"
+  },
+  {
+    "name": "경기도 하남시 학암동 675",
+    "lat": 37.4884162,
+    "lng": 127.1582953,
+    "cycle": {
+      "green": 15,
+      "red": 85
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_456"
+  },
+  {
+    "name": "경기도 하남시 미사강변서로 85",
+    "lat": 37.5579444,
+    "lng": 127.1845607,
+    "cycle": {
+      "green": 27,
+      "red": 113
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_457"
+  },
+  {
+    "name": "경기도 하남시 풍산동 478",
+    "lat": 37.5577911,
+    "lng": 127.1846621,
+    "cycle": {
+      "green": 27,
+      "red": 113
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_458"
+  },
+  {
+    "name": "경기도 하남시 학암동 675-2",
+    "lat": 37.4883934,
+    "lng": 127.1585044,
+    "cycle": {
+      "green": 21,
+      "red": 79
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_459"
+  },
+  {
+    "name": "경기도 하남시 학암동 675",
+    "lat": 37.4882088,
+    "lng": 127.1584531,
+    "cycle": {
+      "green": 15,
+      "red": 85
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_460"
+  },
+  {
+    "name": "경기도 하남시 풍산동 478",
+    "lat": 37.5564198,
+    "lng": 127.1843588,
+    "cycle": {
+      "green": 23,
+      "red": 48
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_461"
+  },
+  {
+    "name": "경기도 하남시 풍산동 478",
+    "lat": 37.5557398,
+    "lng": 127.1841959,
+    "cycle": {
+      "green": 23,
+      "red": 48
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_462"
+  },
+  {
+    "name": "경기도 하남시 학암동 675",
+    "lat": 37.4891649,
+    "lng": 127.1576749,
+    "cycle": {
+      "green": 26,
+      "red": 134
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_463"
+  },
+  {
+    "name": "경기도 하남시 풍산동 478",
+    "lat": 37.5545892,
+    "lng": 127.1839441,
+    "cycle": {
+      "green": 24,
+      "red": 116
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_464"
+  },
+  {
+    "name": "경기도 하남시 풍산동 478",
+    "lat": 37.5544696,
+    "lng": 127.1840598,
+    "cycle": {
+      "green": 26,
+      "red": 114
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_465"
+  },
+  {
+    "name": "경기도 하남시 초이동 263-13",
+    "lat": 37.5378597,
+    "lng": 127.1705545,
+    "cycle": {
+      "green": 29,
+      "red": 130
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_466"
+  },
+  {
+    "name": "경기도 하남시 풍산동 478",
+    "lat": 37.5544632,
+    "lng": 127.1838164,
+    "cycle": {
+      "green": 26,
+      "red": 114
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_467"
+  },
+  {
+    "name": "경기도 하남시 상산곡동 140-4",
+    "lat": 37.4960062,
+    "lng": 127.2324389,
+    "cycle": {
+      "green": 23,
+      "red": 157
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_468"
+  },
+  {
+    "name": "경기도 하남시 초이동 277-10",
+    "lat": 37.5375063,
+    "lng": 127.1704038,
+    "cycle": {
+      "green": 29,
+      "red": 131
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_469"
+  },
+  {
+    "name": "경기도 하남시 풍산동 478",
+    "lat": 37.5543549,
+    "lng": 127.1839294,
+    "cycle": {
+      "green": 25,
+      "red": 115
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_470"
+  },
+  {
+    "name": "경기도 하남시 풍산동 478",
+    "lat": 37.5534517,
+    "lng": 127.1839045,
+    "cycle": {
+      "green": 25,
+      "red": 156
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_471"
+  },
+  {
+    "name": "경기도 하남시 풍산동 465",
+    "lat": 37.5533411,
+    "lng": 127.184091,
+    "cycle": {
+      "green": 23,
+      "red": 157
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_472"
+  },
+  {
+    "name": "경기도 하남시 풍산동 465",
+    "lat": 37.5533191,
+    "lng": 127.1837373,
+    "cycle": {
+      "green": 23,
+      "red": 157
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_473"
+  },
+  {
+    "name": "경기도 하남시 상산곡동 874",
+    "lat": 37.4822264,
+    "lng": 127.2397792,
+    "cycle": {
+      "green": 24,
+      "red": 136
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_474"
+  },
+  {
+    "name": "경기도 하남시 풍산동 491",
+    "lat": 37.5531499,
+    "lng": 127.1839236,
+    "cycle": {
+      "green": 21,
+      "red": 160
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_475"
+  },
+  {
+    "name": "경기도 하남시 풍산동 495",
+    "lat": 37.5498295,
+    "lng": 127.1840257,
+    "cycle": {
+      "green": 62,
+      "red": 118
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_476"
+  },
+  {
+    "name": "경기도 하남시 풍산동 495",
+    "lat": 37.5496943,
+    "lng": 127.184065,
+    "cycle": {
+      "green": 62,
+      "red": 118
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_477"
+  },
+  {
+    "name": "경기도 하남시 풍산동 495",
+    "lat": 37.5495388,
+    "lng": 127.1840958,
+    "cycle": {
+      "green": 62,
+      "red": 118
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_478"
+  },
+  {
+    "name": "경기도 하남시 초이동 201-7",
+    "lat": 37.5424923,
+    "lng": 127.1756881,
+    "cycle": {
+      "green": 43,
+      "red": 117
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_479"
+  },
+  {
+    "name": "경기도 하남시 망월동 1055",
+    "lat": 37.5617292,
+    "lng": 127.1841965,
+    "cycle": {
+      "green": 29,
+      "red": 111
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_480"
+  },
+  {
+    "name": "경기도 하남시 망월동 1055",
+    "lat": 37.5619771,
+    "lng": 127.1841094,
+    "cycle": {
+      "green": 29,
+      "red": 111
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_481"
+  },
+  {
+    "name": "경기도 하남시 미사강변대로 135",
+    "lat": 37.5618867,
+    "lng": 127.1842874,
+    "cycle": {
+      "green": 27,
+      "red": 113
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_482"
+  },
+  {
+    "name": "경기도 하남시 미사강변동로 90",
+    "lat": 37.5631388,
+    "lng": 127.192901,
+    "cycle": {
+      "green": 38,
+      "red": 141
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_483"
+  },
+  {
+    "name": "경기도 하남시 망월동 1122",
+    "lat": 37.5647054,
+    "lng": 127.1922627,
+    "cycle": {
+      "green": 28,
+      "red": 152
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_484"
+  },
+  {
+    "name": "경기도 하남시 망월동 1097",
+    "lat": 37.564751,
+    "lng": 127.191929,
+    "cycle": {
+      "green": 28,
+      "red": 152
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_485"
+  },
+  {
+    "name": "경기도 하남시 망월동 1124",
+    "lat": 37.5648673,
+    "lng": 127.1923905,
+    "cycle": {
+      "green": 39,
+      "red": 141
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_486"
+  },
+  {
+    "name": "경기도 하남시 망월동 1122",
+    "lat": 37.5649421,
+    "lng": 127.1921247,
+    "cycle": {
+      "green": 29,
+      "red": 151
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_487"
+  },
+  {
+    "name": "경기도 하남시 망월동 1124",
+    "lat": 37.5655033,
+    "lng": 127.1946587,
+    "cycle": {
+      "green": 23,
+      "red": 42
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_488"
+  },
+  {
+    "name": "경기도 하남시 초이동 357-17",
+    "lat": 37.5318575,
+    "lng": 127.1669233,
+    "cycle": {
+      "green": 26,
+      "red": 134
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_489"
+  },
+  {
+    "name": "경기도 하남시 학암동 675-1",
+    "lat": 37.4873076,
+    "lng": 127.1568711,
+    "cycle": {
+      "green": 19,
+      "red": 71
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_490"
+  },
+  {
+    "name": "경기도 하남시 학암동 675-1",
+    "lat": 37.4874901,
+    "lng": 127.1568743,
+    "cycle": {
+      "green": 20,
+      "red": 70
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_491"
+  },
+  {
+    "name": "경기도 하남시 학암동 675-1",
+    "lat": 37.4875309,
+    "lng": 127.1566539,
+    "cycle": {
+      "green": 19,
+      "red": 71
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_492"
+  },
+  {
+    "name": "경기도 하남시 학암동 675-1",
+    "lat": 37.4873732,
+    "lng": 127.1566535,
+    "cycle": {
+      "green": 19,
+      "red": 71
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_493"
+  },
+  {
+    "name": "경기도 하남시 아리수로 600",
+    "lat": 37.5678831,
+    "lng": 127.192568,
+    "cycle": {
+      "green": 21,
+      "red": 67
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_494"
+  },
+  {
+    "name": "경기도 하남시 학암동 675-1",
+    "lat": 37.4882593,
+    "lng": 127.1560222,
+    "cycle": {
+      "green": 23,
+      "red": 137
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_495"
+  },
+  {
+    "name": "경기도 하남시 망월동 943",
+    "lat": 37.5676895,
+    "lng": 127.1911074,
+    "cycle": {
+      "green": 32,
+      "red": 148
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_496"
+  },
+  {
+    "name": "경기도 하남시 초이동 642-2",
+    "lat": 37.5294058,
+    "lng": 127.1692059,
+    "cycle": {
+      "green": 20,
+      "red": 2
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_497"
+  },
+  {
+    "name": "경기도 하남시 망월동 944",
+    "lat": 37.5677824,
+    "lng": 127.190785,
+    "cycle": {
+      "green": 35,
+      "red": 145
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_498"
+  },
+  {
+    "name": "경기도 하남시 망월동 1122",
+    "lat": 37.5674195,
+    "lng": 127.1909397,
+    "cycle": {
+      "green": 29,
+      "red": 145
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_499"
+  },
+  {
+    "name": "경기도 하남시 망월동 943",
+    "lat": 37.5675146,
+    "lng": 127.1906145,
+    "cycle": {
+      "green": 29,
+      "red": 145
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_500"
+  },
+  {
+    "name": "경기도 하남시 망월동 1122",
+    "lat": 37.5666621,
+    "lng": 127.1913198,
+    "cycle": {
+      "green": 28,
+      "red": 152
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_501"
+  },
+  {
+    "name": "경기도 하남시 망월동 1082",
+    "lat": 37.5664325,
+    "lng": 127.1911692,
+    "cycle": {
+      "green": 27,
+      "red": 63
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_502"
+  },
+  {
+    "name": "경기도 하남시 망월동 1122",
+    "lat": 37.5663668,
+    "lng": 127.1914577,
+    "cycle": {
+      "green": 25,
+      "red": 155
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_503"
+  },
+  {
+    "name": "경기도 하남시 초이동 467-1",
+    "lat": 37.5291075,
+    "lng": 127.1651183,
+    "cycle": {
+      "green": 28,
+      "red": 131
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_504"
+  },
+  {
+    "name": "경기도 하남시 망월동 1082",
+    "lat": 37.5659244,
+    "lng": 127.1891843,
+    "cycle": {
+      "green": 26,
+      "red": 64
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_505"
+  },
+  {
+    "name": "경기도 하남시 초이동 642-1",
+    "lat": 37.5292219,
+    "lng": 127.1654438,
+    "cycle": {
+      "green": 29,
+      "red": 131
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_506"
+  },
+  {
+    "name": "경기도 하남시 망월동 1078",
+    "lat": 37.5657624,
+    "lng": 127.1890735,
+    "cycle": {
+      "green": 19,
+      "red": 71
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_507"
+  },
+  {
+    "name": "경기도 하남시 망월동 1078",
+    "lat": 37.5648743,
+    "lng": 127.1894448,
+    "cycle": {
+      "green": 18,
+      "red": 72
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_508"
+  },
+  {
+    "name": "경기도 하남시 망월동 1092",
+    "lat": 37.5648177,
+    "lng": 127.1896569,
+    "cycle": {
+      "green": 26,
+      "red": 64
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_509"
+  },
+  {
+    "name": "경기도 하남시 초이동 504-2",
+    "lat": 37.5254774,
+    "lng": 127.1627968,
+    "cycle": {
+      "green": 29,
+      "red": 131
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_510"
+  },
+  {
+    "name": "경기도 하남시 감북동 37-9",
+    "lat": 37.5251398,
+    "lng": 127.1625755,
+    "cycle": {
+      "green": 29,
+      "red": 131
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_511"
+  },
+  {
+    "name": "경기도 하남시 망월동 883",
+    "lat": 37.5732807,
+    "lng": 127.187969,
+    "cycle": {
+      "green": 27,
+      "red": 53
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_512"
+  },
+  {
+    "name": "경기도 하남시 학암동 675-3",
+    "lat": 37.4846626,
+    "lng": 127.159011,
+    "cycle": {
+      "green": 26,
+      "red": 74
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_513"
+  },
+  {
+    "name": "경기도 하남시 학암동 675-3",
+    "lat": 37.484872,
+    "lng": 127.159034,
+    "cycle": {
+      "green": 26,
+      "red": 74
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_514"
+  },
+  {
+    "name": "경기도 하남시 망월동 883",
+    "lat": 37.5732088,
+    "lng": 127.1878641,
+    "cycle": {
+      "green": 27,
+      "red": 53
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_515"
+  },
+  {
+    "name": "경기도 하남시 망월동 1078",
+    "lat": 37.5646512,
+    "lng": 127.1895659,
+    "cycle": {
+      "green": 19,
+      "red": 71
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_516"
+  },
+  {
+    "name": "경기도 하남시 망월동 1078",
+    "lat": 37.5643176,
+    "lng": 127.1897009,
+    "cycle": {
+      "green": 19,
+      "red": 71
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_517"
+  },
+  {
+    "name": "경기도 하남시 망월동 593-7",
+    "lat": 37.5640403,
+    "lng": 127.189836,
+    "cycle": {
+      "green": 19,
+      "red": 71
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_518"
+  },
+  {
+    "name": "경기도 하남시 망월동 883",
+    "lat": 37.5727692,
+    "lng": 127.1909421,
+    "cycle": {
+      "green": 23,
+      "red": 97
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_519"
+  },
+  {
+    "name": "경기도 하남시 망월동 1097",
+    "lat": 37.564469,
+    "lng": 127.190785,
+    "cycle": {
+      "green": 23,
+      "red": 52
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_520"
+  },
+  {
+    "name": "경기도 하남시 학암동 675-3",
+    "lat": 37.4843804,
+    "lng": 127.1577412,
+    "cycle": {
+      "green": 22,
+      "red": 78
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_521"
+  },
+  {
+    "name": "경기도 하남시 망월동 905",
+    "lat": 37.5726741,
+    "lng": 127.1912078,
+    "cycle": {
+      "green": 23,
+      "red": 97
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_522"
+  },
+  {
+    "name": "경기도 하남시 망월동 905",
+    "lat": 37.5725981,
+    "lng": 127.1908822,
+    "cycle": {
+      "green": 22,
+      "red": 98
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_523"
+  },
+  {
+    "name": "경기도 하남시 학암동 675-3",
+    "lat": 37.4845284,
+    "lng": 127.1565939,
+    "cycle": {
+      "green": 28,
+      "red": 72
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_524"
+  },
+  {
+    "name": "경기도 하남시 망월동 1075",
+    "lat": 37.5665363,
+    "lng": 127.1853996,
+    "cycle": {
+      "green": 35,
+      "red": 146
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_525"
+  },
+  {
+    "name": "경기도 하남시 학암동 675-3",
+    "lat": 37.4845987,
+    "lng": 127.1562294,
+    "cycle": {
+      "green": 28,
+      "red": 72
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_526"
+  },
+  {
+    "name": "경기도 하남시 망월동 943",
+    "lat": 37.5667238,
+    "lng": 127.1850549,
+    "cycle": {
+      "green": 35,
+      "red": 146
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_527"
+  },
+  {
+    "name": "경기도 하남시 망월동 983",
+    "lat": 37.5669465,
+    "lng": 127.1852733,
+    "cycle": {
+      "green": 35,
+      "red": 146
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_528"
+  },
+  {
+    "name": "경기도 하남시 망월동 943",
+    "lat": 37.5667365,
+    "lng": 127.1856294,
+    "cycle": {
+      "green": 35,
+      "red": 146
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_529"
+  },
+  {
+    "name": "경기도 하남시 망월동 943",
+    "lat": 37.5669258,
+    "lng": 127.1883634,
+    "cycle": {
+      "green": 27,
+      "red": 154
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_530"
+  },
+  {
+    "name": "경기도 하남시 망월동 1078",
+    "lat": 37.5668038,
+    "lng": 127.1886376,
+    "cycle": {
+      "green": 24,
+      "red": 75
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_531"
+  },
+  {
+    "name": "경기도 하남시 학암동 675-3",
+    "lat": 37.4848768,
+    "lng": 127.1537171,
+    "cycle": {
+      "green": 23,
+      "red": 87
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_532"
+  },
+  {
+    "name": "경기도 하남시 망월동 943",
+    "lat": 37.5670378,
+    "lng": 127.1887796,
+    "cycle": {
+      "green": 35,
+      "red": 149
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_533"
+  },
+  {
+    "name": "경기도 하남시 학암동 675-3",
+    "lat": 37.4850146,
+    "lng": 127.1534121,
+    "cycle": {
+      "green": 23,
+      "red": 87
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_534"
+  },
+  {
+    "name": "경기도 하남시 학암동 675-3",
+    "lat": 37.4861919,
+    "lng": 127.1522273,
+    "cycle": {
+      "green": 23,
+      "red": 137
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_535"
+  },
+  {
+    "name": "경기도 하남시 초이동 642-2",
+    "lat": 37.529073,
+    "lng": 127.1688007,
+    "cycle": {
+      "green": 21,
+      "red": 1
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_536"
+  },
+  {
+    "name": "경기도 하남시 초이동 642-2",
+    "lat": 37.5289694,
+    "lng": 127.1687666,
+    "cycle": {
+      "green": 21,
+      "red": 1
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_537"
+  },
+  {
+    "name": "경기도 하남시 망월동 944",
+    "lat": 37.5709313,
+    "lng": 127.1894545,
+    "cycle": {
+      "green": 41,
+      "red": 139
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_538"
+  },
+  {
+    "name": "경기도 하남시 초이동 642-2",
+    "lat": 37.5294824,
+    "lng": 127.1691524,
+    "cycle": {
+      "green": 20,
+      "red": 2
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_539"
+  },
+  {
+    "name": "경기도 하남시 학암동 675-4",
+    "lat": 37.4837681,
+    "lng": 127.1487569,
+    "cycle": {
+      "green": 32,
+      "red": 128
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_540"
+  },
+  {
+    "name": "경기도 하남시 망월동 944",
+    "lat": 37.5706428,
+    "lng": 127.1895726,
+    "cycle": {
+      "green": 37,
+      "red": 142
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_541"
+  },
+  {
+    "name": "경기도 하남시 미사강변동로 177",
+    "lat": 37.5707085,
+    "lng": 127.1893181,
+    "cycle": {
+      "green": 29,
+      "red": 151
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_542"
+  },
+  {
+    "name": "경기도 하남시 미사강변동로 180",
+    "lat": 37.5724874,
+    "lng": 127.1910517,
+    "cycle": {
+      "green": 23,
+      "red": 97
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_543"
+  },
+  {
+    "name": "경기도 하남시 미사강변동로 180",
+    "lat": 37.5708543,
+    "lng": 127.1897146,
+    "cycle": {
+      "green": 41,
+      "red": 139
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_544"
+  },
+  {
+    "name": "경기도 하남시 망월동 944",
+    "lat": 37.5699891,
+    "lng": 127.1898483,
+    "cycle": {
+      "green": 30,
+      "red": 151
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_545"
+  },
+  {
+    "name": "경기도 하남시 학암동 675-4",
+    "lat": 37.4840138,
+    "lng": 127.1486811,
+    "cycle": {
+      "green": 32,
+      "red": 128
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_546"
+  },
+  {
+    "name": "경기도 하남시 망월동 944",
+    "lat": 37.5692994,
+    "lng": 127.190138,
+    "cycle": {
+      "green": 39,
+      "red": 140
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_547"
+  },
+  {
+    "name": "경기도 하남시 망월동 910",
+    "lat": 37.5692247,
+    "lng": 127.1903529,
+    "cycle": {
+      "green": 29,
+      "red": 151
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_548"
+  },
+  {
+    "name": "경기도 하남시 학암동 676",
+    "lat": 37.4811183,
+    "lng": 127.1476974,
+    "cycle": {
+      "green": 47,
+      "red": 123
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_549"
+  },
+  {
+    "name": "경기도 하남시 아리수로 565",
+    "lat": 37.5690946,
+    "lng": 127.1899988,
+    "cycle": {
+      "green": 40,
+      "red": 140
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_550"
+  },
+  {
+    "name": "경기도 하남시 망월동 944",
+    "lat": 37.5690559,
+    "lng": 127.1902506,
+    "cycle": {
+      "green": 40,
+      "red": 140
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_551"
+  },
+  {
+    "name": "경기도 하남시 학암동 676-2",
+    "lat": 37.4809603,
+    "lng": 127.1479345,
+    "cycle": {
+      "green": 47,
+      "red": 123
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_552"
+  },
+  {
+    "name": "경기도 하남시 학암동 676",
+    "lat": 37.4808142,
+    "lng": 127.1476657,
+    "cycle": {
+      "green": 47,
+      "red": 123
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_553"
+  },
+  {
+    "name": "경기도 하남시 학암동 676-2",
+    "lat": 37.4809004,
+    "lng": 127.1489858,
+    "cycle": {
+      "green": 22,
+      "red": 67
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_554"
+  },
+  {
+    "name": "경기도 하남시 학암동 676-2",
+    "lat": 37.4807966,
+    "lng": 127.1491269,
+    "cycle": {
+      "green": 22,
+      "red": 67
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_555"
+  },
+  {
+    "name": "경기도 하남시 학암동 676-2",
+    "lat": 37.4809225,
+    "lng": 127.1493109,
+    "cycle": {
+      "green": 22,
+      "red": 67
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_556"
+  },
+  {
+    "name": "경기도 하남시 미사강변한강로 290",
+    "lat": 37.5641622,
+    "lng": 127.1978867,
+    "cycle": {
+      "green": 25,
+      "red": 105
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_557"
+  },
+  {
+    "name": "경기도 하남시 망월동 983",
+    "lat": 37.5697128,
+    "lng": 127.1836841,
+    "cycle": {
+      "green": 34,
+      "red": 147
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_558"
+  },
+  {
+    "name": "경기도 하남시 망월동 965",
+    "lat": 37.5696245,
+    "lng": 127.1839895,
+    "cycle": {
+      "green": 25,
+      "red": 55
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_559"
+  },
+  {
+    "name": "경기도 하남시 망월동 983",
+    "lat": 37.5694512,
+    "lng": 127.1838731,
+    "cycle": {
+      "green": 30,
+      "red": 150
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_560"
+  },
+  {
+    "name": "경기도 하남시 망월동 991",
+    "lat": 37.5694945,
+    "lng": 127.1835562,
+    "cycle": {
+      "green": 25,
+      "red": 155
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_561"
+  },
+  {
+    "name": "경기도 하남시 망월동 1013",
+    "lat": 37.5695635,
+    "lng": 127.1826056,
+    "cycle": {
+      "green": 20,
+      "red": 40
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_562"
+  },
+  {
+    "name": "경기도 하남시 망월동 1039",
+    "lat": 37.566586,
+    "lng": 127.1795082,
+    "cycle": {
+      "green": 30,
+      "red": 100
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_563"
+  },
+  {
+    "name": "경기도 하남시 학암동 676",
+    "lat": 37.478224,
+    "lng": 127.1474995,
+    "cycle": {
+      "green": 39,
+      "red": 141
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_564"
+  },
+  {
+    "name": "경기도 하남시 학암동 676",
+    "lat": 37.4780802,
+    "lng": 127.1472165,
+    "cycle": {
+      "green": 39,
+      "red": 141
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_565"
+  },
+  {
+    "name": "경기도 하남시 학암동 676-3",
+    "lat": 37.4780367,
+    "lng": 127.1477535,
+    "cycle": {
+      "green": 39,
+      "red": 141
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_566"
+  },
+  {
+    "name": "경기도 하남시 학암동 676",
+    "lat": 37.4778614,
+    "lng": 127.1474648,
+    "cycle": {
+      "green": 39,
+      "red": 141
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_567"
+  },
+  {
+    "name": "경기도 하남시 학암동 676-3",
+    "lat": 37.4778508,
+    "lng": 127.1487254,
+    "cycle": {
+      "green": 32,
+      "red": 148
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_568"
+  },
+  {
+    "name": "경기도 하남시 학암동 676-3",
+    "lat": 37.4771082,
+    "lng": 127.1517142,
+    "cycle": {
+      "green": 36,
+      "red": 144
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_569"
+  },
+  {
+    "name": "경기도 하남시 학암동 676-4",
+    "lat": 37.4769257,
+    "lng": 127.1517562,
+    "cycle": {
+      "green": 36,
+      "red": 144
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_570"
+  },
+  {
+    "name": "경기도 하남시 학암동 676-3",
+    "lat": 37.4769546,
+    "lng": 127.1520107,
+    "cycle": {
+      "green": 36,
+      "red": 144
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_571"
+  },
+  {
+    "name": "경기도 하남시 학암동 676-4",
+    "lat": 37.4758885,
+    "lng": 127.1508215,
+    "cycle": {
+      "green": 20,
+      "red": 35
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_572"
+  },
+  {
+    "name": "경기도 하남시 학암동 676-4",
+    "lat": 37.4739901,
+    "lng": 127.1504983,
+    "cycle": {
+      "green": 43,
+      "red": 137
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_573"
+  },
+  {
+    "name": "경기도 하남시 학암동 676-3",
+    "lat": 37.4738366,
+    "lng": 127.1506902,
+    "cycle": {
+      "green": 43,
+      "red": 137
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_574"
+  },
+  {
+    "name": "경기도 하남시 학암동 676-3",
+    "lat": 37.4738371,
+    "lng": 127.1503058,
+    "cycle": {
+      "green": 43,
+      "red": 137
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_575"
+  },
+  {
+    "name": "경기도 하남시 하산곡동 235-1",
+    "lat": 37.5118536,
+    "lng": 127.2255673,
+    "cycle": {
+      "green": 22,
+      "red": 138
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_576"
+  },
+  {
+    "name": "경기도 하남시 망월동 785-8",
+    "lat": 37.5588989,
+    "lng": 127.1820448,
+    "cycle": {
+      "green": 34,
+      "red": 125
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_577"
+  },
+  {
+    "name": "경기도 하남시 학암동 676-3",
+    "lat": 37.4737039,
+    "lng": 127.1505118,
+    "cycle": {
+      "green": 43,
+      "red": 137
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_578"
+  },
+  {
+    "name": "경기도 하남시 하산곡동 204-37",
+    "lat": 37.5152291,
+    "lng": 127.2236913,
+    "cycle": {
+      "green": 24,
+      "red": 136
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_579"
+  },
+  {
+    "name": "경기도 하남시 풍산동 465",
+    "lat": 37.5586109,
+    "lng": 127.1817979,
+    "cycle": {
+      "green": 29,
+      "red": 130
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_580"
+  },
+  {
+    "name": "경기도 하남시 망월동 1197",
+    "lat": 37.5592481,
+    "lng": 127.2001147,
+    "cycle": {
+      "green": 29,
+      "red": 56
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_581"
+  },
+  {
+    "name": "경기도 하남시 망월동 1187",
+    "lat": 37.5591579,
+    "lng": 127.2001229,
+    "cycle": {
+      "green": 29,
+      "red": 56
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_582"
+  },
+  {
+    "name": "경기도 하남시 천현동 535-8",
+    "lat": 37.5223312,
+    "lng": 127.2213383,
+    "cycle": {
+      "green": 31,
+      "red": 128
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_583"
+  },
+  {
+    "name": "경기도 하남시 학암동 676",
+    "lat": 37.4739517,
+    "lng": 127.1469512,
+    "cycle": {
+      "green": 40,
+      "red": 139
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_584"
+  },
+  {
+    "name": "경기도 하남시 망월동 1187",
+    "lat": 37.5592415,
+    "lng": 127.2000043,
+    "cycle": {
+      "green": 29,
+      "red": 56
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_585"
+  },
+  {
+    "name": "경기도 하남시 천현동 535-13",
+    "lat": 37.5224851,
+    "lng": 127.2215707,
+    "cycle": {
+      "green": 25,
+      "red": 135
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_586"
+  },
+  {
+    "name": "경기도 하남시 천현동 525-9",
+    "lat": 37.5226071,
+    "lng": 127.2213264,
+    "cycle": {
+      "green": 31,
+      "red": 129
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_587"
+  },
+  {
+    "name": "경기도 하남시 학암동 676-3",
+    "lat": 37.473969,
+    "lng": 127.1474996,
+    "cycle": {
+      "green": 40,
+      "red": 140
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_588"
+  },
+  {
+    "name": "경기도 하남시 천현동 512-4",
+    "lat": 37.5224982,
+    "lng": 127.2211677,
+    "cycle": {
+      "green": 32,
+      "red": 125
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_589"
+  },
+  {
+    "name": "경기도 하남시 학암동 676-3",
+    "lat": 37.4739274,
+    "lng": 127.1483191,
+    "cycle": {
+      "green": 22,
+      "red": 158
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_590"
+  },
+  {
+    "name": "경기도 하남시 망월동 1187-1",
+    "lat": 37.5597897,
+    "lng": 127.1994964,
+    "cycle": {
+      "green": 29,
+      "red": 56
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_591"
+  },
+  {
+    "name": "경기도 하남시 망월동 1187",
+    "lat": 37.5598102,
+    "lng": 127.199355,
+    "cycle": {
+      "green": 29,
+      "red": 56
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_592"
+  },
+  {
+    "name": "경기도 하남시 학암동 676-3",
+    "lat": 37.4736923,
+    "lng": 127.1542481,
+    "cycle": {
+      "green": 29,
+      "red": 80
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_593"
+  },
+  {
+    "name": "경기도 하남시 학암동 676-3",
+    "lat": 37.4738384,
+    "lng": 127.1544802,
+    "cycle": {
+      "green": 29,
+      "red": 80
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_594"
+  },
+  {
+    "name": "경기도 하남시 학암동 676-3",
+    "lat": 37.4745772,
+    "lng": 127.1545043,
+    "cycle": {
+      "green": 26,
+      "red": 84
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_595"
+  },
+  {
+    "name": "경기도 하남시 학암동 676-3",
+    "lat": 37.4748814,
+    "lng": 127.154454,
+    "cycle": {
+      "green": 26,
+      "red": 84
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_596"
+  },
+  {
+    "name": "경기도 하남시 풍산동 465",
+    "lat": 37.5530701,
+    "lng": 127.1815977,
+    "cycle": {
+      "green": 26,
+      "red": 102
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_597"
+  },
+  {
+    "name": "경기도 하남시 풍산동 465",
+    "lat": 37.5531601,
+    "lng": 127.1817196,
+    "cycle": {
+      "green": 26,
+      "red": 102
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_598"
+  },
+  {
+    "name": "경기도 하남시 풍산동 465",
+    "lat": 37.5532751,
+    "lng": 127.1815699,
+    "cycle": {
+      "green": 26,
+      "red": 93
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_599"
+  },
+  {
+    "name": "경기도 하남시 풍산동 465",
+    "lat": 37.554372,
+    "lng": 127.181649,
+    "cycle": {
+      "green": 18,
+      "red": 100
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_600"
+  },
+  {
+    "name": "경기도 하남시 풍산동 465",
+    "lat": 37.5544687,
+    "lng": 127.1817143,
+    "cycle": {
+      "green": 22,
+      "red": 97
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_601"
+  },
+  {
+    "name": "경기도 하남시 풍산동 465",
+    "lat": 37.5546265,
+    "lng": 127.1816411,
+    "cycle": {
+      "green": 22,
+      "red": 97
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_602"
+  },
+  {
+    "name": "경기도 하남시 위례광장로 285",
+    "lat": 37.4752802,
+    "lng": 127.1436725,
+    "cycle": {
+      "green": 27,
+      "red": 83
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_603"
+  },
+  {
+    "name": "경기도 하남시 학암동 676-5",
+    "lat": 37.4741179,
+    "lng": 127.1436618,
+    "cycle": {
+      "green": 22,
+      "red": 85
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_604"
+  },
+  {
+    "name": "경기도 하남시 풍산동 465",
+    "lat": 37.5555746,
+    "lng": 127.1817566,
+    "cycle": {
+      "green": 38,
+      "red": 83
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_605"
+  },
+  {
+    "name": "경기도 하남시 풍산동 465",
+    "lat": 37.5567165,
+    "lng": 127.1818442,
+    "cycle": {
+      "green": 18,
+      "red": 110
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_606"
+  },
+  {
+    "name": "경기도 하남시 풍산동 465",
+    "lat": 37.5568268,
+    "lng": 127.1819237,
+    "cycle": {
+      "green": 18,
+      "red": 110
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_607"
+  },
+  {
+    "name": "경기도 하남시 배알미동 산 135-4",
+    "lat": 37.5257294,
+    "lng": 127.2757828,
+    "cycle": {
+      "green": 25,
+      "red": 105
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_608"
+  },
+  {
+    "name": "경기도 하남시 망월동 1055",
+    "lat": 37.5664802,
+    "lng": 127.1823745,
+    "cycle": {
+      "green": 24,
+      "red": 156
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_609"
+  },
+  {
+    "name": "경기도 하남시 망월동 1039",
+    "lat": 37.5666669,
+    "lng": 127.1825532,
+    "cycle": {
+      "green": 26,
+      "red": 154
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_610"
+  },
+  {
+    "name": "경기도 하남시 망월동 1039",
+    "lat": 37.5666473,
+    "lng": 127.1821202,
+    "cycle": {
+      "green": 24,
+      "red": 156
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_611"
+  },
+  {
+    "name": "경기도 하남시 망월동 1055",
+    "lat": 37.5629756,
+    "lng": 127.1836648,
+    "cycle": {
+      "green": 22,
+      "red": 28
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_612"
+  },
+  {
+    "name": "경기도 하남시 망월동 1055",
+    "lat": 37.563742,
+    "lng": 127.1833356,
+    "cycle": {
+      "green": 22,
+      "red": 28
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_613"
+  },
+  {
+    "name": "경기도 하남시 감일동 515",
+    "lat": 37.5116687,
+    "lng": 127.1550671,
+    "cycle": {
+      "green": 28,
+      "red": 113
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_614"
+  },
+  {
+    "name": "경기도 하남시 감일동 515",
+    "lat": 37.5117811,
+    "lng": 127.1552596,
+    "cycle": {
+      "green": 35,
+      "red": 105
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_615"
+  },
+  {
+    "name": "경기도 하남시 감일동 526",
+    "lat": 37.5115286,
+    "lng": 127.1554202,
+    "cycle": {
+      "green": 27,
+      "red": 113
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_616"
+  },
+  {
+    "name": "경기도 하남시 감일동 306-55",
+    "lat": 37.5083873,
+    "lng": 127.1529778,
+    "cycle": {
+      "green": 33,
+      "red": 117
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_617"
+  },
+  {
+    "name": "경기도 하남시 감일동 318-4",
+    "lat": 37.5084184,
+    "lng": 127.1532649,
+    "cycle": {
+      "green": 37,
+      "red": 113
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_618"
+  },
+  {
+    "name": "경기도 하남시 감이동 437-47",
+    "lat": 37.5082042,
+    "lng": 127.1534722,
+    "cycle": {
+      "green": 33,
+      "red": 117
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_619"
+  },
+  {
+    "name": "경기도 하남시 감일동 306-58",
+    "lat": 37.5081258,
+    "lng": 127.1531116,
+    "cycle": {
+      "green": 37,
+      "red": 103
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_620"
+  },
+  {
+    "name": "경기도 하남시 감일동 512",
+    "lat": 37.5091619,
+    "lng": 127.151379,
+    "cycle": {
+      "green": 28,
+      "red": 112
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_621"
+  },
+  {
+    "name": "경기도 하남시 감일동 311",
+    "lat": 37.5089591,
+    "lng": 127.1514492,
+    "cycle": {
+      "green": 28,
+      "red": 112
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_622"
+  },
+  {
+    "name": "경기도 하남시 감일동 309",
+    "lat": 37.5088491,
+    "lng": 127.1511889,
+    "cycle": {
+      "green": 28,
+      "red": 112
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_623"
+  },
+  {
+    "name": "경기도 하남시 감일동 산 59-141",
+    "lat": 37.5083028,
+    "lng": 127.1503084,
+    "cycle": {
+      "green": 18,
+      "red": 52
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_624"
+  },
+  {
+    "name": "경기도 하남시 감일동 산 59-141",
+    "lat": 37.5084224,
+    "lng": 127.1501333,
+    "cycle": {
+      "green": 18,
+      "red": 52
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_625"
+  },
+  {
+    "name": "경기도 하남시 감이동 189-1",
+    "lat": 37.5067144,
+    "lng": 127.1575691,
+    "cycle": {
+      "green": 30,
+      "red": 111
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_626"
+  },
+  {
+    "name": "경기도 하남시 감이동 189-1",
+    "lat": 37.5065901,
+    "lng": 127.1579053,
+    "cycle": {
+      "green": 30,
+      "red": 119
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_627"
+  },
+  {
+    "name": "경기도 하남시 감이동 198",
+    "lat": 37.5074401,
+    "lng": 127.155597,
+    "cycle": {
+      "green": 32,
+      "red": 108
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_628"
+  },
+  {
+    "name": "경기도 하남시 감이동 198",
+    "lat": 37.5075531,
+    "lng": 127.1552551,
+    "cycle": {
+      "green": 33,
+      "red": 107
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_629"
+  },
+  {
+    "name": "경기도 하남시 감일동 526",
+    "lat": 37.5095988,
+    "lng": 127.1616497,
+    "cycle": {
+      "green": 25,
+      "red": 105
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_630"
+  },
+  {
+    "name": "경기도 하남시 감일동 529",
+    "lat": 37.5097111,
+    "lng": 127.1618733,
+    "cycle": {
+      "green": 22,
+      "red": 108
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_631"
+  },
+  {
+    "name": "경기도 하남시 감일동 526",
+    "lat": 37.5095241,
+    "lng": 127.161921,
+    "cycle": {
+      "green": 21,
+      "red": 109
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_632"
+  },
+  {
+    "name": "경기도 하남시 감일동 526",
+    "lat": 37.5103155,
+    "lng": 127.1597284,
+    "cycle": {
+      "green": 39,
+      "red": 91
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_633"
+  },
+  {
+    "name": "경기도 하남시 감일동 526",
+    "lat": 37.510367,
+    "lng": 127.1599067,
+    "cycle": {
+      "green": 39,
+      "red": 91
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_634"
+  },
+  {
+    "name": "경기도 하남시 감일동 526",
+    "lat": 37.510196,
+    "lng": 127.1598045,
+    "cycle": {
+      "green": 39,
+      "red": 91
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_635"
+  },
+  {
+    "name": "경기도 하남시 감일동 526",
+    "lat": 37.5102521,
+    "lng": 127.1599376,
+    "cycle": {
+      "green": 39,
+      "red": 91
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_636"
+  },
+  {
+    "name": "경기도 하남시 감일동 526",
+    "lat": 37.5111756,
+    "lng": 127.1565774,
+    "cycle": {
+      "green": 24,
+      "red": 116
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_637"
+  },
+  {
+    "name": "경기도 하남시 감일동 526",
+    "lat": 37.5111533,
+    "lng": 127.1564784,
+    "cycle": {
+      "green": 25,
+      "red": 115
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_638"
+  },
+  {
+    "name": "경기도 하남시 감일동 526",
+    "lat": 37.5110945,
+    "lng": 127.1566253,
+    "cycle": {
+      "green": 25,
+      "red": 115
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_639"
+  },
+  {
+    "name": "경기도 하남시 감일동 526",
+    "lat": 37.5110789,
+    "lng": 127.1565263,
+    "cycle": {
+      "green": 22,
+      "red": 118
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_640"
+  },
+  {
+    "name": "경기도 하남시 감일동 525",
+    "lat": 37.5110963,
+    "lng": 127.1603296,
+    "cycle": {
+      "green": 23,
+      "red": 107
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_641"
+  },
+  {
+    "name": "경기도 하남시 감일동 525",
+    "lat": 37.5112089,
+    "lng": 127.1603383,
+    "cycle": {
+      "green": 27,
+      "red": 103
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_642"
+  },
+  {
+    "name": "경기도 하남시 감일동 525",
+    "lat": 37.5112741,
+    "lng": 127.1604346,
+    "cycle": {
+      "green": 23,
+      "red": 107
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_643"
+  },
+  {
+    "name": "경기도 하남시 감일동 525",
+    "lat": 37.5123545,
+    "lng": 127.1610166,
+    "cycle": {
+      "green": 32,
+      "red": 98
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_644"
+  },
+  {
+    "name": "경기도 하남시 감일동 525",
+    "lat": 37.5122959,
+    "lng": 127.1610391,
+    "cycle": {
+      "green": 24,
+      "red": 106
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_645"
+  },
+  {
+    "name": "경기도 하남시 감일동 525",
+    "lat": 37.5123972,
+    "lng": 127.161093,
+    "cycle": {
+      "green": 24,
+      "red": 106
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_646"
+  },
+  {
+    "name": "경기도 하남시 감일동 525",
+    "lat": 37.5123318,
+    "lng": 127.161124,
+    "cycle": {
+      "green": 33,
+      "red": 97
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_647"
+  },
+  {
+    "name": "경기도 하남시 감일동 525",
+    "lat": 37.5129781,
+    "lng": 127.1612865,
+    "cycle": {
+      "green": 24,
+      "red": 106
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_648"
+  },
+  {
+    "name": "경기도 하남시 감이동 461",
+    "lat": 37.5089861,
+    "lng": 127.1633378,
+    "cycle": {
+      "green": 19,
+      "red": 111
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_649"
+  },
+  {
+    "name": "경기도 하남시 감이동 461",
+    "lat": 37.5088508,
+    "lng": 127.1634012,
+    "cycle": {
+      "green": 21,
+      "red": 109
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_650"
+  },
+  {
+    "name": "경기도 하남시 감이동 461",
+    "lat": 37.5076152,
+    "lng": 127.1626803,
+    "cycle": {
+      "green": 33,
+      "red": 96
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_651"
+  },
+  {
+    "name": "경기도 하남시 감이동 461",
+    "lat": 37.5077166,
+    "lng": 127.1626494,
+    "cycle": {
+      "green": 22,
+      "red": 108
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_652"
+  },
+  {
+    "name": "경기도 하남시 감이동 461",
+    "lat": 37.5071043,
+    "lng": 127.1623795,
+    "cycle": {
+      "green": 27,
+      "red": 103
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_653"
+  },
+  {
+    "name": "경기도 하남시 감이동 181-1",
+    "lat": 37.5059722,
+    "lng": 127.1617295,
+    "cycle": {
+      "green": 32,
+      "red": 97
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_654"
+  },
+  {
+    "name": "경기도 하남시 감이동 411-2",
+    "lat": 37.5051236,
+    "lng": 127.1612357,
+    "cycle": {
+      "green": 22,
+      "red": 118
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_655"
+  },
+  {
+    "name": "경기도 하남시 감이동 515",
+    "lat": 37.5049073,
+    "lng": 127.1613088,
+    "cycle": {
+      "green": 26,
+      "red": 114
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_656"
+  },
+  {
+    "name": "경기도 하남시 감이동 243-3",
+    "lat": 37.5050272,
+    "lng": 127.1609669,
+    "cycle": {
+      "green": 26,
+      "red": 114
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_657"
+  },
+  {
+    "name": "경기도 하남시 감이동 528",
+    "lat": 37.5048221,
+    "lng": 127.1610513,
+    "cycle": {
+      "green": 16,
+      "red": 124
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_658"
+  },
+  {
+    "name": "경기도 하남시 감이동 528",
+    "lat": 37.5035219,
+    "lng": 127.1630192,
+    "cycle": {
+      "green": 17,
+      "red": 123
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_659"
+  },
+  {
+    "name": "경기도 하남시 감이동 515",
+    "lat": 37.5034698,
+    "lng": 127.1632735,
+    "cycle": {
+      "green": 26,
+      "red": 114
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_660"
+  },
+  {
+    "name": "경기도 하남시 감이동 489",
+    "lat": 37.5036611,
+    "lng": 127.1633927,
+    "cycle": {
+      "green": 20,
+      "red": 130
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_661"
+  },
+  {
+    "name": "경기도 하남시 감이동 515",
+    "lat": 37.503729,
+    "lng": 127.1631214,
+    "cycle": {
+      "green": 26,
+      "red": 114
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_662"
+  },
+  {
+    "name": "경기도 하남시 감일동 543",
+    "lat": 37.5129068,
+    "lng": 127.1639473,
+    "cycle": {
+      "green": 20,
+      "red": 110
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_663"
+  },
+  {
+    "name": "경기도 하남시 감이동 515",
+    "lat": 37.5019199,
+    "lng": 127.1633295,
+    "cycle": {
+      "green": 27,
+      "red": 114
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_664"
+  },
+  {
+    "name": "경기도 하남시 감일동 543",
+    "lat": 37.5128281,
+    "lng": 127.1638679,
+    "cycle": {
+      "green": 20,
+      "red": 110
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_665"
+  },
+  {
+    "name": "경기도 하남시 감이동 515",
+    "lat": 37.5017374,
+    "lng": 127.1633998,
+    "cycle": {
+      "green": 29,
+      "red": 111
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_666"
+  },
+  {
+    "name": "경기도 하남시 감이동 515",
+    "lat": 37.500258,
+    "lng": 127.1630686,
+    "cycle": {
+      "green": 29,
+      "red": 111
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_667"
+  },
+  {
+    "name": "경기도 하남시 감이동 534",
+    "lat": 37.4996387,
+    "lng": 127.1629203,
+    "cycle": {
+      "green": 31,
+      "red": 109
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_668"
+  },
+  {
+    "name": "경기도 하남시 감이동 515",
+    "lat": 37.4995551,
+    "lng": 127.1631406,
+    "cycle": {
+      "green": 32,
+      "red": 108
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_669"
+  },
+  {
+    "name": "경기도 하남시 감이동 515",
+    "lat": 37.4981722,
+    "lng": 127.1630075,
+    "cycle": {
+      "green": 30,
+      "red": 110
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_670"
+  },
+  {
+    "name": "경기도 하남시 감북동 374-3",
+    "lat": 37.5147045,
+    "lng": 127.155465,
+    "cycle": {
+      "green": 28,
+      "red": 152
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_671"
+  },
+  {
+    "name": "경기도 하남시 감북동 375-3",
+    "lat": 37.5144666,
+    "lng": 127.1556709,
+    "cycle": {
+      "green": 24,
+      "red": 49
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_672"
+  },
+  {
+    "name": "경기도 하남시 감북동 371-28",
+    "lat": 37.5145925,
+    "lng": 127.1567557,
+    "cycle": {
+      "green": 35,
+      "red": 145
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_673"
+  },
+  {
+    "name": "경기도 하남시 감북동 364-3",
+    "lat": 37.5164022,
+    "lng": 127.157745,
+    "cycle": {
+      "green": 28,
+      "red": 132
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_674"
+  },
+  {
+    "name": "경기도 하남시 초이동 588-8",
+    "lat": 37.5442396,
+    "lng": 127.1668405,
+    "cycle": {
+      "green": 47,
+      "red": 143
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_675"
+  },
+  {
+    "name": "경기도 하남시 감북동 353-12",
+    "lat": 37.5201455,
+    "lng": 127.1596631,
+    "cycle": {
+      "green": 28,
+      "red": 131
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_676"
+  },
+  {
+    "name": "경기도 하남시 감북동 286-12",
+    "lat": 37.5204719,
+    "lng": 127.1598194,
+    "cycle": {
+      "green": 28,
+      "red": 131
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_677"
+  },
+  {
+    "name": "경기도 하남시 학암동 676-3",
+    "lat": 37.4735321,
+    "lng": 127.1544654,
+    "cycle": {
+      "green": 29,
+      "red": 80
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_678"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 산 23-65",
+    "lat": 37.5432649,
+    "lng": 127.2037353,
+    "cycle": {
+      "green": 43,
+      "red": 137
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_679"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 320-11",
+    "lat": 37.5427425,
+    "lng": 127.2049277,
+    "cycle": {
+      "green": 32,
+      "red": 31
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_680"
+  },
+  {
+    "name": "경기도 하남시 덕풍동 319-1",
+    "lat": 37.5426076,
+    "lng": 127.204817,
+    "cycle": {
+      "green": 32,
+      "red": 31
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_681"
+  },
+  {
+    "name": "경기도 하남시 대청로 100",
+    "lat": 37.5394142,
+    "lng": 127.2249035,
+    "cycle": {
+      "green": 30,
+      "red": 120
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_682"
+  },
+  {
+    "name": "경기도 하남시 하남대로 820",
+    "lat": 37.5416396,
+    "lng": 127.2070689,
+    "cycle": {
+      "green": 41,
+      "red": 139
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_683"
+  },
+  {
+    "name": "경기도 하남시 신장동 621",
+    "lat": 37.5434249,
+    "lng": 127.2163667,
+    "cycle": {
+      "green": 34,
+      "red": 103
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_684"
+  },
+  {
+    "name": "경기도 하남시 신장동 593",
+    "lat": 37.5453026,
+    "lng": 127.2125219,
+    "cycle": {
+      "green": 40,
+      "red": 100
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_685"
+  },
+  {
+    "name": "경기도 하남시 신장동 590",
+    "lat": 37.5452715,
+    "lng": 127.2122771,
+    "cycle": {
+      "green": 40,
+      "red": 100
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_686"
+  },
+  {
+    "name": "경기도 하남시 신장동 621",
+    "lat": 37.5433346,
+    "lng": 127.2139916,
+    "cycle": {
+      "green": 32,
+      "red": 106
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_687"
+  },
+  {
+    "name": "경기도 하남시 미사강변한강로 30",
+    "lat": 37.5754956,
+    "lng": 127.1788164,
+    "cycle": {
+      "green": 20,
+      "red": 80
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_688"
+  },
+  {
+    "name": "경기도 하남시 선동 458",
+    "lat": 37.5751447,
+    "lng": 127.1770213,
+    "cycle": {
+      "green": 27,
+      "red": 63
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_689"
+  },
+  {
+    "name": "경기도 하남시 선동 458",
+    "lat": 37.574858,
+    "lng": 127.1759212,
+    "cycle": {
+      "green": 17,
+      "red": 83
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_690"
+  },
+  {
+    "name": "경기도 하남시 선동 457",
+    "lat": 37.5730407,
+    "lng": 127.1771437,
+    "cycle": {
+      "green": 23,
+      "red": 87
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_691"
+  },
+  {
+    "name": "경기도 하남시 풍산로 270",
+    "lat": 37.5717033,
+    "lng": 127.1782357,
+    "cycle": {
+      "green": 23,
+      "red": 87
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_692"
+  },
+  {
+    "name": "경기도 하남시 망월동 1030",
+    "lat": 37.5706377,
+    "lng": 127.1783775,
+    "cycle": {
+      "green": 30,
+      "red": 80
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_693"
+  },
+  {
+    "name": "경기도 하남시 미사강변한강로 60",
+    "lat": 37.576575,
+    "lng": 127.1829368,
+    "cycle": {
+      "green": 20,
+      "red": 100
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_694"
+  },
+  {
+    "name": "경기도 하남시 미사강변한강로 110",
+    "lat": 37.5764305,
+    "lng": 127.1853492,
+    "cycle": {
+      "green": 26,
+      "red": 104
+    },
+    "source": "crosswalk-standard-data",
+    "id": "sig_695"
   }
 ]

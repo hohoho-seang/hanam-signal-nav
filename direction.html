@@ -770,7 +770,9 @@
       const walkSpeed = Math.max(0.3, Number(document.getElementById("walkSpeed").value) || 1.2);
       const totalWalkTime = totalDistance / walkSpeed;
 
-      const matched = matchSignalsToRoute(routePoints, 40);
+      // 매칭 반경: 데이터가 44개(성긴 실측)일 땐 40m였지만, 하남 전체 공식데이터(696개)로
+      // 촘촘해진 뒤엔 40m가 실제로 건너지 않는 옆 횡단보도까지 잡아 대기시간을 과대계산 — 15m로 축소.
+      const matched = matchSignalsToRoute(routePoints, 15);
       currentMatchedSignals = matched;
       const now = new Date();
       let extraDelay = 0;

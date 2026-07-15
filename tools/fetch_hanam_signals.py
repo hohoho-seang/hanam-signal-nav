@@ -42,8 +42,21 @@ def haversine(lat1, lon1, lat2, lon2):
     return 2 * R * math.asin(math.sqrt(a))
 
 
+def detect_encoding(csv_path):
+    """공공데이터 CSV는 cp949(포털 일괄파일)와 utf-8-sig(지자체 개별파일)가 혼재한다."""
+    for enc in ("utf-8-sig", "cp949", "utf-8"):
+        try:
+            with open(csv_path, encoding=enc) as f:
+                header = f.readline()
+            if "위도" in header or "시도명" in header:
+                return enc
+        except UnicodeDecodeError:
+            continue
+    raise RuntimeError("CSV 인코딩을 인식하지 못했습니다")
+
+
 def rows_from_csv(csv_path, city):
-    with open(csv_path, encoding="cp949") as f:
+    with open(csv_path, encoding=detect_encoding(csv_path)) as f:
         for row in csv.DictReader(f):
             if row.get("시군구명", "").strip() == city:
                 yield {
