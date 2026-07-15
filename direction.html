@@ -37,6 +37,12 @@
       background: rgba(0,0,0,.7); color: #fff; padding: 10px 16px; border-radius: 8px;
       font-size: 13px; display: none; text-align: center;
     }
+    .me-marker { background: none; border: none; }
+    .me-arrow {
+      width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;
+      font-size: 20px; color: #1a73e8; text-shadow: 0 0 3px #fff, 0 0 3px #fff;
+      transform-origin: center;
+    }
     #panel { width: 300px; padding: 10px; box-sizing: border-box; overflow-y: auto; font-size: 13px; border-left: 1px solid #ddd; }
     #panel h3 { margin: 4px 0; font-size: 14px; }
     #panel button { padding: 6px 10px; margin: 3px 3px 3px 0; cursor: pointer; }
@@ -142,6 +148,13 @@
     let arMode = false;
     let arStream = null;
     let compassHandler = null;
+    // 센서 스무딩: 나침반/GPS 원신호는 노이즈가 커서 그대로 쓰면 화면이 이리저리 튄다.
+    // 목표값(target)만 센서가 갱신하고, 실제 카메라는 매 프레임 조금씩 따라가게 한다.
+    let targetHeadingDeg = null;  // 나침반이 준 최신 방위(도)
+    let smoothHeadingDeg = null;  // 화면에 실제 적용 중인 방위(부드럽게 수렴)
+    let camTarget = null;         // GPS가 준 최신 카메라 위치 {x, z}
+    let camAim = null;            // 비AR 모드에서 바라볼 지점 {x, z}
+    let meMarker = null;          // 2D 지도 위 내 위치(방향 화살표) 마커
 
     function toRad(d) { return d * Math.PI / 180; }
     function haversine(lat1, lon1, lat2, lon2) {
@@ -151,6 +164,11 @@
       const a = Math.sin(dLat / 2) ** 2 +
                 Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
       return 2 * R * Math.asin(Math.sqrt(a));
+    }
+    // 각도(0~360, wrap됨)를 최단 방향으로 보간 — 359°→1°가 358° 돌지 않고 2°만 돌도록.
+    function angleLerp(a, b, t) {
+      const d = ((b - a + 540) % 360) - 180;
+      return (a + d * t + 360) % 360;
     }
 
     // ---- PiP(3D 메인 / 2D 미니, 클릭시 교체) ----
@@ -174,10 +192,54 @@
     let navMode = 'idle'; // 'idle' | 'preview' | 'live'
     let progressM = 0;
     let lastFrameTs = null;
-    const buildingMaterial = new THREE.MeshLambertMaterial({ color: 0xcfd8dc });
     const roadMaterial = new THREE.MeshLambertMaterial({ color: 0x4a4a4a });
     const footwayMaterial = new THREE.MeshLambertMaterial({ color: 0x9e9e9e });
-    const routeMaterial = new THREE.MeshBasicMaterial({ color: 0x2979ff });
+    // 경로는 depthTest를 꺼서 건물 뒤로 지나가도 항상 보이게 한다(구글맵 AR과 같은 방식).
+    // 데이터 출처가 달라(경로=Tmap, 건물=OSM) 정합이 완벽하지 않아 경로가 건물 폴리곤을
+    // 스치는 경우가 있는데, 가려서 안 보이는 것보다 위에 그려지는 쪽이 내비게이션에 낫다.
+    const routeMaterial = new THREE.MeshBasicMaterial({ color: 0x2979ff, depthTest: false, transparent: true, opacity: 0.9 });
+
+    // 건물 용도(OSM building 태그)별 색상 — 흰 박스만으론 뭐가 뭔지 모른다는 피드백 반영.
+    const BUILDING_COLORS = {
+      apartments: 0xa8bfd0, residential: 0xc5cdd4, house: 0xd7ccc8, detached: 0xd7ccc8,
+      school: 0xf5b971, university: 0xf5b971, kindergarten: 0xf5b971,
+      commercial: 0xe8c39e, retail: 0xe8c39e, office: 0x9fb6d9,
+      hospital: 0xe39b9b, church: 0xc5a3d6, religious: 0xc5a3d6,
+      default: 0xcfd8dc,
+    };
+    const buildingMatCache = {};
+    function buildingMaterialFor(type) {
+      const color = BUILDING_COLORS[type] || BUILDING_COLORS.default;
+      if (!buildingMatCache[color]) buildingMatCache[color] = new THREE.MeshLambertMaterial({ color });
+      return buildingMatCache[color];
+    }
+
+    // 건물 이름 라벨(캔버스 스프라이트). 이름 있는 건물만, 과밀 방지를 위해 개수 제한.
+    const MAX_BUILDING_LABELS = 60;
+    let buildingLabelCount = 0;
+    function makeBuildingLabel(text) {
+      const canvas = document.createElement('canvas');
+      let ctx = canvas.getContext('2d');
+      const fontSize = 26;
+      ctx.font = `bold ${fontSize}px sans-serif`;
+      const w = Math.ceil(ctx.measureText(text).width) + 20;
+      const h = fontSize + 14;
+      canvas.width = w; canvas.height = h;
+      ctx = canvas.getContext('2d');
+      ctx.font = `bold ${fontSize}px sans-serif`;
+      ctx.fillStyle = 'rgba(0,0,0,0.6)';
+      ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#fff';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(text, 10, h / 2);
+      const tex = new THREE.CanvasTexture(canvas);
+      const mat = new THREE.SpriteMaterial({ map: tex, depthTest: false, transparent: true });
+      const sprite = new THREE.Sprite(mat);
+      const scale = 0.12; // 캔버스 px -> 씬 m
+      sprite.scale.set(w * scale, h * scale, 1);
+      sprite.renderOrder = 997;
+      return sprite;
+    }
 
     // 도로 폭(m) 추정 — 실측 폭 데이터가 없어 highway 태그 기반 표준 추정치 사용.
     const ROAD_WIDTH_BY_TYPE = {
@@ -271,16 +333,18 @@
 
     function positionCameraAt(lat, lng, cumDist) {
       const p = project(lat, lng);
-      camera3d.position.set(p.x, EYE_HEIGHT, p.z);
-      if (!arMode) {
-        // 일반 3D 모드: 항상 경로 진행방향을 바라보게 lookAt으로 시선을 고정한다.
-        const endDist = currentRoutePoints[currentRoutePoints.length - 1].cumDist;
-        const aheadPoint = pointAtCumDist(Math.min(cumDist + 8, endDist));
-        const aim = project(aheadPoint.lat, aheadPoint.lng);
-        camera3d.lookAt(aim.x, EYE_HEIGHT, aim.z);
+      const endDist = currentRoutePoints[currentRoutePoints.length - 1].cumDist;
+      const aheadPoint = pointAtCumDist(Math.min(cumDist + 8, endDist));
+      camAim = project(aheadPoint.lat, aheadPoint.lng);
+      camTarget = p;
+      if (navMode === 'live') {
+        // GPS 실주행: 위치가 점프해도 화면이 튀지 않게 목표만 갱신 — animate 루프가 부드럽게 따라감.
+        // AR모드의 시선(회전)은 나침반 스무딩이 따로 담당한다.
+      } else {
+        // 미리보기/초기배치: 즉시 반영해도 어색하지 않으니 바로 세팅.
+        camera3d.position.set(p.x, EYE_HEIGHT, p.z);
+        if (!arMode) camera3d.lookAt(camAim.x, EYE_HEIGHT, camAim.z);
       }
-      // AR모드에서는 시선(회전)을 나침반 센서(updateCompassHeading)가 따로 담당하고
-      // 여기서는 위치만 갱신한다 — 실제 폰이 보는 방향과 3D 오버레이가 맞아야 하므로.
       updateSignalHud(cumDist);
     }
 
@@ -312,6 +376,23 @@
       } else {
         lastFrameTs = null;
       }
+
+      // ---- 센서 스무딩(매 프레임): 나침반 회전과 GPS 위치를 목표값으로 부드럽게 수렴 ----
+      if (arMode && targetHeadingDeg !== null) {
+        smoothHeadingDeg = smoothHeadingDeg === null
+          ? targetHeadingDeg
+          : angleLerp(smoothHeadingDeg, targetHeadingDeg, 0.15);
+        camera3d.rotation.set(0, -smoothHeadingDeg * Math.PI / 180, 0);
+        const arrow = document.getElementById('meArrowInner');
+        if (arrow) arrow.style.transform = `rotate(${Math.round(smoothHeadingDeg)}deg)`;
+      }
+      if (navMode === 'live' && camTarget) {
+        camera3d.position.x += (camTarget.x - camera3d.position.x) * 0.08;
+        camera3d.position.z += (camTarget.z - camera3d.position.z) * 0.08;
+        camera3d.position.y = EYE_HEIGHT;
+        if (!arMode && camAim) camera3d.lookAt(camAim.x, EYE_HEIGHT, camAim.z);
+      }
+
       if (renderer3d) renderer3d.render(scene3d, camera3d);
     }
 
@@ -319,10 +400,13 @@
       if (routeMesh3d) { scene3d.remove(routeMesh3d); routeMesh3d = null; }
       buildingsGroup.clear();
       roadsGroup.clear();
+      buildingLabelCount = 0;
       signalMarkers3d.forEach(m => scene3d.remove(m.mesh));
       signalMarkers3d = [];
       navMode = 'idle';
       progressM = 0;
+      camTarget = null;
+      camAim = null;
       sceneMsgEl.style.display = "none";
     }
 
@@ -335,6 +419,7 @@
       });
       const geom = buildRibbonGeometry(pts, 2.2);
       routeMesh3d = new THREE.Mesh(geom, routeMaterial);
+      routeMesh3d.renderOrder = 999; // depthTest 꺼진 재질과 함께: 건물에 가려지지 않고 항상 위에
       scene3d.add(routeMesh3d);
     }
 
@@ -342,7 +427,9 @@
       matched.forEach(m => {
         const { x, z } = project(m.sig.lat, m.sig.lng);
         const geom = new THREE.CylinderGeometry(0.4, 0.4, 3, 8);
-        const mesh = new THREE.Mesh(geom, new THREE.MeshLambertMaterial({ color: 0x999999 }));
+        // 신호 기둥도 경로와 마찬가지로 건물 뒤에 숨지 않게 항상 표시
+        const mesh = new THREE.Mesh(geom, new THREE.MeshLambertMaterial({ color: 0x999999, depthTest: false, transparent: true }));
+        mesh.renderOrder = 998;
         mesh.position.set(x, 1.5, z);
         scene3d.add(mesh);
         signalMarkers3d.push({ sig: m.sig, mesh });
@@ -380,7 +467,19 @@
       else if (tags['building:levels']) height = (parseFloat(tags['building:levels']) || 3) * 3;
       const geom = new THREE.ExtrudeGeometry(shape, { depth: height, bevelEnabled: false });
       geom.rotateX(-Math.PI / 2);
-      buildingsGroup.add(new THREE.Mesh(geom, buildingMaterial));
+      buildingsGroup.add(new THREE.Mesh(geom, buildingMaterialFor(tags.building)));
+
+      // 이름이 등록된 건물은 지붕 위에 이름표를 띄워 "어느 건물인지" 알 수 있게 한다.
+      const name = tags.name || tags['name:ko'];
+      if (name && buildingLabelCount < MAX_BUILDING_LABELS) {
+        buildingLabelCount++;
+        let cx = 0, cz = 0;
+        shapePts.forEach(p => { cx += p.x; cz += p.y; });
+        cx /= shapePts.length; cz /= shapePts.length;
+        const label = makeBuildingLabel(name);
+        label.position.set(cx, height + 3, cz);
+        buildingsGroup.add(label);
+      }
     }
 
     function addRoadMesh(way) {
@@ -552,6 +651,7 @@
       start = null; goal = null;
       if (startMarker) map.removeLayer(startMarker);
       if (goalMarker) map.removeLayer(goalMarker);
+      if (meMarker) { map.removeLayer(meMarker); meMarker = null; }
       startMarker = null; goalMarker = null;
       document.getElementById("startInput").value = "";
       document.getElementById("goalInput").value = "";
@@ -767,8 +867,30 @@
       navMode = 'idle';
     }
 
+    // 2D 지도 위 "내 위치 + 바라보는 방향" 화살표 마커. GPS가 올 때마다 위치 갱신,
+    // 회전은 AR 나침반(animate3d의 스무딩 루프) 또는 GPS 진행방향(아래)이 담당.
+    function updateMeMarker(lat, lng) {
+      if (!meMarker) {
+        const icon = L.divIcon({
+          className: 'me-marker',
+          html: '<div class="me-arrow" id="meArrowInner">▲</div>',
+          iconSize: [24, 24], iconAnchor: [12, 12]
+        });
+        meMarker = L.marker([lat, lng], { icon, zIndexOffset: 1000 }).addTo(map);
+      } else {
+        meMarker.setLatLng([lat, lng]);
+      }
+      if (navMode === 'live') map.panTo([lat, lng]); // 내비 중엔 지도가 나를 따라옴
+    }
+
     function onNavPosition(pos) {
       const { latitude: lat, longitude: lng } = pos.coords;
+      updateMeMarker(lat, lng);
+      // AR(나침반) 없이 GPS만 쓸 때는 이동 방향(course)으로 화살표를 돌린다.
+      if (!arMode && Number.isFinite(pos.coords.heading)) {
+        const arrow = document.getElementById('meArrowInner');
+        if (arrow) arrow.style.transform = `rotate(${Math.round(pos.coords.heading)}deg)`;
+      }
       const progress = nearestRouteProgress(lat, lng);
       if (!progress) return;
       positionCameraAt(lat, lng, progress.cumDist);
@@ -786,7 +908,9 @@
         heading = (360 - e.alpha) % 360; // Android(절대방위 이벤트)
       }
       if (heading === null) return;
-      camera3d.rotation.set(0, -heading * Math.PI / 180, 0); // 수평 시선만 반영(단순화)
+      // 여기서 바로 회전시키지 않고 목표값만 갱신 — 실제 회전은 animate3d 루프가
+      // angleLerp로 부드럽게 수렴시킨다(나침반 노이즈로 화면이 파르르 떨리는 문제 방지).
+      targetHeadingDeg = heading;
     }
 
     function startCompass() {
@@ -837,6 +961,8 @@
       scene3d.background = new THREE.Color(0x8fc7ff);
       renderer3d.setClearColor(0x8fc7ff, 1);
       stopCompass();
+      targetHeadingDeg = null;
+      smoothHeadingDeg = null;
       document.getElementById("arBtn").style.display = "inline-block";
       document.getElementById("arStopBtn").style.display = "none";
     }
