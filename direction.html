@@ -353,8 +353,10 @@
       if (upcoming && (upcoming.cumDist - cumDist) <= HUD_TRIGGER_RADIUS) {
         const live = getSignalState(upcoming.sig.cycle, calibrations[upcoming.sig.id], new Date());
         hudEl.style.display = "block";
-        hudEl.innerHTML = `<b>${upcoming.sig.name}</b><br>남은 거리: ${Math.round(upcoming.cumDist - cumDist)}m<br>
-          현재 신호: <span style="color:${live.state==='초록' ? '#4caf50' : '#f44336'}">${live.state}</span> (${live.remaining}초)`;
+        const stateLine = live.state === '알수없음'
+          ? `<span style="color:#ffc107">주기 미상 — 현장 확인 필요</span>`
+          : `현재 신호: <span style="color:${live.state==='초록' ? '#4caf50' : '#f44336'}">${live.state}</span> (${live.remaining}초)`;
+        hudEl.innerHTML = `<b>${upcoming.sig.name}</b><br>남은 거리: ${Math.round(upcoming.cumDist - cumDist)}m<br>${stateLine}`;
       } else {
         hudEl.style.display = "none";
       }
@@ -522,7 +524,7 @@
     setInterval(() => {
       signalMarkers3d.forEach(m => {
         const { state } = getSignalState(m.sig.cycle, calibrations[m.sig.id], new Date());
-        m.mesh.material.color.set(state === '초록' ? 0x2ecc71 : 0xe74c3c);
+        m.mesh.material.color.set(state === '초록' ? 0x2ecc71 : state === '빨강' ? 0xe74c3c : 0xf1c40f);
       });
     }, 1000);
 
@@ -778,13 +780,18 @@
         const predicted = getSignalState(m.sig.cycle, calibrations[m.sig.id], arrivalTime);
         if (predicted.state === "빨강") {
           extraDelay += predicted.remaining;
+        } else if (predicted.state === "알수없음") {
+          // 주기 미상 신호: 평균적으로 빨강일 확률을 감안해 보수적으로 30초 가산(정확한 예측 불가 고지용)
+          extraDelay += 30;
         }
         m.predicted = predicted;
         m.arrivalTime = arrivalTime;
 
         const icon = predicted.state === "초록"
           ? "https://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png"
-          : "https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png";
+          : predicted.state === "빨강"
+            ? "https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png"
+            : "https://maps.gstatic.com/mapfiles/ms2/micons/yellow-dot.png";
         const marker = L.marker([m.sig.lat, m.sig.lng], {
           icon: L.icon({ iconUrl: icon, iconSize: [20, 20], iconAnchor: [10, 10] }),
           title: m.sig.name
@@ -816,16 +823,19 @@
       document.getElementById("signalList").innerHTML =
         `<h3>경로상 신호 (${matched.length}개)</h3>` +
         matched.map(m => {
-          const cls = m.predicted.state === "초록" ? "green" : "red";
-          const badgeCls = m.predicted.source === "calibrated" ? "calibrated" : "estimated";
-          const badgeLabel = m.predicted.source === "calibrated" ? "실측" : "추정";
+          const unknown = m.predicted.state === "알수없음";
+          const cls = m.predicted.state === "초록" ? "green" : (unknown ? "" : "red");
+          const badgeCls = unknown ? "estimated" : (m.predicted.source === "calibrated" ? "calibrated" : "estimated");
+          const badgeLabel = unknown ? "주기 미상" : (m.predicted.source === "calibrated" ? "실측" : "추정");
           const etaMin = Math.round(m.cumDist / walkSpeed / 60 * 10) / 10;
+          const stateLine = unknown
+            ? `예측 불가 <span style="color:#888;">(주기 데이터 없음, 대기 30초로 가정)</span>`
+            : `예측 신호: <b style="color:${cls === 'green' ? 'green' : 'red'}">${m.predicted.state}</b> (${m.predicted.remaining}초 남음)`;
           return `
             <div class="sig-item ${cls}">
               <b>${m.sig.name}</b> <span class="badge ${badgeCls}">${badgeLabel}</span><br>
               도착 예상: ${etaMin}분 후<br>
-              예측 신호: <b style="color:${cls === 'green' ? 'green' : 'red'}">${m.predicted.state}</b>
-              (${m.predicted.remaining}초 남음)
+              ${stateLine}
             </div>
           `;
         }).join("");

@@ -5,16 +5,21 @@
 
 const FALLBACK_REF_HOUR = 6;
 
-// signals.json의 cycle은 대부분 {green,red} 단일 객체지만, 좌표는 같은데 실측값이 크게 갈리는
-// 소수의 신호(예: 후보 두 상태가 실제로 존재할 가능성)는 [{green,red}, {green,red}, ...] 배열로
-// 후보를 보존해둔다. 지금은 판별 로직 없이 항상 첫 번째 후보(cycle[0])를 기본값으로 쓴다.
-// (과설계 방지: 후보 매칭 로직은 실측 데이터가 쌓인 뒤 추가한다.)
+// signals.json의 cycle 형태 3가지: ①{green,red} 단일 객체(대부분) ②[{green,red},...] 후보 배열
+// (좌표는 같은데 실측값이 크게 갈리는 소수 — 첫 후보를 기본값으로) ③null(주기 미상 —
+// 전국횡단보도표준데이터에서 위치만 확보되고 신호시간이 비어있는 지점, 위치 표시만 하고 카운트다운 없음).
 function normalizeCycle(cycle) {
-  return Array.isArray(cycle) ? cycle[0] : cycle;
+  return Array.isArray(cycle) ? cycle[0] : (cycle || null);
+}
+
+function hasCycle(cycle) {
+  const c = normalizeCycle(cycle);
+  return !!(c && Number.isFinite(c.green) && Number.isFinite(c.red) && c.green + c.red > 0);
 }
 
 function totalCycleOf(cycle) {
   const c = normalizeCycle(cycle);
+  if (!c) return 0;
   return c.green + c.red;
 }
 
@@ -114,6 +119,7 @@ const TIME_BUCKET_LABELS = { commute: '등하교', day: '낮', evening: '저녁'
 
 function cyclePositionAt(cycle, calibration, atDate) {
   const c = normalizeCycle(cycle);
+  if (!c) return null; // 주기 미상(cycle:null) — 위치만 아는 신호
   const totalCycle = c.green + c.red;
   if (!totalCycle || totalCycle <= 0) return null;
 

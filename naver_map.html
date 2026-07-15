@@ -5,9 +5,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
-  <title>신장사거리 신호등 지도</title>
+  <title>하남시 보행신호등 지도</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
   <script src="config.js"></script>
@@ -76,17 +79,32 @@
     }
 
     function infoContent(sig) {
+      // 주기 미상(표준데이터에 위치만 있고 신호시간이 비어있는 지점): 카운트다운/보정 불가 안내만.
+      if (!hasCycle(sig.cycle)) {
+        return `
+          <div style="line-height:1.4; font-size:13px; min-width:200px;">
+            <b>${sig.name}</b> <span class="cal-badge estimated">주기 미상</span><br>
+            보행신호등 위치만 등록된 지점입니다.<br>
+            <span style="color:#888;">신호 주기(초록/빨강 길이)를 실측하면 카운트다운을 제공할 수 있어요.</span>
+          </div>
+        `;
+      }
       const { state, remaining, source, calibratedAt, sampleCount } = getSignalState(sig.cycle, calibrations[sig.id]);
       const badge = source === 'calibrated'
         ? `<span class="cal-badge calibrated">${calibrationAgeLabel(calibratedAt)}</span>`
         : `<span class="cal-badge estimated">추정치(미보정)</span>`;
       const sampleLabel = sampleCount >= 1 ? `<div class="cal-sample">${sampleCount}명이 확인함</div>` : '';
+      const c = normalizeCycle(sig.cycle);
+      const officialLabel = sig.official
+        ? `<div class="cal-sample">공식 주기: 초록 ${sig.official.green}초 / 빨강 ${sig.official.red}초</div>`
+        : (sig.source === 'crosswalk-standard-data' ? `<div class="cal-sample">공식 데이터 주기(초록 ${c.green}초/빨강 ${c.red}초)</div>` : '');
       return `
         <div style="line-height:1.4; font-size:13px; min-width:200px;">
           <b>${sig.name}</b> ${badge}<br>
           현재 신호: <span style="color:${state==="초록" ? "green":"red"}">${state}</span><br>
           남은 시간: ${remaining}초
           ${sampleLabel}
+          ${officialLabel}
           <div class="cal-form">
             지금 이 신호를 보고 계신가요?<br>
             <button onclick="openCalibrateForm('${sig.id}')">지금 신호 알려주기</button>
@@ -148,6 +166,7 @@
     function findNearbyUncalibratedSignal(lat, lng) {
       let best = null;
       allSignals.forEach(sig => {
+        if (!hasCycle(sig.cycle)) return; // 주기 미상은 위상 보정 자체가 불가(주기를 알아야 역산 가능)
         const { source } = getSignalState(sig.cycle, calibrations[sig.id]);
         if (source !== 'estimated') return; // 이미 실측 기반이면 굳이 재요청하지 않음
         const d = haversineDistance(lat, lng, sig.lat, sig.lng);
@@ -244,9 +263,12 @@
     }
 
     function iconFor(state) {
+      // 초록/빨강 = 카운트다운 가능, 노랑 = 주기 미상(위치만 등록)
       const url = state === "초록"
         ? "https://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png"
-        : "https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png";
+        : state === "빨강"
+          ? "https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png"
+          : "https://maps.gstatic.com/mapfiles/ms2/micons/yellow-dot.png";
       return L.icon({ iconUrl: url, iconSize: [24, 24], iconAnchor: [12, 12] });
     }
 
@@ -257,28 +279,35 @@
 
       if (!Array.isArray(signals)) throw new Error("signals.json 형식 오류: 배열 아님");
 
-      // cycle은 {green,red} 단일 객체이거나(대부분) [{green,red}, ...] 후보 배열(일부 신호) —
-      // normalizeCycle로 첫 후보를 기준값 삼아 검증한다.
-      const onlyGreenRed = signals.filter(s => {
-        if (!s || !s.cycle || !Number.isFinite(s.lat) || !Number.isFinite(s.lng)) return false;
-        const c = normalizeCycle(s.cycle);
-        return c && Number.isFinite(c.green) && Number.isFinite(c.red);
-      });
-      if (onlyGreenRed.length === 0) throw new Error("유효한 신호등 데이터 없음");
-      allSignals = onlyGreenRed;
+      // 좌표만 있으면 표시한다 — cycle이 null(주기 미상)인 신호도 위치는 보여주고
+      // 팝업에서 "주기 미상"으로 안내(하남 전체 확장으로 이런 지점이 다수 생김).
+      const valid = signals.filter(s => s && Number.isFinite(s.lat) && Number.isFinite(s.lng));
+      if (valid.length === 0) throw new Error("유효한 신호등 데이터 없음");
+      allSignals = valid;
 
-      onlyGreenRed.forEach(sig => {
+      // 수백 개 이상이면 개별 마커는 너무 무거움 — 클러스터링(CDN 로드 실패시 일반 레이어로 폴백)
+      const layer = (typeof L.markerClusterGroup === 'function')
+        ? L.markerClusterGroup({ disableClusteringAtZoom: 17, maxClusterRadius: 60 })
+        : L.layerGroup();
+
+      valid.forEach(sig => {
         const { state } = getSignalState(sig.cycle, calibrations[sig.id]);
-        const marker = L.marker([sig.lat, sig.lng], { icon: iconFor(state), title: sig.name }).addTo(map);
+        const marker = L.marker([sig.lat, sig.lng], { icon: iconFor(state), title: sig.name });
         marker.bindPopup(infoContent(sig));
         marker.on('popupopen', () => marker.setPopupContent(infoContent(sig)));
+        layer.addLayer(marker);
         markers.push({ sig, marker });
       });
+      map.addLayer(layer);
 
       setInterval(() => {
+        // 수천 개 마커에 매초 setIcon을 전부 호출하면 무거움 — 상태가 실제로 바뀐 것만 갱신.
         markers.forEach(obj => {
           const { state } = getSignalState(obj.sig.cycle, calibrations[obj.sig.id]);
-          obj.marker.setIcon(iconFor(state));
+          if (obj.lastState !== state) {
+            obj.lastState = state;
+            obj.marker.setIcon(iconFor(state));
+          }
           if (obj.marker.isPopupOpen()) {
             obj.marker.setPopupContent(infoContent(obj.sig));
           }
