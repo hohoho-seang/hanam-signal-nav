@@ -214,9 +214,14 @@
       return buildingMatCache[color];
     }
 
-    // 건물 이름 라벨(캔버스 스프라이트). 이름 있는 건물만, 과밀 방지를 위해 개수 제한.
-    const MAX_BUILDING_LABELS = 60;
+    // 건물 이름 라벨(캔버스 스프라이트). 이름 있는 건물만.
+    // depthTest는 true여야 한다 — false면 앞 건물에 가려져야 할 먼 건물의 이름표까지
+    // 전부 화면을 뚫고 그려져, 멀리는 "3D 건물은 안 보이고 이름만 둥둥" 뜨는 문제가 생긴다.
+    // 대신 매 프레임 거리 컬링(animate3d)으로 먼 이름표는 숨겨 화면을 깔끔하게 유지한다.
+    const MAX_BUILDING_LABELS = 150;
+    const LABEL_MAX_DIST = 130; // 이 거리(m)보다 먼 건물 이름표는 숨김
     let buildingLabelCount = 0;
+    let buildingLabels = []; // 거리 컬링 대상
     function makeBuildingLabel(text) {
       const canvas = document.createElement('canvas');
       let ctx = canvas.getContext('2d');
@@ -233,11 +238,10 @@
       ctx.textBaseline = 'middle';
       ctx.fillText(text, 10, h / 2);
       const tex = new THREE.CanvasTexture(canvas);
-      const mat = new THREE.SpriteMaterial({ map: tex, depthTest: false, transparent: true });
+      const mat = new THREE.SpriteMaterial({ map: tex, depthTest: true, depthWrite: false, transparent: true });
       const sprite = new THREE.Sprite(mat);
-      const scale = 0.12; // 캔버스 px -> 씬 m
+      const scale = 0.08; // 캔버스 px -> 씬 m (기존 0.12는 너무 커서 먼 곳을 뒤덮음)
       sprite.scale.set(w * scale, h * scale, 1);
-      sprite.renderOrder = 997;
       return sprite;
     }
 
@@ -381,9 +385,15 @@
 
       // ---- 센서 스무딩(매 프레임): 나침반 회전과 GPS 위치를 목표값으로 부드럽게 수렴 ----
       if (arMode && targetHeadingDeg !== null) {
-        smoothHeadingDeg = smoothHeadingDeg === null
-          ? targetHeadingDeg
-          : angleLerp(smoothHeadingDeg, targetHeadingDeg, 0.15);
+        if (smoothHeadingDeg === null) {
+          smoothHeadingDeg = targetHeadingDeg;
+        } else {
+          // 적응형 스무딩: 크게 돌릴 땐(실제 회전) 빠르게 따라가고, 작게 흔들릴 땐(노이즈)
+          // 천천히 = 반응성과 안정성을 동시에. 고정 0.15는 큰 회전에서 "잘 안 돌아가는" 느낌을 줬다.
+          const delta = Math.abs(((targetHeadingDeg - smoothHeadingDeg + 540) % 360) - 180);
+          const factor = Math.min(0.5, 0.12 + delta / 45 * 0.38);
+          smoothHeadingDeg = angleLerp(smoothHeadingDeg, targetHeadingDeg, factor);
+        }
         camera3d.rotation.set(0, -smoothHeadingDeg * Math.PI / 180, 0);
         const arrow = document.getElementById('meArrowInner');
         if (arrow) arrow.style.transform = `rotate(${Math.round(smoothHeadingDeg)}deg)`;
@@ -395,6 +405,13 @@
         if (!arMode && camAim) camera3d.lookAt(camAim.x, EYE_HEIGHT, camAim.z);
       }
 
+      // 건물 이름표 거리 컬링: 가까운 건물만 이름 표시(먼 곳 이름표 난립 방지).
+      if (buildingLabels.length) {
+        for (const lb of buildingLabels) {
+          lb.visible = camera3d.position.distanceTo(lb.position) < LABEL_MAX_DIST;
+        }
+      }
+
       if (renderer3d) renderer3d.render(scene3d, camera3d);
     }
 
@@ -403,6 +420,7 @@
       buildingsGroup.clear();
       roadsGroup.clear();
       buildingLabelCount = 0;
+      buildingLabels = [];
       signalMarkers3d.forEach(m => scene3d.remove(m.mesh));
       signalMarkers3d = [];
       navMode = 'idle';
@@ -438,11 +456,17 @@
       });
     }
 
+    // Overpass 무료 서버는 504(과부하)가 잦다 — 여러 미러를 순서대로 시도해 성공률을 높인다.
+    const OVERPASS_ENDPOINTS = [
+      'https://overpass-api.de/api/interpreter',
+      'https://overpass.kumi.systems/api/interpreter',
+      'https://overpass.private.coffee/api/interpreter',
+    ];
     async function fetchOverpass(query) {
-      // Overpass 무료 서버는 504(과부하)가 잦아 1회 재시도한다(신호정보센터 조사 때도 겪은 알려진 특성).
-      for (let attempt = 0; attempt < 2; attempt++) {
+      let lastErr;
+      for (const url of OVERPASS_ENDPOINTS) {
         try {
-          const res = await fetch('https://overpass-api.de/api/interpreter', {
+          const res = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: 'data=' + encodeURIComponent(query)
@@ -450,11 +474,11 @@
           if (!res.ok) throw new Error('overpass http ' + res.status);
           return await res.json();
         } catch (e) {
-          if (attempt === 1) throw e;
-          console.warn('Overpass 1차 요청 실패, 재시도:', e);
-          await new Promise(r => setTimeout(r, 1500));
+          lastErr = e;
+          console.warn('Overpass 미러 실패, 다음 미러 시도:', url, e.message);
         }
       }
+      throw lastErr;
     }
 
     function addBuildingMesh(way) {
@@ -481,6 +505,7 @@
         const label = makeBuildingLabel(name);
         label.position.set(cx, height + 3, cz);
         buildingsGroup.add(label);
+        buildingLabels.push(label);
       }
     }
 
